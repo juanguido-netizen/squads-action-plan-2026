@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acquisition Growth — Action Plan Squads 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0e14;--surface:#12161f;--surface2:#1a1f2e;--surface3:#222839;
+  --border:#2a3042;--border-light:#353d54;
+  --text:#e8eaf0;--text-secondary:#8b92a8;--text-muted:#5c6378;
+  --accent:#6366f1;--accent-light:#818cf8;--accent-bg:rgba(99,102,241,.12);
+  --green:#22c55e;--green-bg:rgba(34,197,94,.12);
+  --amber:#f59e0b;--amber-bg:rgba(245,158,11,.12);
+  --red:#ef4444;--red-bg:rgba(239,68,68,.12);
+  --blue:#3b82f6;--blue-bg:rgba(59,130,246,.12);
+  --purple:#a855f7;--purple-bg:rgba(168,85,247,.12);
+  --cyan:#06b6d4;--cyan-bg:rgba(6,182,212,.12);
+  --pink:#ec4899;--pink-bg:rgba(236,72,153,.12);
+  --radius:10px;--radius-lg:14px;
+  --shadow:0 4px 24px rgba(0,0,0,.3);
+  --transition:all .2s ease;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+a{color:var(--accent-light);text-decoration:none}
+a:hover{text-decoration:underline}
+.app{max-width:1440px;margin:0 auto;padding:20px 24px 60px}
+
+/* CONNECTION BANNER */
+.conn-banner{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;font-size:12px;margin-bottom:16px;cursor:pointer;transition:var(--transition)}
+.conn-banner.online{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.conn-banner.offline{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.conn-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.conn-banner.online .conn-dot{background:var(--green);box-shadow:0 0 6px var(--green)}
+.conn-banner.offline .conn-dot{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:20px 0 12px;border-bottom:1px solid var(--border);margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.header-left{display:flex;align-items:center;gap:14px}
+.logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;flex-shrink:0}
+.header h1{font-size:20px;font-weight:700;letter-spacing:-.3px}
+.header h1 span{color:var(--text-secondary);font-weight:400;font-size:14px;display:block;margin-top:2px}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;border:1px solid var(--border);background:var(--surface2);color:var(--text-secondary);cursor:pointer;transition:var(--transition);white-space:nowrap}
+.btn:hover{background:var(--surface3);color:var(--text);border-color:var(--border-light)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-light);border-color:var(--accent-light)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-ghost{background:transparent;border-color:transparent}
+.btn-ghost:hover{background:var(--surface2)}
+.btn svg{width:15px;height:15px;flex-shrink:0}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;transition:var(--transition)}
+.stat-card:hover{border-color:var(--border-light);transform:translateY(-1px)}
+.stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:6px}
+.stat-value{font-size:28px;font-weight:700;letter-spacing:-.5px}
+.stat-detail{font-size:12px;color:var(--text-secondary);margin-top:4px}
+.stat-value.green{color:var(--green)}.stat-value.amber{color:var(--amber)}.stat-value.blue{color:var(--blue)}.stat-value.purple{color:var(--purple)}.stat-value.accent{color:var(--accent-light)}
+.progress-bar{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;border-radius:3px;transition:width .4s ease}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.search-box{position:relative;flex:1;min-width:220px}
+.search-box input{width:100%;padding:9px 12px 9px 36px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;transition:var(--transition)}
+.search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.search-box input::placeholder{color:var(--text-muted)}
+.search-box svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-muted)}
+
+.filter-group{display:flex;gap:6px;flex-wrap:wrap}
+select.filter{padding:8px 28px 8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text-secondary);font-size:12px;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235c6378' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;transition:var(--transition)}
+select.filter:focus{border-color:var(--accent)}
+select.filter option{background:var(--surface2);color:var(--text)}
+
+.view-toggle{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.view-toggle button{padding:7px 12px;border:none;background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:12px;transition:var(--transition);display:flex;align-items:center;gap:4px}
+.view-toggle button.active{background:var(--accent-bg);color:var(--accent-light)}
+.view-toggle button:hover:not(.active){background:var(--surface2);color:var(--text-secondary)}
+.view-toggle button+button{border-left:1px solid var(--border)}
+.view-toggle svg{width:14px;height:14px}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{position:sticky;top:0;z-index:2}
+th{background:var(--surface2);padding:10px 14px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:var(--text-secondary)}
+th .sort-icon{display:inline-block;margin-left:4px;opacity:.4;font-size:10px}
+th.sorted .sort-icon{opacity:1;color:var(--accent-light)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;max-width:280px}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(99,102,241,.04)}
+tr.row-done td{opacity:.5}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
+.badge-qw{background:var(--green-bg);color:var(--green)}
+.badge-eb{background:var(--blue-bg);color:var(--blue)}
+.badge-pe{background:var(--purple-bg);color:var(--purple)}
+.badge-status{padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.status-planning{background:var(--amber-bg);color:var(--amber)}
+.status-ongoing{background:var(--blue-bg);color:var(--blue)}
+.status-done{background:var(--green-bg);color:var(--green)}
+.status-backlog{background:rgba(139,146,168,.12);color:var(--text-secondary)}
+.badge-priority{padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.priority-urgente{background:var(--red-bg);color:var(--red)}
+.priority-alta{background:var(--amber-bg);color:var(--amber)}
+.priority-media{background:var(--blue-bg);color:var(--blue)}
+.priority-baja{background:rgba(139,146,168,.1);color:var(--text-muted)}
+.badge-squad{padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.squad-competitors{background:var(--cyan-bg);color:var(--cyan)}
+.squad-ss{background:var(--pink-bg);color:var(--pink)}
+.badge-impact{font-size:11px}
+.impact-alto{color:var(--green)}.impact-medio{color:var(--amber)}.impact-bajo{color:var(--text-muted)}
+
+.pain-tag{font-size:11px;color:var(--text-secondary);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.task-name{font-weight:500;color:var(--text);cursor:pointer;transition:var(--transition)}
+.task-name:hover{color:var(--accent-light)}
+.task-detail{font-size:11px;color:var(--text-muted);margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.competitor-tag{font-size:11px;color:var(--text-muted)}
+.assignee{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--text-secondary)}
+.assignee-avatar{width:22px;height:22px;border-radius:50%;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent-light)}
+.kpi-text{font-size:11px;color:var(--text-secondary)}
+.date-text{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+
+/* KANBAN */
+.kanban{display:none;gap:14px}
+.kanban.active{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.kanban-col{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;min-height:200px}
+.kanban-col-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.kanban-col-title{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.kanban-col-count{font-size:11px;background:var(--surface2);border-radius:20px;padding:2px 8px;color:var(--text-muted)}
+.kanban-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:8px;cursor:pointer;transition:var(--transition)}
+.kanban-card:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.kanban-card-title{font-size:13px;font-weight:500;margin-bottom:6px;line-height:1.4}
+.kanban-card-meta{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
+.kanban-card-footer{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-muted)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px}
+.modal-overlay.active{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:1}
+.modal-header h2{font-size:16px;font-weight:600}
+.modal-close{width:32px;height:32px;border-radius:8px;border:none;background:var(--surface2);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:var(--transition)}
+.modal-close:hover{background:var(--red-bg);color:var(--red)}
+.modal-body{padding:22px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);font-weight:600}
+.form-group input,.form-group select,.form-group textarea{padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:13px;font-family:inherit;outline:none;transition:var(--transition)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.form-group textarea{resize:vertical;min-height:70px}
+.form-group select{cursor:pointer}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 22px;border-top:1px solid var(--border)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:10px;background:var(--green);color:#fff;font-size:13px;font-weight:500;z-index:200;transform:translateY(80px);opacity:0;transition:all .3s ease;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.toast.show{transform:translateY(0);opacity:1}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted)}
+.empty-state p{font-size:14px}
+
+.links-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.link-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;background:var(--surface);border:1px solid var(--border);font-size:12px;color:var(--text-secondary);transition:var(--transition)}
+.link-chip:hover{border-color:var(--accent);color:var(--accent-light);text-decoration:none}
+.link-chip svg{width:14px;height:14px}
+
+/* SETUP SCREEN */
+.setup-screen{max-width:560px;margin:80px auto;text-align:center}
+.setup-screen .logo{width:64px;height:64px;font-size:28px;margin:0 auto 20px;border-radius:16px}
+.setup-screen h1{font-size:24px;margin-bottom:8px}
+.setup-screen p{color:var(--text-secondary);margin-bottom:28px;font-size:14px;line-height:1.6}
+.setup-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;text-align:left}
+.setup-card h3{font-size:14px;margin-bottom:16px;color:var(--text)}
+.setup-card .form-group{margin-bottom:14px}
+.setup-card .form-group:last-of-type{margin-bottom:20px}
+.setup-card .hint{font-size:11px;color:var(--text-muted);margin-top:3px}
+.setup-steps{text-align:left;margin-bottom:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px}
+.setup-steps h3{font-size:14px;margin-bottom:12px}
+.setup-steps ol{padding-left:20px;color:var(--text-secondary);font-size:13px;line-height:2}
+.setup-steps code{background:var(--surface2);padding:2px 6px;border-radius:4px;font-size:12px;color:var(--accent-light)}
+.setup-or{color:var(--text-muted);font-size:13px;margin:16px 0;display:flex;align-items:center;gap:12px}
+.setup-or::before,.setup-or::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Spinner */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border-light)}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:1fr}
+  .kanban.active{grid-template-columns:1fr}
+  .toolbar{flex-direction:column;align-items:stretch}
+  .filter-group{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
+}
+</style>
+</head>
+<body>
+
+<!-- SETUP SCREEN -->
+<div id="setupScreen" class="app setup-screen" style="display:none">
+  <div class="logo">AG</div>
+  <h1>Acquisition Growth — Action Plan</h1>
+  <p>Configurar la base de datos compartida para que todo el equipo pueda ver y editar las iniciativas en tiempo real.</p>
+
+  <div class="setup-steps">
+    <h3>Pasos para conectar (1 sola vez)</h3>
+    <ol>
+      <li>Crear un proyecto gratis en <a href="https://supabase.com/dashboard" target="_blank">supabase.com</a></li>
+      <li>Ir a <strong>SQL Editor</strong> y pegar el SQL de abajo</li>
+      <li>Ir a <strong>Settings &gt; API</strong> y copiar la <strong>URL</strong> y la <strong>anon key</strong></li>
+      <li>Pegarlos acá abajo y listo</li>
+    </ol>
+  </div>
+
+  <details style="text-align:left;margin-bottom:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px">
+    <summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--text-secondary)">Ver SQL para crear la tabla (copiar y pegar en Supabase SQL Editor)</summary>
+    <pre style="margin-top:12px;padding:14px;background:var(--surface2);border-radius:8px;font-size:12px;overflow-x:auto;color:var(--accent-light);line-height:1.6;white-space:pre-wrap">CREATE TABLE initiatives (
+  id BIGSERIAL PRIMARY KEY,
+  squad TEXT,
+  competidor TEXT DEFAULT '',
+  tarea TEXT NOT NULL,
+  dolor TEXT DEFAULT '',
+  detalle TEXT DEFAULT '',
+  tipo TEXT DEFAULT 'QW',
+  prioridad TEXT DEFAULT 'Media',
+  equipo TEXT DEFAULT '',
+  impacto TEXT DEFAULT 'Medio',
+  esfuerzo TEXT DEFAULT 'Medio',
+  kpi TEXT DEFAULT '',
+  estado TEXT DEFAULT 'Backlog',
+  fecha TEXT DEFAULT '',
+  asignado TEXT DEFAULT '',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE initiatives ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow full access" ON initiatives
+  FOR ALL USING (true) WITH CHECK (true);
+
+ALTER TABLE initiatives REPLICA IDENTITY FULL;</pre>
+  </details>
+
+  <div class="setup-card">
+    <h3>Credenciales de Supabase</h3>
+    <div class="form-group">
+      <label>Project URL</label>
+      <input type="url" id="setupUrl" placeholder="https://xxxxx.supabase.co">
+      <div class="hint">Settings &gt; API &gt; Project URL</div>
+    </div>
+    <div class="form-group">
+      <label>Anon (public) Key</label>
+      <input type="text" id="setupKey" placeholder="eyJhbGciOiJIUzI1NiIs...">
+      <div class="hint">Settings &gt; API &gt; anon public</div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:11px" onclick="connectSupabase()">
+      <span id="setupBtnText">Conectar y cargar datos iniciales</span>
+    </button>
+    <div id="setupError" style="color:var(--red);font-size:12px;margin-top:10px;display:none"></div>
+  </div>
+
+  <div class="setup-or">o</div>
+
+  <button class="btn" style="width:100%;justify-content:center" onclick="startOffline()">
+    Usar en modo local (solo este navegador)
+  </button>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp" class="app" style="display:none">
+  <!-- CONNECTION BANNER -->
+  <div class="conn-banner" id="connBanner" onclick="openSettings()">
+    <span class="conn-dot"></span>
+    <span id="connText"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-left:auto"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">AG</div>
+      <h1>Acquisition Growth — Action Plan
+        <span>Squads Argentina &middot; Q1-Q2 2026</span>
+      </h1>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="exportCSV()" title="Exportar CSV">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Exportar
+      </button>
+      <button class="btn btn-primary" onclick="openNewModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nueva iniciativa
+      </button>
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a href="https://squads-acquisition-growth.vercel.app/#intro" target="_blank" class="link-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Micrositio Squads (Merchant + Social Sellers)
+    </a>
+    <a href="https://juanguido-netizen.github.io/squad-competidores-q1-2026/" target="_blank" class="link-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Squad Competidores Q1 2026
+    </a>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar iniciativa, dolor, equipo, persona...">
+    </div>
+    <div class="filter-group">
+      <select class="filter" id="filterSquad"><option value="">Squad</option></select>
+      <select class="filter" id="filterTipo"><option value="">Tipo</option></select>
+      <select class="filter" id="filterEstado"><option value="">Estado</option></select>
+      <select class="filter" id="filterPrioridad"><option value="">Prioridad</option></select>
+      <select class="filter" id="filterEquipo"><option value="">Equipo</option></select>
+      <select class="filter" id="filterCompetidor"><option value="">Competidor</option></select>
+      <select class="filter" id="filterDolor"><option value="">Dolor</option></select>
+    </div>
+    <div class="view-toggle">
+      <button id="viewTable" class="active" onclick="setView('table')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Tabla
+      </button>
+      <button id="viewKanban" onclick="setView('kanban')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="3" width="5" height="12" rx="1"/><rect x="17" y="3" width="5" height="15" rx="1"/></svg>
+        Kanban
+      </button>
+    </div>
+    <span id="resultCount" style="font-size:12px;color:var(--text-muted);white-space:nowrap"></span>
+  </div>
+
+  <div id="tableView">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="squad" style="width:90px">Squad <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="tarea">Iniciativa <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="dolor" style="width:160px">Dolor <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="tipo" style="width:60px">Tipo <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="prioridad" style="width:80px">Prioridad <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="estado" style="width:90px">Estado <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="impacto" style="width:70px">Impacto <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="equipo" style="width:110px">Equipo <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="asignado" style="width:80px">Asignado <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="fecha" style="width:95px">Fecha <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="kpi" style="width:130px">KPI <span class="sort-icon">&#9650;</span></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="kanbanView" class="kanban"></div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">Editar iniciativa</h2>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editId">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Tarea / Iniciativa</label>
+          <input type="text" id="editTarea">
+        </div>
+        <div class="form-group full">
+          <label>Detalle</label>
+          <textarea id="editDetalle"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Squad</label>
+          <select id="editSquad">
+            <option value="Competitors">Competitors (Merchant Sellers)</option>
+            <option value="Social Sellers">Social Sellers</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Competidor</label>
+          <select id="editCompetidor">
+            <option value="">— Ninguno —</option>
+            <option value="Todos">Todos</option>
+            <option value="Empretienda">Empretienda</option>
+            <option value="Shopify">Shopify</option>
+            <option value="WooCommerce">WooCommerce</option>
+            <option value="Tienda Negocio">Tienda Negocio</option>
+            <option value="Mercado Libre">Mercado Libre</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Dolor</label>
+          <select id="editDolor">
+            <option value="">— Sin dolor —</option>
+            <option>Migrar es un riesgo: puedo perder datos, tiempo y ventas</option>
+            <option>Llegué al techo: mi plataforma ya no me alcanza</option>
+            <option>Cuando tengo un problema, nadie me entiende</option>
+            <option>Tengo la tienda pero no logro vender: no genero tráfico ni convierto</option>
+            <option>Los costos me comen el margen y no son predecibles</option>
+            <option>Una página? A mí no me sirve, yo vendo por Instagram</option>
+            <option>Yo cierro todo por WhatsApp, la tienda sola no me vende</option>
+            <option>Me da miedo formalizar</option>
+            <option>Es difícil / No tengo tiempo</option>
+            <option>Me registré, entré y no entendí por dónde arrancar</option>
+            <option>Armé la tienda y no entra nadie</option>
+            <option>Aprendo a los ponchazos, nadie me enseñó</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipo (Clasificación)</label>
+          <select id="editTipo">
+            <option value="QW">Quick Win (QW)</option>
+            <option value="EB">Extra-BAU (EB)</option>
+            <option value="PE">Propuesta Estratégica (PE)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Prioridad</label>
+          <select id="editPrioridad">
+            <option value="Urgente">Urgente</option>
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select id="editEstado">
+            <option value="Backlog">Backlog</option>
+            <option value="Planning">Planning</option>
+            <option value="On going">On going</option>
+            <option value="Done">Done</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Impacto</label>
+          <select id="editImpacto">
+            <option value="Alto">Alto</option>
+            <option value="Medio">Medio</option>
+            <option value="Bajo">Bajo</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Esfuerzo</label>
+          <select id="editEsfuerzo">
+            <option value="Bajo">Bajo</option>
+            <option value="Medio">Medio</option>
+            <option value="Alto">Alto</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Equipo propietario</label>
+          <input type="text" id="editEquipo" placeholder="Ej: Affiliates, Paid Media">
+        </div>
+        <div class="form-group">
+          <label>Persona asignada</label>
+          <input type="text" id="editAsignado" placeholder="Ej: Kei, Agus, Mati">
+        </div>
+        <div class="form-group">
+          <label>Fecha de activación</label>
+          <input type="text" id="editFecha" placeholder="Ej: Marzo-Abril, Q2">
+        </div>
+        <div class="form-group full">
+          <label>KPI</label>
+          <input type="text" id="editKPI" placeholder="Ej: Views + Trials, CVR LP">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="btnDelete" onclick="deleteItem()" style="margin-right:auto;color:var(--red)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+        Eliminar
+      </button>
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" id="btnSave" onclick="saveItem()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsOverlay">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <h2>Configuración</h2>
+      <button class="modal-close" onclick="closeSettings()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Supabase URL</label>
+        <input type="url" id="settingsUrl" placeholder="https://xxxxx.supabase.co">
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Supabase Anon Key</label>
+        <input type="text" id="settingsKey" placeholder="eyJhbGciOi...">
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="updateSettings()">Guardar y reconectar</button>
+        <button class="btn" style="color:var(--red)" onclick="disconnectSupabase()">Desconectar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SEED_DATA = [
+  {squad:"Competitors",competidor:"Todos",tarea:"Squad de freelancers para migrar catálogos",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"Red de especialistas capacitados para asistir migración de tiendas vía Automágico y LitExtension. Similar modelo a afiliados pero enfocado en servicio técnico.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Medio",kpi:"Nº migraciones asistidas",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"Todos",tarea:'Módulo Maestría Ecodiem "Cómo migrar a TN"',dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Módulo dentro de la Maestría Ecodiem con amplificación vía Performance. Combina educación + trial.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Medio",kpi:"Inscripciones + CVR a trial",estado:"On going",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"Todos",tarea:"Tech partners no exclusivos (ERPs, logística)",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"Trabajar con partners que tienen clientes en otras plataformas para adquisición conjunta.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Alto",kpi:"NPs vía partners",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"Todos",tarea:'Tutorial YouTube "Cómo migrar a Tiendanube"',dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"Video con módulos por plataforma de origen. Paso a paso con Automágico y LitExtension.",tipo:"EB",prioridad:"Media",equipo:"Affiliates, Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Views + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"Todos",tarea:"Kits de migración always-ready por competidor",dolor:"Cuando tengo un problema, nadie me entiende",detalle:"Paquete prearmado por competidor: LP + checklist + flujo Automágico + onboarding asistido.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Uso kits + CVR",estado:"On going",fecha:"Abril-Mayo",asignado:"Agus"},
+  {squad:"Competitors",competidor:"Todos",tarea:"Nurturing por competidor (email/WA)",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Secuencias de email/WA diferenciadas por plataforma de origen.",tipo:"EB",prioridad:"Media",equipo:"Nurturing",impacto:"Medio",esfuerzo:"Medio",kpi:"Open rate + CVR trial→pago",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"Todos",tarea:"Retargeting base de leads latentes",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"Trackear merchants que visitaron LP migración pero no convirtieron. Retargeting personalizado.",tipo:"EB",prioridad:"Media",equipo:"Paid Media",impacto:"Medio",esfuerzo:"Medio",kpi:"Leads recuperados + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"Empretienda",tarea:"Video comparativa ET vs TN (YouTube + TikTok)",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Contenido con afiliado mostrando diferencias reales de UX, funcionalidades y ecosistema.",tipo:"EB",prioridad:"Media",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"Shopify",tarea:"Landing específica migradores Shopify",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"Landing con propuesta de valor para seller sofisticado. Ecosistema completo AR, soporte local, pricing ARS.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Medio",kpi:"Visitas + CVR LP",estado:"On going",fecha:"Marzo-Abril",asignado:"Kei"},
+  {squad:"Competitors",competidor:"WooCommerce",tarea:"Costo real de WooCommerce tutorial con afiliado",dolor:"Tengo la tienda pero no logro vender: no genero tráfico ni convierto",detalle:'Video con afiliado técnico desglosando costo real: hosting + plugins + dev + tiempo.',tipo:"EB",prioridad:"Media",equipo:"Affiliates",impacto:"Medio",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"WooCommerce",tarea:"Migración Automágico + LitExtension desde WC",dolor:"Tengo la tienda pero no logro vender: no genero tráfico ni convierto",detalle:"Asegurar flujo de migración desde WC. Documentar y comunicar en LP + kit.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth, Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Migraciones completadas",estado:"Planning",fecha:"Marzo-Abril",asignado:"Ele"},
+  {squad:"Competitors",competidor:"Mercado Libre",tarea:"Entrenamiento omnicanalidad + Mentores MELI",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Capacitar sellers ML sobre omnicanalidad. 55% no redirige tráfico a tienda propia.",tipo:"EB",prioridad:"Baja",equipo:"Affiliates, Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"Asistentes + NPs",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Competitors",competidor:"Mercado Libre",tarea:"Fidelizar ERPs que trabajan con ML",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Acercarse a ERPs del ecosistema ML para posicionar TN como canal D2C complementario.",tipo:"EB",prioridad:"Baja",equipo:"Affiliates",impacto:"Medio",esfuerzo:"Medio",kpi:"Partners activos",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Ajustar LP /emprendedores/redes-sociales desde pains",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:'Reescribir hero, beneficios y FAQ con lenguaje de dolor. Priorizar Chat Nube.',tipo:"EB",prioridad:"Alta",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Medio",kpi:"Visitas + CVR LP",estado:"On going",fecha:"Marzo-Abril",asignado:"Kei"},
+  {squad:"Social Sellers",competidor:"",tarea:"Reescribir descripciones Chat Nube, Pago Nube, Envío Nube",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:'Pasar de "funcionalidades" a "problemas que resuelve" para el SS.',tipo:"EB",prioridad:"Media",equipo:"Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Visitas páginas producto",estado:"On going",fecha:"Marzo-Abril",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Video caso Experiencia Sabia (de WA a tienda + WA)",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"Producir video con ES: antes vendía solo por WA, ahora usa tienda + WA y factura más.",tipo:"EB",prioridad:"Alta",equipo:"Paid Media, Otros",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Contenido caso CeCé o Strawberry Style",dolor:"Cuando tengo un problema, nadie me entiende",detalle:"Producir contenido sobre formalización + primeras ventas con tienda. Perspectiva real de merchant SS.",tipo:"EB",prioridad:"Alta",equipo:"Paid Media, Otros",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Video corto dolor/solución para redes",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:'Piezas de 30-60s con hook para IG/TikTok. Con afiliados o merchants reales.',tipo:"EB",prioridad:"Alta",equipo:"Affiliates, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Engagement",estado:"Backlog",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:'Serie blog "Lo que nadie te dice de emprender"',dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"3-4 artículos: formalización/monotributo, costos reales, envíos, primeras ventas.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Visitas + Descargas",estado:"On going",fecha:"Marzo-Abril",asignado:"Mati"},
+  {squad:"Social Sellers",competidor:"",tarea:"Ebook/checklist: guía de monotributo para emprendedores",dolor:"Cuando tengo un problema, nadie me entiende",detalle:"Descargable con paso a paso inscripción ARCA, categorías, facturación electrónica. Lead magnet.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Descargas + Leads",estado:"On going",fecha:"Abril-Mayo",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:"Workshop presencial con Nati Kargel: armado tienda + primeras ventas",dolor:"Cuando tengo un problema, nadie me entiende",detalle:"1 jornada en oficina TN. De vender por IG/WA a tener tienda. ~15-20 asistentes.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Asistentes + Trials post",estado:"On going",fecha:"Marzo-Abril",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Webinar con experto fiscal: monotributo y ARCA",dolor:"Cuando tengo un problema, nadie me entiende",detalle:'"Todo lo que un emprendedor necesita saber para facturar."',tipo:"EB",prioridad:"Alta",equipo:"Affiliates, Paid Media, Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Asistentes + Leads",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:'Entrenamiento virtual "Primeras ventas online" (recurrente)',dolor:"Los costos me comen el margen y no son predecibles",detalle:"Formato mensual. Paso a paso: configurar tienda, subir productos, compartir link, primera venta.",tipo:"EB",prioridad:"Media",equipo:"Affiliates, Otros, Nurturing",impacto:"Medio",esfuerzo:"Medio",kpi:"Asistentes + Trials",estado:"Backlog",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Diseñar secuencia nurturing email/WA por dolor para SS",dolor:"Los costos me comen el margen y no son predecibles",detalle:'Reemplazar secuencia actual por mensajes basados en dolores.',tipo:"EB",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Open rate + CVR trial→pago",estado:"Backlog",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Flujo reactivación tiendas sin setup post-día 3",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"Email/WA automático a trials que no configuraron tienda después de 3 días.",tipo:"EB",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Tiendas reactivadas",estado:"Backlog",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Secuencia WA/email a trials que no vuelven al admin",dolor:"Los costos me comen el margen y no son predecibles",detalle:"Contactar trials inactivos con mensajes basados en dolor.",tipo:"EB",prioridad:"Media",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Trials reactivados + CVR",estado:"Backlog",fecha:"Marzo-Abril",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Protocolo llamadas 15 min con especialistas",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Definir criterios, script de llamada, seguimiento. Para tiendas con potencial.",tipo:"EB",prioridad:"Media",equipo:"Nurturing, Affiliates, Otros",impacto:"Medio",esfuerzo:"Alto",kpi:"Llamadas + CVR",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Habilitar panel afiliados para contacto a tiendas inactivas",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Permitir que afiliados contacten por WA/DM a tiendas inactivas.",tipo:"EB",prioridad:"Media",equipo:"Affiliates",impacto:"Medio",esfuerzo:"Medio",kpi:"Tiendas contactadas + CVR",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:'Webinar "Cómo vender más por WA sin volverte loco"',dolor:"Los costos me comen el margen y no son predecibles",detalle:"Con afiliado experto en ventas conversacionales. Demo de Chat Nube como cierre.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Medio",kpi:"Asistentes + Leads + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Landing unbranded con afiliado para pains SS",dolor:"Los costos me comen el margen y no son predecibles",detalle:"Landing sin marca TN visible, con afiliado hablando de dolores. Pauta de Perf.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Medio",kpi:"Visitas + Leads + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Caipi Style: colaboración masterclass/podcast",dolor:"Los costos me comen el margen y no son predecibles",detalle:"Colaborar en masterclass o recorte de podcast para pauta.",tipo:"EB",prioridad:"Media",equipo:"Affiliates, Otros, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Leads",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Competitors",competidor:"Empretienda",tarea:'Bootcamp "Cómo migrar de ET/Shopify a TN"',dolor:"Los costos me comen el margen y no son predecibles",detalle:"Evento educativo con soporte de migración asistida. Formato grupal.",tipo:"PE",prioridad:"Baja",equipo:"Affiliates, Otros, Paid Media, Nurturing",impacto:"Alto",esfuerzo:"Alto",kpi:"Asistentes + NPs",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Competitors",competidor:"Shopify",tarea:'Campaña "Pride Nacional" + casos alto GMV',dolor:"Los costos me comen el margen y no son predecibles",detalle:"Campaña institucional con merchants grandes que migraron.",tipo:"PE",prioridad:"Baja",equipo:"Paid Media, Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Brand awareness + Trials",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Competitors",competidor:"WooCommerce",tarea:'Narrativa "dejá de mantener, dedicate a vender"',dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Contenido posicionando TN como opción all-in-one vs costo oculto de WC.",tipo:"PE",prioridad:"Baja",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Bajo",kpi:"—",estado:"On going",fecha:"Abril-Mayo",asignado:"Mire"},
+  {squad:"Social Sellers",competidor:"",tarea:"Onboarding adaptado al perfil del SS",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:'Flujo diferenciado "¿ya vendés por redes?", optimización mobile. Requiere Product Growth.',tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Completion rate onboarding",estado:"Backlog",fecha:"Q2+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Modalidad catálogo + puente a WA",dolor:"Armé la tienda y no entra nadie",detalle:"Tienda sin checkout obligatorio con puente a WA para ventas consultivas. Requiere Product Growth.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Uso catálogo + ventas WA",estado:"Backlog",fecha:"Q2+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Inteligencia en el admin: plataforma guíe al merchant",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Detección de apps faltantes + notificaciones, chat IA en admin. Requiere Product Growth.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Engagement admin",estado:"Backlog",fecha:"Q2+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Plan/pricing que reduzca barrera de entrada SS",dolor:"Aprendo a los ponchazos, nadie me enseñó",detalle:'Cupones/promos, no pagar hasta primera venta, "loja pronta". Requiere Product/Pricing.',tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Trials → NPs SS",estado:"Backlog",fecha:"Q2+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Tiendanube Market (directorio de tiendas)",dolor:"Aprendo a los ponchazos, nadie me enseñó",detalle:"Directorio público de tiendas por categoría para generar tráfico a merchants.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Tráfico generado",estado:"Backlog",fecha:"Q2+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Herramientas generación contenido para redes desde productos",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Desde el admin, generar creativos para IG/TikTok a partir de fotos de producto.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Uso herramienta",estado:"Backlog",fecha:"Q2+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Challenge SS cross-areas",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Estructura del challenge, temas por mes (6 meses), mecánica inscripción + seguimiento.",tipo:"PE",prioridad:"Alta",equipo:"Affiliates, Paid Media, Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Competitors",competidor:"Todos",tarea:"Campañas keywords competidores en Demand Gen",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:'Pautar keywords login/iniciar sesión de competidores en Demand Gen hacia LP migración.',tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Impresiones + CTR + Trials",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Competitors",competidor:"Todos",tarea:"Bonos especiales para Afiliados migradores",dolor:"Me da miedo formalizar",detalle:"Incentivos diferenciados para afiliados que traigan tiendas que migran desde competidores.",tipo:"QW",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Bajo",kpi:"NPs vía afiliados migradores",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Competitors",competidor:"Todos",tarea:"Actualizar LP de Migradores",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"LP actual solo compara ET y MShops. Agregar Shopify, WC, narrativa dolor/solución.",tipo:"QW",prioridad:"Media",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + CVR LP",estado:"Backlog",fecha:"Abril",asignado:"Kei"},
+  {squad:"Competitors",competidor:"Todos",tarea:"Protocolo de activación 48h ante disrupciones",dolor:"Me da miedo formalizar",detalle:"Playbook listo ante cambios de pricing, caídas o noticias de competidores.",tipo:"QW",prioridad:"Media",equipo:"Paid Media",impacto:"Medio",esfuerzo:"Bajo",kpi:"Tiempo de reacción",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Competitors",competidor:"Empretienda",tarea:"Actualizar LPs que hablan de Empretienda",dolor:"Me da miedo formalizar",detalle:"Reescribir contenido comparativo: techo funcional ET → 65+ diseños TN, Marketing Nube.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth, Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Trials",estado:"On going",fecha:"Abril",asignado:"Kei"},
+  {squad:"Competitors",competidor:"Todos",tarea:"Campaña en TikTok Search con keywords de competidores",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Capturar búsquedas de usuarios con intención en un canal sin presencia.",tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"CTR + Trials",estado:"On going",fecha:"Marzo-Abril",asignado:""},
+  {squad:"Competitors",competidor:"Empretienda",tarea:'Checklist descargable "cómo migrar de ET"',dolor:"Es difícil / No tengo tiempo",detalle:"PDF paso a paso: exportar productos, configurar TN, migrar con Automágico. Lead magnet.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Bajo",kpi:"Descargas + Trials",estado:"On going",fecha:"Abril-Mayo",asignado:"Agus"},
+  {squad:"Competitors",competidor:"Shopify",tarea:"Pautar artículo Shopify vs TN en TikTok/Meta",dolor:"Me da miedo formalizar",detalle:"Amplificar contenido comparativo en TikTok y Meta. Foco en Pago Nube, Envío Nube.",tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"CTR + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"Shopify",tarea:'Checklist migración Shopify "tu feature allá → acá"',dolor:"Armé la tienda y no entra nadie",detalle:"Documento comparativo feature por feature. Shopify → equivalente TN.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Bajo",kpi:"Descargas + Trials",estado:"On going",fecha:"Abril-Mayo",asignado:"Agus"},
+  {squad:"Competitors",competidor:"Shopify",tarea:"Narrativa dolor/solución por funcionalidad",dolor:"Me registré, entré y no entendí por dónde arrancar",detalle:"Mapear features Shopify que merchants extrañan y mostrar equivalente TN.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"—",estado:"Planning",fecha:"Junio",asignado:"Mire"},
+  {squad:"Competitors",competidor:"Tienda Negocio",tarea:"Test comparativa con perfiles TikTok",dolor:"Me registré, entré y no entendí por dónde arrancar",detalle:"Usar perfiles de afiliados en TikTok para testear contenido comparativo.",tipo:"QW",prioridad:"Alta",equipo:"Affiliates",impacto:"Medio",esfuerzo:"Bajo",kpi:"Engagement + Trials",estado:"Backlog",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Competitors",competidor:"Tienda Negocio",tarea:"Responder en videos TikTok sobre Tienda Negocio",dolor:"Me registré, entré y no entendí por dónde arrancar",detalle:"Interactuar en comentarios de TikTok donde hablan de TN/competidores.",tipo:"QW",prioridad:"Alta",equipo:"Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Respuestas + Engagement",estado:"Backlog",fecha:"Marzo",asignado:""},
+  {squad:"Competitors",competidor:"Mercado Libre",tarea:"Tutoriales integrar ML con TN 2026",dolor:"Es difícil / No tengo tiempo",detalle:"Contenido sobre Astroselling/Ecomm-App para sellers ML.",tipo:"QW",prioridad:"Baja",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Bajo",kpi:"Views + Trials",estado:"Backlog",fecha:"Q3+",asignado:"Ele"},
+  {squad:"Competitors",competidor:"Mercado Libre",tarea:"Flujo especializado trials marketplace + ERP",dolor:"Armé la tienda y no entra nadie",detalle:"Onboarding diferenciado para trials que vienen de ML.",tipo:"QW",prioridad:"Baja",equipo:"Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"Trials marketplace",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Competitors",competidor:"Mercado Libre",tarea:"Migración Automágico desde MShops",dolor:"Armé la tienda y no entra nadie",detalle:"Flujo migración automatizada desde ex-Mercado Shops.",tipo:"QW",prioridad:"Baja",equipo:"Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Migraciones completadas",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Reescribir copies ads Meta/Google desde dolores SS",dolor:"Es difícil / No tengo tiempo",detalle:'Cambiar "Creá tu tienda" por hooks de dolor. Testear 3-5 variantes.',tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"CTR ads + Trials SS",estado:"Backlog",fecha:"Marzo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"A/B test landing dolor vs. feature",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Crear variante con enfoque dolor vs actual (features). Medir CVR a trial.",tipo:"QW",prioridad:"Alta",equipo:"Paid Media, Organic Growth",impacto:"Alto",esfuerzo:"Medio",kpi:"CVR LP a trial",estado:"Planning",fecha:"Abril-Mayo",asignado:"Kei"},
+  {squad:"Social Sellers",competidor:"",tarea:"Auditar y reescribir títulos blogposts top SS",dolor:"Me registré, entré y no entendí por dónde arrancar",detalle:"Revisar top 10 posts del blog con tráfico SS. Ajustar títulos y metas.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Bajo",kpi:"CTR orgánico + Visitas",estado:"Planning",fecha:"Abril-Mayo",asignado:"Mati"},
+  {squad:"Social Sellers",competidor:"",tarea:'Optimizar blogpost "Catálogo online + WA"',dolor:"Es difícil / No tengo tiempo",detalle:"Artículo SEO explicando flujo catálogo → WA → cierre con Chat Nube. CTA a trial.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Trials",estado:"On going",fecha:"Marzo-Abril",asignado:"Mati"},
+  {squad:"Social Sellers",competidor:"",tarea:"Tutorial video: link de tienda en stories + bio IG",dolor:"Armé la tienda y no entra nadie",detalle:"Video corto mostrando cómo usar el link de la tienda en IG stories y bio.",tipo:"QW",prioridad:"Alta",equipo:"Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Backlog",fecha:"Marzo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Ad demostrativo: flujo catálogo → WA → cierre",dolor:"Armé la tienda y no entra nadie",detalle:"Creativo para Meta mostrando flujo completo. Chat Nube como cierre.",tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"CTR + Trials",estado:"Backlog",fecha:"Marzo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Ajustar Calculadora de tasas desde el dolor SS",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:'Agregar contexto "¿cuánto te queda realmente?" para SS.',tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Uso herramienta + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:"Ajustar Calculadora de precio de venta para SS",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:'Agregar escenario "vendo por WA/IG" → cuánto cobrar.',tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Uso herramienta + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:'Revisar "Planilla para calcular costos de un producto"',dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Asegurar que el template incluya escenario venta por redes + envío + comisiones.",tipo:"QW",prioridad:"Media",equipo:"Organic Growth",impacto:"Bajo",esfuerzo:"Bajo",kpi:"Descargas recurso",estado:"Done",fecha:"Marzo",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:'Agregar sección SS a ebook "Hacks de IA para e-commerce"',dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Incluir cómo usar Chat Nube y herramientas IA para automatizar ventas por WA.",tipo:"QW",prioridad:"Media",equipo:"Organic Growth",impacto:"Bajo",esfuerzo:"Bajo",kpi:"Descargas recurso",estado:"Backlog",fecha:"",asignado:"Flor"},
+  {squad:"Social Sellers",competidor:"",tarea:"Reescribir emails de onboarding SS (top 5)",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Auditar y reescribir los 5 emails principales que reciben trials SS.",tipo:"QW",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Bajo",kpi:"Open rate + click rate",estado:"Backlog",fecha:"Marzo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:'Blogpost "Cómo automatizar ventas por WA con IA"',dolor:"Me da miedo formalizar",detalle:"Capturar búsquedas por lanzamiento WA Business AI. CTA a Chat Nube + trial.",tipo:"QW",prioridad:"Urgente",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Descargas + Trials",estado:"Planning",fecha:"Abril",asignado:"Mati"},
+  {squad:"Social Sellers",competidor:"",tarea:'Pautar keywords "vender por WA con IA" en Meta y Google',dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Ventana de oportunidad corta. LP a blogpost + trial.",tipo:"QW",prioridad:"Urgente",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"Impresiones + CTR + Trials",estado:"Backlog",fecha:"Inmediato",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:'Ampliar blogpost con ángulo "embudo de ventas"',dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Cómo pasar de chats sueltos a un embudo de ventas por WA.",tipo:"QW",prioridad:"Urgente",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Engagement",estado:"Backlog",fecha:"Abril",asignado:"Mire"},
+  {squad:"Social Sellers",competidor:"",tarea:"Lead magnet: scripts de venta por WA + plantillas",dolor:"Aprendo a los ponchazos, nadie me enseñó",detalle:"Descargable con scripts probados de venta por WA + plantillas de respuestas rápidas.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth, Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"Descargas + Leads WA",estado:"Backlog",fecha:"Abril-Mayo",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:'Video comparativa "vender por redes vs. con tienda" (YouTube)',dolor:"Es difícil / No tengo tiempo",detalle:'Video largo. Hook: "¿Es mejor vender solo por redes o tener tienda?"',tipo:"QW",prioridad:"Media",equipo:"Affiliates, Otros",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Leads + Trials",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Versión corta TikTok/Reels de la comparativa",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Recorte 60s del video largo con hook y CTA a trial.",tipo:"QW",prioridad:"Media",equipo:"Affiliates, Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Views + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Posts nuevos SEO (keywords ML, WA, automatizar)",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Analizar SI de kws como: cuanto cobra mercado libre, automatizar whatsapp.",tipo:"QW",prioridad:"",equipo:"Organic Growth",impacto:"",esfuerzo:"",kpi:"",estado:"Backlog",fecha:"Q3+",asignado:"Mire"},
+  {squad:"",competidor:"",tarea:"Historias de éxito merchants migrados (Strawberry Style, CeCe Piume)",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"",tipo:"EB",prioridad:"",equipo:"Organic Growth",impacto:"",esfuerzo:"",kpi:"",estado:"Backlog",fecha:"Q3+",asignado:"Mati"}
+];
+
+let db = null;
+let data = [];
+let currentSort = {field:'',asc:true};
+let currentView = 'table';
+let editingId = null;
+let isOnline = false;
+let realtimeChannel = null;
+
+function getConfig(){
+  try{return JSON.parse(localStorage.getItem('squads_sb_config'))||null;}catch(e){return null;}
+}
+function setConfig(url,key){localStorage.setItem('squads_sb_config',JSON.stringify({url,key}));}
+function clearConfig(){localStorage.removeItem('squads_sb_config');}
+
+async function initApp(){
+  const cfg = getConfig();
+  if(cfg && cfg.url && cfg.key){
+    try{
+      db = window.supabase.createClient(cfg.url, cfg.key);
+      const {data:rows,error} = await db.from('initiatives').select('*').order('id');
+      if(error) throw error;
+      data = rows;
+      isOnline = true;
+      subscribeRealtime();
+      showMainApp();
+    }catch(e){
+      console.error('Supabase error:',e);
+      db = null; isOnline = false;
+      const local = localStorage.getItem('squads_local_data');
+      if(local){ data = JSON.parse(local); showMainApp(); }
+      else showSetup();
+    }
+  }else{
+    const local = localStorage.getItem('squads_local_data');
+    if(local){ data = JSON.parse(local); showMainApp(); }
+    else showSetup();
+  }
+}
+
+function subscribeRealtime(){
+  if(!db || realtimeChannel) return;
+  realtimeChannel = db.channel('initiatives-changes')
+    .on('postgres_changes',{event:'*',schema:'public',table:'initiatives'},async()=>{
+      const {data:rows} = await db.from('initiatives').select('*').order('id');
+      if(rows){data = rows; render();}
+    })
+    .subscribe();
+}
+
+function showSetup(){document.getElementById('setupScreen').style.display='';document.getElementById('mainApp').style.display='none';}
+function showMainApp(){
+  document.getElementById('setupScreen').style.display='none';
+  document.getElementById('mainApp').style.display='';
+  updateConnBanner();
+  populateFilters();
+  render();
+}
+
+function updateConnBanner(){
+  const b = document.getElementById('connBanner');
+  const t = document.getElementById('connText');
+  if(isOnline){b.className='conn-banner online';t.textContent='Conectado a Supabase — datos compartidos en tiempo real';}
+  else{b.className='conn-banner offline';t.textContent='Modo local — solo visible en este navegador. Clic para conectar.';}
+}
+
+async function connectSupabase(){
+  const url = document.getElementById('setupUrl').value.trim();
+  const key = document.getElementById('setupKey').value.trim();
+  const errEl = document.getElementById('setupError');
+  const btn = document.getElementById('setupBtnText');
+  if(!url||!key){errEl.style.display='block';errEl.textContent='Completá ambos campos.';return;}
+  btn.innerHTML='<span class="spinner"></span> Conectando...';
+  errEl.style.display='none';
+  try{
+    const client = window.supabase.createClient(url,key);
+    const {count,error:checkErr} = await client.from('initiatives').select('*',{count:'exact',head:true});
+    if(checkErr) throw checkErr;
+    if(count===0){
+      const {error:insertErr} = await client.from('initiatives').insert(SEED_DATA);
+      if(insertErr) throw insertErr;
+    }
+    setConfig(url,key);
+    db = client;
+    isOnline = true;
+    const {data:rows} = await db.from('initiatives').select('*').order('id');
+    data = rows||[];
+    subscribeRealtime();
+    showMainApp();
+    toast('Conectado exitosamente');
+  }catch(e){
+    errEl.style.display='block';
+    errEl.textContent='Error: '+e.message+'. Verificá las credenciales y que la tabla exista.';
+    btn.textContent='Conectar y cargar datos iniciales';
+  }
+}
+
+function startOffline(){
+  data = SEED_DATA.map((d,i)=>({...d,id:i+1}));
+  localStorage.setItem('squads_local_data',JSON.stringify(data));
+  isOnline=false;
+  showMainApp();
+}
+
+function openSettings(){
+  const cfg = getConfig()||{};
+  document.getElementById('settingsUrl').value=cfg.url||'';
+  document.getElementById('settingsKey').value=cfg.key||'';
+  document.getElementById('settingsOverlay').classList.add('active');
+}
+function closeSettings(){document.getElementById('settingsOverlay').classList.remove('active');}
+async function updateSettings(){
+  const url=document.getElementById('settingsUrl').value.trim();
+  const key=document.getElementById('settingsKey').value.trim();
+  if(!url||!key){toast('Completá ambos campos','var(--red)');return;}
+  if(realtimeChannel){realtimeChannel.unsubscribe();realtimeChannel=null;}
+  setConfig(url,key);
+  closeSettings();
+  await initApp();
+}
+function disconnectSupabase(){
+  if(realtimeChannel){realtimeChannel.unsubscribe();realtimeChannel=null;}
+  clearConfig();
+  db=null;isOnline=false;
+  localStorage.setItem('squads_local_data',JSON.stringify(data));
+  updateConnBanner();
+  closeSettings();
+  toast('Desconectado. Datos guardados localmente.');
+}
+
+function saveLocal(){if(!isOnline)localStorage.setItem('squads_local_data',JSON.stringify(data));}
+
+function getFiltered(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const fs=document.getElementById('filterSquad').value;
+  const ft=document.getElementById('filterTipo').value;
+  const fe=document.getElementById('filterEstado').value;
+  const fp=document.getElementById('filterPrioridad').value;
+  const fq=document.getElementById('filterEquipo').value;
+  const fc=document.getElementById('filterCompetidor').value;
+  const fd=document.getElementById('filterDolor').value;
+  return data.filter(d=>{
+    if(q&&!((d.tarea||'').toLowerCase().includes(q)||(d.dolor||'').toLowerCase().includes(q)||(d.equipo||'').toLowerCase().includes(q)||(d.asignado||'').toLowerCase().includes(q)||(d.detalle||'').toLowerCase().includes(q)||(d.competidor||'').toLowerCase().includes(q)||(d.kpi||'').toLowerCase().includes(q)))return false;
+    if(fs&&d.squad!==fs)return false;
+    if(ft&&d.tipo!==ft)return false;
+    if(fe&&d.estado!==fe)return false;
+    if(fp&&d.prioridad!==fp)return false;
+    if(fq&&!(d.equipo||'').includes(fq))return false;
+    if(fc&&d.competidor!==fc)return false;
+    if(fd&&d.dolor!==fd)return false;
+    return true;
+  });
+}
+
+function populateFilters(){
+  const sets={Squad:new Set(),Tipo:new Set(),Estado:new Set(),Prioridad:new Set(),Equipo:new Set(),Competidor:new Set(),Dolor:new Set()};
+  data.forEach(d=>{
+    if(d.squad)sets.Squad.add(d.squad);if(d.tipo)sets.Tipo.add(d.tipo);if(d.estado)sets.Estado.add(d.estado);
+    if(d.prioridad)sets.Prioridad.add(d.prioridad);
+    (d.equipo||'').split(',').map(s=>s.trim()).filter(Boolean).forEach(s=>sets.Equipo.add(s));
+    if(d.competidor)sets.Competidor.add(d.competidor);if(d.dolor)sets.Dolor.add(d.dolor);
+  });
+  fillSel('filterSquad','Squad',sets.Squad);fillSel('filterTipo','Tipo',sets.Tipo);fillSel('filterEstado','Estado',sets.Estado);
+  fillSel('filterPrioridad','Prioridad',sets.Prioridad);fillSel('filterEquipo','Equipo',sets.Equipo);
+  fillSel('filterCompetidor','Competidor',sets.Competidor);fillSel('filterDolor','Dolor',sets.Dolor);
+}
+function fillSel(id,label,set){const el=document.getElementById(id);const v=el.value;el.innerHTML=`<option value="">${label}</option>`;[...set].sort().forEach(s=>{el.innerHTML+=`<option value="${esc(s)}">${esc(s.length>40?s.substring(0,40)+'…':s)}</option>`;});el.value=v;}
+
+function renderStats(){
+  const t=data.length,done=data.filter(d=>d.estado==='Done').length,og=data.filter(d=>d.estado==='On going').length;
+  const pl=data.filter(d=>d.estado==='Planning').length,bl=data.filter(d=>d.estado==='Backlog').length;
+  const comp=data.filter(d=>d.squad==='Competitors').length,ss=data.filter(d=>d.squad==='Social Sellers').length;
+  const qw=data.filter(d=>d.tipo==='QW').length,pct=t?Math.round((done/t)*100):0;
+  document.getElementById('stats').innerHTML=`
+    <div class="stat-card"><div class="stat-label">Total iniciativas</div><div class="stat-value accent">${t}</div><div class="stat-detail">${comp} Competitors · ${ss} Social Sellers</div></div>
+    <div class="stat-card"><div class="stat-label">En ejecución</div><div class="stat-value blue">${og}</div><div class="stat-detail">${pl} en planning</div></div>
+    <div class="stat-card"><div class="stat-label">Completadas</div><div class="stat-value green">${done}</div><div class="stat-detail">${pct}% del total</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:var(--green)"></div></div></div>
+    <div class="stat-card"><div class="stat-label">Quick Wins</div><div class="stat-value amber">${qw}</div><div class="stat-detail">${data.filter(d=>d.tipo==='QW'&&d.estado==='Done').length} completados</div></div>
+    <div class="stat-card"><div class="stat-label">Backlog</div><div class="stat-value purple">${bl}</div><div class="stat-detail">${data.filter(d=>d.prioridad==='Urgente').length} urgentes</div></div>`;
+}
+
+function renderTable(){
+  const items=getFiltered();
+  if(currentSort.field){items.sort((a,b)=>{let va=(a[currentSort.field]||'').toLowerCase(),vb=(b[currentSort.field]||'').toLowerCase();const po={urgente:0,alta:1,media:2,baja:3};if(currentSort.field==='prioridad'){va=po[va]??4;vb=po[vb]??4;return currentSort.asc?va-vb:vb-va;}const io={alto:0,medio:1,bajo:2};if(currentSort.field==='impacto'){va=io[va]??3;vb=io[vb]??3;return currentSort.asc?va-vb:vb-va;}if(va<vb)return currentSort.asc?-1:1;if(va>vb)return currentSort.asc?1:-1;return 0;});}
+  document.getElementById('resultCount').textContent=`${items.length} de ${data.length}`;
+  const tb=document.getElementById('tableBody');
+  if(!items.length){tb.innerHTML='<tr><td colspan="11"><div class="empty-state"><p>No se encontraron iniciativas con estos filtros.</p></div></td></tr>';return;}
+  tb.innerHTML=items.map(d=>`<tr class="${d.estado==='Done'?'row-done':''}"><td>${sqBadge(d.squad)}</td><td><div class="task-name" onclick="openEdit(${d.id})">${esc(d.tarea)}</div>${d.competidor?`<div class="competitor-tag">${esc(d.competidor)}</div>`:''}${d.detalle?`<div class="task-detail">${esc(d.detalle)}</div>`:''}</td><td><div class="pain-tag">${esc(d.dolor||'—')}</div></td><td>${tipBadge(d.tipo)}</td><td>${priBadge(d.prioridad)}</td><td>${estBadge(d.estado)}</td><td><span class="badge-impact impact-${(d.impacto||'').toLowerCase()}">${esc(d.impacto||'—')}</span></td><td><span style="font-size:12px;color:var(--text-secondary)">${esc(d.equipo||'—')}</span></td><td>${d.asignado?`<span class="assignee"><span class="assignee-avatar">${d.asignado[0].toUpperCase()}</span>${esc(d.asignado)}</span>`:'<span style="color:var(--text-muted);font-size:12px">—</span>'}</td><td><span class="date-text">${esc(d.fecha||'—')}</span></td><td><span class="kpi-text">${esc(d.kpi||'—')}</span></td></tr>`).join('');
+}
+
+function renderKanban(){
+  const items=getFiltered();const cols=['Backlog','Planning','On going','Done'];
+  const cc={Backlog:'var(--text-muted)',Planning:'var(--amber)','On going':'var(--blue)',Done:'var(--green)'};
+  document.getElementById('kanbanView').innerHTML=cols.map(col=>{const ci=items.filter(d=>d.estado===col);return`<div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-title"><span style="width:8px;height:8px;border-radius:50%;background:${cc[col]};display:inline-block"></span>${col}</div><span class="kanban-col-count">${ci.length}</span></div>${ci.length?ci.map(d=>`<div class="kanban-card" onclick="openEdit(${d.id})"><div class="kanban-card-meta">${sqBadge(d.squad)} ${tipBadge(d.tipo)} ${priBadge(d.prioridad)}</div><div class="kanban-card-title">${esc(d.tarea)}</div><div class="kanban-card-footer"><span>${d.asignado?`<span class="assignee"><span class="assignee-avatar">${d.asignado[0].toUpperCase()}</span>${esc(d.asignado)}</span>`:'Sin asignar'}</span><span>${esc(d.fecha||'')}</span></div></div>`).join(''):'<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px">Sin iniciativas</div>'}</div>`;}).join('');
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function sqBadge(s){if(s==='Competitors')return'<span class="badge badge-squad squad-competitors">Competitors</span>';if(s==='Social Sellers')return'<span class="badge badge-squad squad-ss">Social Sellers</span>';return'<span style="font-size:11px;color:var(--text-muted)">—</span>';}
+function tipBadge(t){if(t==='QW')return'<span class="badge badge-qw">QW</span>';if(t==='EB')return'<span class="badge badge-eb">EB</span>';if(t==='PE')return'<span class="badge badge-pe">PE</span>';return'';}
+function priBadge(p){const c={Urgente:'priority-urgente',Alta:'priority-alta',Media:'priority-media',Baja:'priority-baja'};return p?`<span class="badge badge-priority ${c[p]||''}">${esc(p)}</span>`:'';}
+function estBadge(e){const c={Planning:'status-planning','On going':'status-ongoing',Done:'status-done',Backlog:'status-backlog'};return e?`<span class="badge badge-status ${c[e]||''}">${esc(e)}</span>`:'—';}
+
+function setView(v){currentView=v;document.getElementById('viewTable').classList.toggle('active',v==='table');document.getElementById('viewKanban').classList.toggle('active',v==='kanban');document.getElementById('tableView').style.display=v==='table'?'block':'none';document.getElementById('kanbanView').classList.toggle('active',v==='kanban');render();}
+function render(){renderStats();renderTable();renderKanban();}
+
+function openEdit(id){
+  const item=data.find(d=>d.id===id);if(!item)return;editingId=id;
+  document.getElementById('modalTitle').textContent='Editar iniciativa';
+  document.getElementById('btnDelete').style.display='inline-flex';
+  document.getElementById('editTarea').value=item.tarea||'';document.getElementById('editDetalle').value=item.detalle||'';
+  document.getElementById('editSquad').value=item.squad||'Competitors';document.getElementById('editCompetidor').value=item.competidor||'';
+  document.getElementById('editDolor').value=item.dolor||'';document.getElementById('editTipo').value=item.tipo||'QW';
+  document.getElementById('editPrioridad').value=item.prioridad||'Media';document.getElementById('editEstado').value=item.estado||'Backlog';
+  document.getElementById('editImpacto').value=item.impacto||'Medio';document.getElementById('editEsfuerzo').value=item.esfuerzo||'Medio';
+  document.getElementById('editEquipo').value=item.equipo||'';document.getElementById('editAsignado').value=item.asignado||'';
+  document.getElementById('editFecha').value=item.fecha||'';document.getElementById('editKPI').value=item.kpi||'';
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function openNewModal(){
+  editingId=null;document.getElementById('modalTitle').textContent='Nueva iniciativa';
+  document.getElementById('btnDelete').style.display='none';
+  ['editTarea','editDetalle','editEquipo','editAsignado','editFecha','editKPI'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('editSquad').value='Competitors';document.getElementById('editCompetidor').value='';
+  document.getElementById('editDolor').value='';document.getElementById('editTipo').value='QW';
+  document.getElementById('editPrioridad').value='Alta';document.getElementById('editEstado').value='Backlog';
+  document.getElementById('editImpacto').value='Alto';document.getElementById('editEsfuerzo').value='Medio';
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('active');}
+
+async function saveItem(){
+  const obj={tarea:document.getElementById('editTarea').value.trim(),detalle:document.getElementById('editDetalle').value.trim(),squad:document.getElementById('editSquad').value,competidor:document.getElementById('editCompetidor').value,dolor:document.getElementById('editDolor').value,tipo:document.getElementById('editTipo').value,prioridad:document.getElementById('editPrioridad').value,estado:document.getElementById('editEstado').value,impacto:document.getElementById('editImpacto').value,esfuerzo:document.getElementById('editEsfuerzo').value,equipo:document.getElementById('editEquipo').value.trim(),asignado:document.getElementById('editAsignado').value.trim(),fecha:document.getElementById('editFecha').value.trim(),kpi:document.getElementById('editKPI').value.trim(),updated_at:new Date().toISOString()};
+  if(!obj.tarea){toast('Completá el nombre de la tarea','var(--red)');return;}
+  if(isOnline&&db){
+    try{
+      if(editingId!==null){const{error}=await db.from('initiatives').update(obj).eq('id',editingId);if(error)throw error;}
+      else{const{error}=await db.from('initiatives').insert([obj]);if(error)throw error;}
+      const{data:rows}=await db.from('initiatives').select('*').order('id');data=rows||[];
+    }catch(e){toast('Error: '+e.message,'var(--red)');return;}
+  }else{
+    if(editingId!==null){const idx=data.findIndex(d=>d.id===editingId);if(idx>=0)Object.assign(data[idx],obj);}
+    else{obj.id=data.length?Math.max(...data.map(d=>d.id))+1:1;data.push(obj);}
+    saveLocal();
+  }
+  populateFilters();render();closeModal();toast(editingId!==null?'Iniciativa actualizada':'Iniciativa creada');
+}
+
+async function deleteItem(){
+  if(editingId===null)return;if(!confirm('¿Eliminar esta iniciativa?'))return;
+  if(isOnline&&db){
+    try{const{error}=await db.from('initiatives').delete().eq('id',editingId);if(error)throw error;
+      const{data:rows}=await db.from('initiatives').select('*').order('id');data=rows||[];
+    }catch(e){toast('Error: '+e.message,'var(--red)');return;}
+  }else{data=data.filter(d=>d.id!==editingId);saveLocal();}
+  populateFilters();render();closeModal();toast('Iniciativa eliminada','var(--red)');
+}
+
+function exportCSV(){
+  const h=['Squad','Competidor','Tarea','Dolor','Detalle','Tipo','Prioridad','Equipo','Impacto','Esfuerzo','KPI','Estado','Fecha','Asignado'];
+  const r=data.map(d=>[d.squad,d.competidor,d.tarea,d.dolor,d.detalle,d.tipo,d.prioridad,d.equipo,d.impacto,d.esfuerzo,d.kpi,d.estado,d.fecha,d.asignado].map(v=>'"'+(v||'').replace(/"/g,'""')+'"').join(','));
+  const csv='\uFEFF'+h.join(',')+'\n'+r.join('\n');
+  const b=new Blob([csv],{type:'text/csv;charset=utf-8;'});const u=URL.createObjectURL(b);
+  const a=document.createElement('a');a.href=u;a.download='action_plan_squads_2026.csv';a.click();URL.revokeObjectURL(u);
+  toast('CSV exportado');
+}
+
+function toast(msg,bg){const t=document.getElementById('toast');t.textContent=msg;t.style.background=bg||'var(--green)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+document.querySelectorAll('th[data-sort]').forEach(th=>{th.addEventListener('click',()=>{const f=th.dataset.sort;if(currentSort.field===f)currentSort.asc=!currentSort.asc;else{currentSort.field=f;currentSort.asc=true;}document.querySelectorAll('th').forEach(h=>h.classList.remove('sorted'));th.classList.add('sorted');th.querySelector('.sort-icon').textContent=currentSort.asc?'\u25B2':'\u25BC';render();});});
+['searchInput','filterSquad','filterTipo','filterEstado','filterPrioridad','filterEquipo','filterCompetidor','filterDolor'].forEach(id=>{document.getElementById(id).addEventListener(id==='searchInput'?'input':'change',render);});
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.getElementById('settingsOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSettings();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSettings();}});
+
+initApp();
+</script>
+</body>
+</html>
