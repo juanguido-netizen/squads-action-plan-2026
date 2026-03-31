@@ -189,6 +189,29 @@ tr.row-done td{opacity:.5}
 .setup-or{color:var(--text-muted);font-size:13px;margin:16px 0;display:flex;align-items:center;gap:12px}
 .setup-or::before,.setup-or::after{content:'';flex:1;height:1px;background:var(--border)}
 
+/* CROSS-TEAM SECTION */
+.cross-section{margin-top:32px;border-top:1px solid var(--border);padding-top:28px}
+.cross-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;cursor:pointer}
+.cross-header h2{font-size:17px;font-weight:700;display:flex;align-items:center;gap:10px}
+.cross-header h2 svg{width:20px;height:20px;color:var(--amber)}
+.cross-header .toggle-icon{font-size:14px;color:var(--text-muted);transition:transform .2s}
+.cross-header .toggle-icon.open{transform:rotate(180deg)}
+.cross-subtitle{font-size:13px;color:var(--text-secondary);margin-bottom:20px;line-height:1.5}
+.cross-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+.cross-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;transition:var(--transition)}
+.cross-card:hover{border-color:var(--border-light)}
+.cross-card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.cross-team-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.cross-team-name{font-size:14px;font-weight:600}
+.cross-team-count{font-size:11px;color:var(--text-muted);margin-left:auto;background:var(--surface2);padding:2px 8px;border-radius:12px}
+.cross-item{padding:10px 0;border-bottom:1px solid rgba(42,48,66,.5);display:flex;flex-direction:column;gap:5px}
+.cross-item:last-child{border-bottom:none;padding-bottom:0}
+.cross-item-title{font-size:13px;font-weight:500;color:var(--text)}
+.cross-item-detail{font-size:11px;color:var(--text-muted);line-height:1.4}
+.cross-item-meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.cross-blocker{margin-top:4px;font-size:11px;padding:4px 10px;border-radius:6px;background:var(--red-bg);color:var(--red);display:inline-flex;align-items:center;gap:4px}
+.cross-need{margin-top:4px;font-size:11px;padding:4px 10px;border-radius:6px;background:var(--amber-bg);color:var(--amber);display:inline-flex;align-items:center;gap:4px}
+
 /* Spinner */
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -373,6 +396,19 @@ ALTER TABLE initiatives REPLICA IDENTITY FULL;</pre>
   </div>
 
   <div id="kanbanView" class="kanban"></div>
+
+  <!-- CROSS-TEAM DEPENDENCIES -->
+  <div class="cross-section">
+    <div class="cross-header" onclick="toggleCross()">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v-2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        Dependencias cross-equipo
+      </h2>
+      <span class="toggle-icon open" id="crossToggle">&#9660;</span>
+    </div>
+    <p class="cross-subtitle">Iniciativas que requieren coordinación, aprobación o trabajo de equipos fuera de Acquisition Growth. Identificadas a partir del diagnóstico de ambos squads.</p>
+    <div id="crossGrid" class="cross-grid"></div>
+  </div>
 </div>
 
 <!-- EDIT MODAL -->
@@ -878,6 +914,111 @@ document.querySelectorAll('th[data-sort]').forEach(th=>{th.addEventListener('cli
 document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
 document.getElementById('settingsOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSettings();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSettings();}});
+
+const CROSS_TEAMS = [
+  {
+    team: "Product Growth",
+    icon: "&#9881;",
+    color: "var(--purple)",
+    bg: "var(--purple-bg)",
+    items: [
+      {title:"Onboarding adaptado al perfil del Social Seller",squad:"Social Sellers",tipo:"PE",detail:"Flujo diferenciado '¿ya vendés por redes?', optimización mobile, cápsulas de video en el admin. Requiere Product Growth para desarrollo.",need:"Diseño + desarrollo de flujo alternativo de onboarding",kpi:"Completion rate onboarding SS"},
+      {title:"Modalidad catálogo + puente a WhatsApp",squad:"Social Sellers",tipo:"PE",detail:"Tienda sin checkout obligatorio con puente a WA para ventas consultivas. Form de preguntas pre-compra. El social seller cierra por WA, no por carrito.",need:"Nuevo modo de tienda sin checkout + integración WA nativa",kpi:"Uso catálogo + ventas WA"},
+      {title:"Inteligencia en el admin: plataforma que guíe al merchant",squad:"Social Sellers",tipo:"PE",detail:"Detección de apps faltantes + notificaciones, chat IA en admin, simulador Chat Nube. Que la plataforma diga '¿sabías que tenés Chat Nube?' cuando detecta que el merchant contesta todo por WA.",need:"Engine de recomendaciones + notificaciones contextuales en admin",kpi:"Engagement admin + activación de apps"},
+      {title:"Plan/pricing que reduzca barrera de entrada SS",squad:"Social Sellers",tipo:"PE",detail:"Cupones/promos, no pagar hasta primera venta, 'loja pronta' (servicio de creación de tienda). El 84% de SS trials son fantasma o curioso — el precio no es el problema, es la percepción de valor.",need:"Definición de modelo de pricing/promos con equipo de Pricing",kpi:"Trials → NPs SS"},
+      {title:"Tiendanube Market (directorio de tiendas)",squad:"Social Sellers",tipo:"PE",detail:"Directorio público de tiendas por categoría para generar tráfico orgánico a merchants. 55% de merchants dice que generar tráfico es su dolor #1.",need:"Desarrollo de marketplace/directorio público",kpi:"Tráfico generado a tiendas"},
+      {title:"Herramientas de generación de contenido para redes desde productos",squad:"Social Sellers",tipo:"PE",detail:"Desde el admin, generar creativos para IG/TikTok a partir de fotos de producto. El social seller vive en Instagram — su tienda debería alimentar su contenido.",need:"Feature de generación de assets desde catálogo de productos",kpi:"Uso herramienta + publicaciones generadas"},
+      {title:"Flujo especializado para trials de marketplace + ERP",squad:"Competitors",tipo:"QW",detail:"Onboarding diferenciado para trials que vienen de ML. Comisiones de 13-36% erosionan margen → mostrar canal propio como solución.",need:"Variante de onboarding por origen del trial (marketplace)",kpi:"Trials marketplace + CVR"}
+    ]
+  },
+  {
+    team: "Lifecycle & Nurturing",
+    icon: "&#9993;",
+    color: "var(--blue)",
+    bg: "var(--blue-bg)",
+    items: [
+      {title:"Secuencia nurturing email/WA por dolor para Social Sellers",squad:"Social Sellers",tipo:"EB",detail:"Reemplazar secuencia actual ('configurá envío', 'subí productos') por mensajes basados en dolores: '¿seguís contestando uno por uno?' Solo 8.1% de SS trials convierte a pago.",need:"Rediseño de secuencia automated + segmentación por perfil SS",kpi:"Open rate + CVR trial→pago"},
+      {title:"Flujo reactivación tiendas sin setup post-día 3",squad:"Social Sellers",tipo:"EB",detail:"Email/WA automático a trials que no configuraron tienda después de 3 días. Solo 15% vuelve al admin post-día 1. Mensaje por dolor + oferta de acompañamiento 1:1.",need:"Trigger automático day-3 + segmento 'sin setup' en CRM",kpi:"Tiendas reactivadas"},
+      {title:"Secuencia WA/email a trials que no vuelven al admin",squad:"Social Sellers",tipo:"EB",detail:"Contactar trials inactivos con mensajes basados en dolor. Link directo al admin. 84% de SS trials son 'fantasma' o 'curioso'.",need:"Flujo de reactivación en CRM + contenido por dolor",kpi:"Trials reactivados + CVR"},
+      {title:"Reescribir emails de onboarding SS (top 5)",squad:"Social Sellers",tipo:"QW",detail:"Auditar y reescribir los 5 emails principales que reciben trials SS. Tono empático, no instructivo. Foco en valor, no en setup.",need:"Acceso a templates de email + implementación en plataforma de email",kpi:"Open rate + click rate"},
+      {title:"Nurturing diferenciado por competidor de origen",squad:"Competitors",tipo:"EB",detail:"Secuencias de email/WA diferenciadas por plataforma de origen (Empretienda, Shopify, WC). Mensajes focalizados en dolores específicos de cada competidor.",need:"Segmentación por plataforma de origen en CRM + flujos dedicados",kpi:"Open rate + CVR trial→pago"},
+      {title:"Challenge Social Sellers cross-areas (6 meses)",squad:"Social Sellers",tipo:"PE",detail:"Estructura del challenge, temas por mes, mecánica inscripción + seguimiento. Requiere coordinación con Lifecycle para el nurturing del funnel de participantes.",need:"Coordinación de flujos de inscripción, seguimiento y nurturing del challenge",kpi:"Participantes + activación + retención"}
+    ]
+  },
+  {
+    team: "Brand & Comms",
+    icon: "&#127908;",
+    color: "var(--pink)",
+    bg: "var(--pink-bg)",
+    items: [
+      {title:'Campaña "Pride Nacional" + casos alto GMV',squad:"Competitors",tipo:"PE",detail:"Campaña institucional con merchants grandes que migraron de Shopify. Shopify creció +55% en branded searches durante 2025 y atrae a los sellers más grandes (17% medium+). Es la pérdida más costosa en GMV.",need:"Producción de campaña institucional + presupuesto de marca",kpi:"Brand awareness + Trials premium"},
+      {title:"Reposicionar comunicación de adquisición hacia dolores del SS",squad:"Social Sellers",tipo:"QW",detail:"Cambiar el mensaje de 'Creá tu tienda' por hooks de dolor: '¿Vendés por redes y no das más de contestar mensajes?' El que se identifica como 'ya vendo en redes' tiene el peor CVR a pago (3.9%).",need:"Alineamiento de tono y narrativa con guidelines de marca",kpi:"CTR ads + Trials SS"},
+      {title:"Video caso Experiencia Sabia (de WA a tienda + WA)",squad:"Social Sellers",tipo:"EB",detail:"Producir video con ES: antes vendía solo por WA, ahora usa tienda + WA y factura más. Hook dolor/solución. ES llegó por recomendación y hoy tiene 100% ventas por tienda.",need:"Producción de video testimonial + coordinación con merchant",kpi:"Views + Trials"},
+      {title:"Contenido caso CeCé Piume o Strawberry Style",squad:"Social Sellers",tipo:"EB",detail:"Producir contenido sobre formalización + primeras ventas con tienda. CeCe migró de Empretienda, Strawberry es caso de éxito de migración. Perspectiva real de merchant SS.",need:"Producción de contenido testimonial (blog/reel/video)",kpi:"Views + Trials"}
+    ]
+  },
+  {
+    team: "Ecosistema & Partners",
+    icon: "&#128279;",
+    color: "var(--cyan)",
+    bg: "var(--cyan-bg)",
+    items: [
+      {title:"Tech partners no exclusivos (ERPs, logística)",squad:"Competitors",tipo:"EB",detail:"Trabajar con partners que tienen clientes en otras plataformas para adquisición conjunta. Los ERPs y partners logísticos ya atienden merchants en Shopify, WC, Empretienda.",need:"Programa de partnership cross-plataforma + incentivos",kpi:"NPs vía partners"},
+      {title:"Fidelizar ERPs que trabajan con Mercado Libre",squad:"Competitors",tipo:"EB",detail:"Acercarse a ERPs del ecosistema ML para posicionar TN como canal D2C complementario. Ventana post-MShops (cerró 31/12/2025) se cierra Q1-Q2 2026.",need:"Acuerdos con ERPs del ecosistema ML + propuesta de valor conjunta",kpi:"Partners activos"},
+      {title:"Habilitar panel afiliados para contacto a tiendas inactivas",squad:"Social Sellers",tipo:"EB",detail:"Permitir que afiliados contacten por WA/DM a tiendas inactivas desde su panel ofreciendo acompañamiento. Los afiliados ya son el canal más efectivo de activación.",need:"Desarrollo de feature en panel de afiliados",kpi:"Tiendas contactadas + CVR"},
+      {title:"Squad de freelancers para migrar catálogos",squad:"Competitors",tipo:"EB",detail:"Red de especialistas capacitados para asistir migración de tiendas vía Automágico y LitExtension. Similar modelo a afiliados pero enfocado en servicio técnico.",need:"Estructura de red de freelancers + capacitación + compensación",kpi:"Nº migraciones asistidas"}
+    ]
+  },
+  {
+    team: "Data & Analytics",
+    icon: "&#128202;",
+    color: "var(--green)",
+    bg: "var(--green-bg)",
+    items: [
+      {title:"Segmentación de trials SS por nivel de engagement",squad:"Social Sellers",tipo:"EB",detail:"Hoy 84% de SS trials son 'Fantasma' o 'Curioso' en el modelo de QL. Solo 5.6% son 'Determinados' pero convierten al 64.2%. Se necesitan cohortes accionables.",need:"Modelo de scoring/QL específico para Social Sellers + dashboards",kpi:"Precisión de segmentos + CVR por cohorte"},
+      {title:"Protocolo llamadas 15 min con especialistas",squad:"Social Sellers",tipo:"EB",detail:"Definir criterios (>X seguidores IG, actividad WA), script de llamada, seguimiento. Para tiendas con potencial de conversión.",need:"Criterios de scoring basados en data de IG/WA + modelo predictivo",kpi:"Llamadas + CVR"},
+      {title:"Definición de targets numéricos KPIs Social Sellers",squad:"Social Sellers",tipo:"EB",detail:"Baselines definidas: CVR trial→pago 8.1%, CVR pago→1ra venta 12.2%, retorno admin post-día 1: 15%. Faltan targets numéricos validados para H1 2026.",need:"Validación de targets con equipo de data + modelado de escenarios",kpi:"Targets aprobados"}
+    ]
+  },
+  {
+    team: "Soporte & CX",
+    icon: "&#128172;",
+    color: "var(--amber)",
+    bg: "var(--amber-bg)",
+    items: [
+      {title:"Bootcamp 'Cómo migrar de ET/Shopify a TN'",squad:"Competitors",tipo:"PE",detail:"Evento educativo con soporte de migración asistida. Formato grupal. Los merchants de Shopify que churnearon buscan sofisticación y features (no precio).",need:"Soporte técnico dedicado durante bootcamps de migración",kpi:"Asistentes + NPs"},
+      {title:"Protocolo de activación 48h ante disrupciones competitivas",squad:"Competitors",tipo:"QW",detail:"Playbook listo ante cambios de pricing, caídas o noticias de competidores. Activar landing + email + pauta Search + redes en <48h.",need:"Coordinación con soporte para absorber pico de consultas post-activación",kpi:"Tiempo de reacción + NPs"}
+    ]
+  }
+];
+
+function toggleCross(){
+  const grid=document.getElementById('crossGrid');
+  const icon=document.getElementById('crossToggle');
+  if(grid.style.display==='none'){grid.style.display='';icon.classList.add('open');}
+  else{grid.style.display='none';icon.classList.remove('open');}
+}
+
+function renderCross(){
+  document.getElementById('crossGrid').innerHTML=CROSS_TEAMS.map(t=>`
+    <div class="cross-card">
+      <div class="cross-card-header">
+        <div class="cross-team-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
+        <span class="cross-team-name">${t.team}</span>
+        <span class="cross-team-count">${t.items.length}</span>
+      </div>
+      ${t.items.map(i=>`<div class="cross-item">
+        <div class="cross-item-title">${esc(i.title)}</div>
+        <div class="cross-item-meta">${sqBadge(i.squad)} ${tipBadge(i.tipo)}</div>
+        <div class="cross-item-detail">${esc(i.detail)}</div>
+        <div class="cross-need">&#9888; ${esc(i.need)}</div>
+      </div>`).join('')}
+    </div>
+  `).join('');
+}
+
+const _origRender = render;
+render = function(){ _origRender(); renderCross(); };
 
 initApp();
 </script>
