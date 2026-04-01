@@ -228,18 +228,22 @@ tr.row-done td{opacity:.5}
 .cal-legend-dot{width:10px;height:10px;border-radius:3px}
 .cal-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface)}
 .cal-grid{min-width:900px}
-.cal-header{display:grid;grid-template-columns:280px repeat(6,1fr);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;background:var(--surface2)}
+.cal-header{display:grid;grid-template-columns:320px repeat(6,1fr);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;background:var(--surface2)}
 .cal-hcell{padding:12px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);font-weight:600;text-align:center;border-left:1px solid var(--border)}
 .cal-hcell:first-child{text-align:left;padding-left:16px;border-left:none}
 .cal-hcell.current{color:var(--accent-light);background:rgba(99,102,241,.06)}
 .cal-group-label{grid-column:1/-1;padding:10px 16px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;background:var(--surface2);border-bottom:1px solid var(--border);color:var(--text-secondary);display:flex;align-items:center;gap:8px}
-.cal-row{display:grid;grid-template-columns:280px repeat(6,1fr);border-bottom:1px solid rgba(42,48,66,.4);transition:background .15s}
+.cal-row{display:grid;grid-template-columns:320px repeat(6,1fr);border-bottom:1px solid rgba(42,48,66,.4);transition:background .15s}
 .cal-row:hover{background:rgba(99,102,241,.03)}
 .cal-row:last-child{border-bottom:none}
 .cal-name{padding:8px 14px;font-size:12px;color:var(--text);display:flex;flex-direction:column;gap:3px;border-right:1px solid var(--border);justify-content:center}
 .cal-name-title{font-weight:500;line-height:1.3;cursor:pointer;transition:color .15s;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .cal-name-title:hover{color:var(--accent-light)}
-.cal-name-meta{display:flex;gap:4px;flex-wrap:wrap}
+.cal-name-meta{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.cal-equipo{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
+.cal-equipo-tag{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--surface2);color:var(--text-secondary);font-weight:500;white-space:nowrap;border:1px solid var(--border)}
+.cal-asignado{font-size:10px;color:var(--text-muted);display:flex;align-items:center;gap:3px;margin-top:1px}
+.cal-asignado-dot{width:14px;height:14px;border-radius:50%;background:var(--accent-bg);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:var(--accent-light)}
 .cal-cell{position:relative;padding:6px 2px;border-left:1px solid rgba(42,48,66,.4);display:flex;align-items:center}
 .cal-cell.current{background:rgba(99,102,241,.04)}
 .cal-bar{height:22px;border-radius:4px;width:calc(100% - 4px);margin:0 2px;position:relative;cursor:pointer;transition:opacity .15s,transform .15s}
@@ -1358,7 +1362,10 @@ function renderCalendar(){
       const statusCls = d.estado==='Done'?'st-done':d.estado==='On going'?'st-ongoing':d.estado==='Planning'?'st-planning':'st-backlog';
       const barCls = d.tipo==='QW'?'cal-bar-qw':d.tipo==='PE'?'cal-bar-pe':'cal-bar-eb';
       html += '<div class="cal-row">';
-      html += `<div class="cal-name"><div class="cal-name-title" onclick="openEdit(${d.id})">${esc(d.tarea)}</div><div class="cal-name-meta">${sqBadge(d.squad)} ${tipBadge(d.tipo)} ${estBadge(d.estado)}</div></div>`;
+      const equipos = (d.equipo||'').split(',').map(e=>e.trim()).filter(Boolean);
+      const equipoHtml = equipos.length?`<div class="cal-equipo">${equipos.map(e=>`<span class="cal-equipo-tag">${esc(e)}</span>`).join('')}</div>`:'';
+      const asignadoHtml = d.asignado?`<div class="cal-asignado"><span class="cal-asignado-dot">${d.asignado[0].toUpperCase()}</span>${esc(d.asignado)}</div>`:'';
+      html += `<div class="cal-name"><div class="cal-name-title" onclick="openEdit(${d.id})">${esc(d.tarea)}</div><div class="cal-name-meta">${tipBadge(d.tipo)} ${estBadge(d.estado)}</div>${equipoHtml}${asignadoHtml}</div>`;
       for(let c=0;c<6;c++){
         const isCurrent = c===currentCol;
         html += `<div class="cal-cell${isCurrent?' current':''}">`;
