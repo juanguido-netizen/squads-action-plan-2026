@@ -212,6 +212,82 @@ tr.row-done td{opacity:.5}
 .cross-blocker{margin-top:4px;font-size:11px;padding:4px 10px;border-radius:6px;background:var(--red-bg);color:var(--red);display:inline-flex;align-items:center;gap:4px}
 .cross-need{margin-top:4px;font-size:11px;padding:4px 10px;border-radius:6px;background:var(--amber-bg);color:var(--amber);display:inline-flex;align-items:center;gap:4px}
 
+/* NAV TABS */
+.nav-tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:4px;overflow-x:auto}
+.nav-tab{padding:10px 20px;border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border:none;background:none;transition:var(--transition);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.nav-tab:hover{color:var(--text-secondary);background:var(--surface2)}
+.nav-tab.active{background:var(--accent-bg);color:var(--accent-light);font-weight:600}
+.nav-tab svg{width:16px;height:16px}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* CALENDAR */
+.cal-controls{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.cal-legend{display:flex;gap:14px;margin-left:auto;font-size:11px;color:var(--text-secondary);flex-wrap:wrap}
+.cal-legend-item{display:flex;align-items:center;gap:5px}
+.cal-legend-dot{width:10px;height:10px;border-radius:3px}
+.cal-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface)}
+.cal-grid{min-width:900px}
+.cal-header{display:grid;grid-template-columns:280px repeat(6,1fr);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;background:var(--surface2)}
+.cal-hcell{padding:12px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);font-weight:600;text-align:center;border-left:1px solid var(--border)}
+.cal-hcell:first-child{text-align:left;padding-left:16px;border-left:none}
+.cal-hcell.current{color:var(--accent-light);background:rgba(99,102,241,.06)}
+.cal-group-label{grid-column:1/-1;padding:10px 16px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;background:var(--surface2);border-bottom:1px solid var(--border);color:var(--text-secondary);display:flex;align-items:center;gap:8px}
+.cal-row{display:grid;grid-template-columns:280px repeat(6,1fr);border-bottom:1px solid rgba(42,48,66,.4);transition:background .15s}
+.cal-row:hover{background:rgba(99,102,241,.03)}
+.cal-row:last-child{border-bottom:none}
+.cal-name{padding:8px 14px;font-size:12px;color:var(--text);display:flex;flex-direction:column;gap:3px;border-right:1px solid var(--border);justify-content:center}
+.cal-name-title{font-weight:500;line-height:1.3;cursor:pointer;transition:color .15s;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cal-name-title:hover{color:var(--accent-light)}
+.cal-name-meta{display:flex;gap:4px;flex-wrap:wrap}
+.cal-cell{position:relative;padding:6px 2px;border-left:1px solid rgba(42,48,66,.4);display:flex;align-items:center}
+.cal-cell.current{background:rgba(99,102,241,.04)}
+.cal-bar{height:22px;border-radius:4px;width:calc(100% - 4px);margin:0 2px;position:relative;cursor:pointer;transition:opacity .15s,transform .15s}
+.cal-bar:hover{opacity:1!important;transform:scaleY(1.2)}
+.cal-bar-qw{background:var(--green)}
+.cal-bar-eb{background:var(--blue)}
+.cal-bar-pe{background:var(--purple)}
+.cal-bar.st-backlog{opacity:.3}
+.cal-bar.st-planning{opacity:.55}
+.cal-bar.st-ongoing{opacity:.85}
+.cal-bar.st-done{opacity:.45;background:var(--text-muted)!important}
+.cal-tooltip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--surface3);border:1px solid var(--border-light);border-radius:8px;padding:10px 14px;font-size:12px;white-space:nowrap;z-index:10;pointer-events:none;opacity:0;transition:opacity .15s;box-shadow:var(--shadow);line-height:1.6}
+.cal-bar:hover .cal-tooltip{opacity:1}
+.cal-tooltip strong{color:var(--text);display:block;margin-bottom:2px}
+.cal-empty{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:14px}
+.cal-filter-group{display:flex;gap:6px;flex-wrap:wrap}
+
+/* MATERIALS */
+.mat-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.mat-search{position:relative;flex:1;min-width:200px}
+.mat-search input{width:100%;padding:9px 12px 9px 36px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;transition:var(--transition)}
+.mat-search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.mat-search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-muted)}
+.mat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.mat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;transition:var(--transition);display:flex;flex-direction:column;gap:10px}
+.mat-card:hover{border-color:var(--border-light);transform:translateY(-1px)}
+.mat-card-header{display:flex;align-items:flex-start;gap:10px}
+.mat-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.mat-card-info{flex:1;min-width:0}
+.mat-card-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.3}
+.mat-card-link{font-size:12px;color:var(--accent-light);display:flex;align-items:center;gap:4px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}
+.mat-card-link:hover{text-decoration:underline}
+.mat-card-link svg{width:12px;height:12px;flex-shrink:0}
+.mat-card-meta{display:flex;flex-wrap:wrap;gap:5px}
+.mat-card-detail{font-size:11px;color:var(--text-muted);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mat-card-actions{display:flex;gap:6px;margin-top:auto;padding-top:8px;border-top:1px solid var(--border)}
+.mat-card-actions button{flex:1}
+.mat-status{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.mat-status-prod{background:var(--amber-bg);color:var(--amber)}
+.mat-status-ready{background:var(--green-bg);color:var(--green)}
+.mat-status-live{background:var(--blue-bg);color:var(--blue)}
+.mat-type-badge{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.3px;background:var(--surface2);color:var(--text-secondary)}
+.mat-empty{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:14px}
+.mat-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.mat-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;text-align:center}
+.mat-stat-val{font-size:22px;font-weight:700}
+.mat-stat-label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-top:2px}
+
 /* Spinner */
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -227,6 +303,13 @@ tr.row-done td{opacity:.5}
   .kanban.active{grid-template-columns:1fr}
   .toolbar{flex-direction:column;align-items:stretch}
   .filter-group{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
+  .nav-tabs{overflow-x:auto}
+  .nav-tab{padding:8px 14px;font-size:12px}
+  .cal-controls{flex-direction:column;align-items:stretch}
+  .cal-legend{margin-left:0;justify-content:center}
+  .mat-toolbar{flex-direction:column;align-items:stretch}
+  .mat-grid{grid-template-columns:1fr}
+  .mat-stats{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -275,7 +358,29 @@ ALTER TABLE initiatives ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow full access" ON initiatives
   FOR ALL USING (true) WITH CHECK (true);
 
-ALTER TABLE initiatives REPLICA IDENTITY FULL;</pre>
+ALTER TABLE initiatives REPLICA IDENTITY FULL;
+
+-- Tabla para materiales/recursos
+CREATE TABLE materials (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  url TEXT DEFAULT '',
+  tipo TEXT DEFAULT 'Otro',
+  squad TEXT DEFAULT '',
+  equipo TEXT DEFAULT '',
+  estado TEXT DEFAULT 'En producción',
+  initiative_id BIGINT DEFAULT NULL,
+  notas TEXT DEFAULT '',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE materials ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow full access" ON materials
+  FOR ALL USING (true) WITH CHECK (true);
+
+ALTER TABLE materials REPLICA IDENTITY FULL;</pre>
   </details>
 
   <div class="setup-card">
@@ -345,6 +450,24 @@ ALTER TABLE initiatives REPLICA IDENTITY FULL;</pre>
 
   <div class="stats" id="stats"></div>
 
+  <!-- NAV TABS -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('iniciativas')" id="tabBtnIniciativas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Iniciativas
+    </button>
+    <button class="nav-tab" onclick="switchTab('calendario')" id="tabBtnCalendario">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Calendario
+    </button>
+    <button class="nav-tab" onclick="switchTab('materiales')" id="tabBtnMateriales">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Materiales
+    </button>
+  </div>
+
+  <!-- TAB: INICIATIVAS -->
+  <div id="tabIniciativas" class="tab-content active">
   <div class="toolbar">
     <div class="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -396,6 +519,46 @@ ALTER TABLE initiatives REPLICA IDENTITY FULL;</pre>
   </div>
 
   <div id="kanbanView" class="kanban"></div>
+  </div><!-- /tabIniciativas -->
+
+  <!-- TAB: CALENDARIO -->
+  <div id="tabCalendario" class="tab-content">
+    <div class="cal-controls">
+      <div class="cal-filter-group">
+        <select class="filter" id="calFilterSquad"><option value="">Todos los squads</option><option value="Competitors">Competitors</option><option value="Social Sellers">Social Sellers</option></select>
+        <select class="filter" id="calFilterTipo"><option value="">Todos los tipos</option><option value="QW">Quick Win</option><option value="EB">Extra-BAU</option><option value="PE">Propuesta Estratégica</option></select>
+        <select class="filter" id="calFilterEstado"><option value="">Todos los estados</option><option value="Backlog">Backlog</option><option value="Planning">Planning</option><option value="On going">On going</option><option value="Done">Done</option></select>
+      </div>
+      <div class="cal-legend">
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--green)"></div>Quick Win</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--blue)"></div>Extra-BAU</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--purple)"></div>Propuesta Estratégica</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--text-muted)"></div>Done</div>
+      </div>
+    </div>
+    <div id="calendarView" class="cal-scroll"></div>
+  </div>
+
+  <!-- TAB: MATERIALES -->
+  <div id="tabMateriales" class="tab-content">
+    <div class="mat-stats" id="matStats"></div>
+    <div class="mat-toolbar">
+      <div class="mat-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="matSearchInput" placeholder="Buscar material, link, equipo...">
+      </div>
+      <div class="filter-group">
+        <select class="filter" id="matFilterSquad"><option value="">Squad</option><option value="Competitors">Competitors</option><option value="Social Sellers">Social Sellers</option><option value="Ambos">Ambos</option></select>
+        <select class="filter" id="matFilterTipo"><option value="">Tipo</option><option value="Video">Video</option><option value="Landing">Landing</option><option value="Blog">Blog</option><option value="Checklist">Checklist</option><option value="Ebook">Ebook</option><option value="Ad">Ad/Creativo</option><option value="Email">Email</option><option value="Webinar">Webinar</option><option value="Otro">Otro</option></select>
+        <select class="filter" id="matFilterEstado"><option value="">Estado</option><option value="En producción">En producción</option><option value="Producido">Producido</option><option value="Live">Live</option></select>
+      </div>
+      <button class="btn btn-primary" onclick="openMatModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nuevo material
+      </button>
+    </div>
+    <div id="matGrid" class="mat-grid"></div>
+  </div>
 
   <!-- CROSS-TEAM DEPENDENCIES -->
   <div class="cross-section">
@@ -557,6 +720,79 @@ ALTER TABLE initiatives REPLICA IDENTITY FULL;</pre>
         <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="updateSettings()">Guardar y reconectar</button>
         <button class="btn" style="color:var(--red)" onclick="disconnectSupabase()">Desconectar</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- MATERIAL MODAL -->
+<div class="modal-overlay" id="matModalOverlay">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h2 id="matModalTitle">Nuevo material</h2>
+      <button class="modal-close" onclick="closeMatModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="matEditId">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Nombre / Título</label>
+          <input type="text" id="matTitle" placeholder="Ej: Landing migradores Shopify">
+        </div>
+        <div class="form-group full">
+          <label>URL / Link</label>
+          <input type="url" id="matUrl" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>Tipo de material</label>
+          <select id="matTipo">
+            <option value="Video">Video</option>
+            <option value="Landing">Landing</option>
+            <option value="Blog">Blog</option>
+            <option value="Checklist">Checklist</option>
+            <option value="Ebook">Ebook</option>
+            <option value="Ad">Ad/Creativo</option>
+            <option value="Email">Email</option>
+            <option value="Webinar">Webinar</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Squad</label>
+          <select id="matSquad">
+            <option value="Competitors">Competitors</option>
+            <option value="Social Sellers">Social Sellers</option>
+            <option value="Ambos">Ambos</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Equipo responsable</label>
+          <input type="text" id="matEquipo" placeholder="Ej: Affiliates, Paid Media">
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select id="matEstado">
+            <option value="En producción">En producción</option>
+            <option value="Producido">Producido</option>
+            <option value="Live">Live</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Iniciativa vinculada (opcional)</label>
+          <select id="matInitiative"><option value="">— Sin vincular —</option></select>
+        </div>
+        <div class="form-group full">
+          <label>Notas</label>
+          <textarea id="matNotas" placeholder="Descripción o contexto adicional"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="matBtnDelete" onclick="deleteMatItem()" style="margin-right:auto;color:var(--red);display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+        Eliminar
+      </button>
+      <button class="btn" onclick="closeMatModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveMatItem()">Guardar</button>
     </div>
   </div>
 </div>
@@ -1019,6 +1255,341 @@ function renderCross(){
 
 const _origRender = render;
 render = function(){ _origRender(); renderCross(); };
+
+/* ========== TAB SWITCHING ========== */
+let currentTab = 'iniciativas';
+function switchTab(tab){
+  currentTab = tab;
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tabBtn'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  const tabEl = document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1));
+  if(tabEl) tabEl.classList.add('active');
+  if(tab==='calendario') renderCalendar();
+  if(tab==='materiales') renderMaterials();
+}
+
+/* ========== CALENDAR ========== */
+const MONTHS = [{key:'mar',label:'Marzo',idx:3},{key:'abr',label:'Abril',idx:4},{key:'may',label:'Mayo',idx:5},{key:'jun',label:'Junio',idx:6},{key:'q3',label:'Jul-Ago',idx:7},{key:'q3p',label:'Sep+',idx:9}];
+
+function parseFechaToMonths(f){
+  if(!f) return [];
+  const s = f.toLowerCase().replace(/\s+/g,'');
+  const map = {
+    'enero':3,'febrero':3,'marzo':3,'mar':3,'abril':4,'abr':4,'mayo':5,'may':5,
+    'junio':6,'jun':6,'julio':7,'jul':7,'agosto':8,'ago':8,'septiembre':9,'sep':9,
+    'octubre':10,'oct':10,'noviembre':11,'nov':11,'diciembre':12,'dic':12
+  };
+  if(s==='inmediato') return [3];
+  if(s.includes('q3+')||s==='q3+') return [7,9];
+  if(s==='q3') return [7,9];
+  if(s==='q2+'||s==='q2') return [4,5,6];
+  if(s.includes('-')){
+    const parts = s.split('-');
+    const start = map[parts[0]];
+    const end = map[parts[1]];
+    if(start && end){
+      const result = [];
+      for(let i=start;i<=end;i++) result.push(i);
+      return result;
+    }
+  }
+  for(const [k,v] of Object.entries(map)){
+    if(s.includes(k)) return [v];
+  }
+  return [];
+}
+
+function monthToCol(m){
+  if(m<=3) return 0;
+  if(m===4) return 1;
+  if(m===5) return 2;
+  if(m===6) return 3;
+  if(m<=8) return 4;
+  return 5;
+}
+
+function renderCalendar(){
+  const fs = document.getElementById('calFilterSquad').value;
+  const ft = document.getElementById('calFilterTipo').value;
+  const fe = document.getElementById('calFilterEstado').value;
+  let items = data.filter(d=>{
+    if(fs && d.squad!==fs) return false;
+    if(ft && d.tipo!==ft) return false;
+    if(fe && d.estado!==fe) return false;
+    return true;
+  });
+  const now = new Date();
+  const currentMonth = now.getMonth()+1;
+  const currentCol = monthToCol(currentMonth);
+  const groups = {};
+  items.forEach(d=>{
+    const sq = d.squad || 'Sin squad';
+    if(!groups[sq]) groups[sq]=[];
+    groups[sq].push(d);
+  });
+  let html = '<div class="cal-grid">';
+  html += '<div class="cal-header">';
+  html += '<div class="cal-hcell">Iniciativa</div>';
+  MONTHS.forEach((m,i)=>{
+    html += `<div class="cal-hcell${i===currentCol?' current':''}">${m.label}</div>`;
+  });
+  html += '</div>';
+  const squadOrder = ['Competitors','Social Sellers'];
+  const sortedGroups = Object.keys(groups).sort((a,b)=>{
+    const ia = squadOrder.indexOf(a), ib = squadOrder.indexOf(b);
+    return (ia===-1?99:ia)-(ib===-1?99:ib);
+  });
+  if(!sortedGroups.length){
+    html += '<div class="cal-empty">No hay iniciativas con estos filtros.</div>';
+  }
+  sortedGroups.forEach(sq=>{
+    const icon = sq==='Competitors'?'&#128640;':'&#128241;';
+    html += `<div class="cal-group-label">${icon} ${esc(sq)} <span style="font-weight:400;color:var(--text-muted)">(${groups[sq].length})</span></div>`;
+    const sorted = groups[sq].sort((a,b)=>{
+      const am = parseFechaToMonths(a.fecha), bm = parseFechaToMonths(b.fecha);
+      const aMin = am.length?Math.min(...am):99, bMin = bm.length?Math.min(...bm):99;
+      return aMin-bMin;
+    });
+    sorted.forEach(d=>{
+      const months = parseFechaToMonths(d.fecha);
+      const cols = months.map(monthToCol);
+      const colSet = new Set(cols);
+      const statusCls = d.estado==='Done'?'st-done':d.estado==='On going'?'st-ongoing':d.estado==='Planning'?'st-planning':'st-backlog';
+      const barCls = d.tipo==='QW'?'cal-bar-qw':d.tipo==='PE'?'cal-bar-pe':'cal-bar-eb';
+      html += '<div class="cal-row">';
+      html += `<div class="cal-name"><div class="cal-name-title" onclick="openEdit(${d.id})">${esc(d.tarea)}</div><div class="cal-name-meta">${sqBadge(d.squad)} ${tipBadge(d.tipo)} ${estBadge(d.estado)}</div></div>`;
+      for(let c=0;c<6;c++){
+        const isCurrent = c===currentCol;
+        html += `<div class="cal-cell${isCurrent?' current':''}">`;
+        if(colSet.has(c)){
+          html += `<div class="cal-bar ${barCls} ${statusCls}"><div class="cal-tooltip"><strong>${esc(d.tarea)}</strong>${d.equipo?'&#128101; '+esc(d.equipo)+'<br>':''}${d.asignado?'&#128100; '+esc(d.asignado)+'<br>':''}&#128197; ${esc(d.fecha||'Sin fecha')}<br>${d.kpi?'&#127919; '+esc(d.kpi):''}</div></div>`;
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+    });
+  });
+  html += '</div>';
+  document.getElementById('calendarView').innerHTML = html;
+}
+
+['calFilterSquad','calFilterTipo','calFilterEstado'].forEach(id=>{
+  document.getElementById(id).addEventListener('change',renderCalendar);
+});
+
+/* ========== MATERIALS ========== */
+let materials = [];
+let editingMatId = null;
+let matRealtimeChannel = null;
+
+function getMatLocal(){
+  try{return JSON.parse(localStorage.getItem('squads_materials'))||[];}catch(e){return [];}
+}
+function saveMatLocal(){
+  if(!isOnline) localStorage.setItem('squads_materials',JSON.stringify(materials));
+}
+
+async function loadMaterials(){
+  if(isOnline && db){
+    try{
+      const {data:rows,error} = await db.from('materials').select('*').order('id');
+      if(!error && rows){ materials = rows; subscribeMatRealtime(); return; }
+    }catch(e){ console.warn('Materials table may not exist:',e); }
+  }
+  materials = getMatLocal();
+}
+
+function subscribeMatRealtime(){
+  if(!db || matRealtimeChannel) return;
+  matRealtimeChannel = db.channel('materials-changes')
+    .on('postgres_changes',{event:'*',schema:'public',table:'materials'},async()=>{
+      try{
+        const {data:rows} = await db.from('materials').select('*').order('id');
+        if(rows){materials = rows; if(currentTab==='materiales') renderMaterials();}
+      }catch(e){}
+    })
+    .subscribe();
+}
+
+const MAT_ICONS = {
+  Video:{icon:'&#127909;',color:'var(--red)',bg:'var(--red-bg)'},
+  Landing:{icon:'&#127760;',color:'var(--blue)',bg:'var(--blue-bg)'},
+  Blog:{icon:'&#9997;',color:'var(--green)',bg:'var(--green-bg)'},
+  Checklist:{icon:'&#9745;',color:'var(--cyan)',bg:'var(--cyan-bg)'},
+  Ebook:{icon:'&#128214;',color:'var(--purple)',bg:'var(--purple-bg)'},
+  Ad:{icon:'&#127775;',color:'var(--amber)',bg:'var(--amber-bg)'},
+  Email:{icon:'&#9993;',color:'var(--pink)',bg:'var(--pink-bg)'},
+  Webinar:{icon:'&#127897;',color:'var(--accent)',bg:'var(--accent-bg)'},
+  Otro:{icon:'&#128196;',color:'var(--text-secondary)',bg:'var(--surface2)'}
+};
+
+function matStatusBadge(s){
+  if(s==='En producción') return '<span class="mat-status mat-status-prod">En producción</span>';
+  if(s==='Producido') return '<span class="mat-status mat-status-ready">Producido</span>';
+  if(s==='Live') return '<span class="mat-status mat-status-live">Live</span>';
+  return '';
+}
+
+function renderMaterials(){
+  const q = document.getElementById('matSearchInput').value.toLowerCase();
+  const fs = document.getElementById('matFilterSquad').value;
+  const ft = document.getElementById('matFilterTipo').value;
+  const fe = document.getElementById('matFilterEstado').value;
+  const filtered = materials.filter(m=>{
+    if(q && !((m.title||'').toLowerCase().includes(q)||(m.url||'').toLowerCase().includes(q)||(m.equipo||'').toLowerCase().includes(q)||(m.notas||'').toLowerCase().includes(q))) return false;
+    if(fs && m.squad!==fs) return false;
+    if(ft && m.tipo!==ft) return false;
+    if(fe && m.estado!==fe) return false;
+    return true;
+  });
+  const total = materials.length;
+  const prod = materials.filter(m=>m.estado==='En producción').length;
+  const ready = materials.filter(m=>m.estado==='Producido').length;
+  const live = materials.filter(m=>m.estado==='Live').length;
+  document.getElementById('matStats').innerHTML = `
+    <div class="mat-stat"><div class="mat-stat-val accent">${total}</div><div class="mat-stat-label">Total</div></div>
+    <div class="mat-stat"><div class="mat-stat-val" style="color:var(--amber)">${prod}</div><div class="mat-stat-label">En producción</div></div>
+    <div class="mat-stat"><div class="mat-stat-val" style="color:var(--green)">${ready}</div><div class="mat-stat-label">Producidos</div></div>
+    <div class="mat-stat"><div class="mat-stat-val" style="color:var(--blue)">${live}</div><div class="mat-stat-label">Live</div></div>`;
+  if(!filtered.length){
+    document.getElementById('matGrid').innerHTML = '<div class="mat-empty"><p>No hay materiales cargados aún. Hacé clic en "Nuevo material" para agregar el primero.</p></div>';
+    return;
+  }
+  document.getElementById('matGrid').innerHTML = filtered.map(m=>{
+    const ic = MAT_ICONS[m.tipo]||MAT_ICONS.Otro;
+    const linked = m.initiative_id?data.find(d=>d.id===m.initiative_id):null;
+    return `<div class="mat-card">
+      <div class="mat-card-header">
+        <div class="mat-card-icon" style="background:${ic.bg};color:${ic.color}">${ic.icon}</div>
+        <div class="mat-card-info">
+          <div class="mat-card-title">${esc(m.title)}</div>
+          ${m.url?`<a href="${esc(m.url)}" target="_blank" rel="noopener noreferrer" class="mat-card-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>${esc(m.url.replace(/^https?:\/\//,'').substring(0,40))}</a>`:''}
+        </div>
+      </div>
+      <div class="mat-card-meta">
+        <span class="mat-type-badge">${esc(m.tipo)}</span>
+        ${sqBadge(m.squad)}
+        ${matStatusBadge(m.estado)}
+      </div>
+      ${m.notas?`<div class="mat-card-detail">${esc(m.notas)}</div>`:''}
+      ${linked?`<div style="font-size:11px;color:var(--text-muted)">&#128279; ${esc(linked.tarea)}</div>`:''}
+      ${m.equipo?`<div style="font-size:11px;color:var(--text-secondary)">&#128101; ${esc(m.equipo)}</div>`:''}
+      <div class="mat-card-actions">
+        ${m.url?`<a href="${esc(m.url)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-ghost" style="text-decoration:none;justify-content:center">Abrir &#8599;</a>`:''}
+        <button class="btn btn-sm" onclick="openMatEdit(${m.id})">Editar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openMatModal(){
+  editingMatId = null;
+  document.getElementById('matModalTitle').textContent = 'Nuevo material';
+  document.getElementById('matBtnDelete').style.display = 'none';
+  ['matTitle','matUrl','matEquipo','matNotas'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('matTipo').value='Video';
+  document.getElementById('matSquad').value='Competitors';
+  document.getElementById('matEstado').value='En producción';
+  populateMatInitiatives();
+  document.getElementById('matInitiative').value='';
+  document.getElementById('matModalOverlay').classList.add('active');
+}
+
+function openMatEdit(id){
+  const m = materials.find(x=>x.id===id);
+  if(!m) return;
+  editingMatId = id;
+  document.getElementById('matModalTitle').textContent = 'Editar material';
+  document.getElementById('matBtnDelete').style.display = 'inline-flex';
+  document.getElementById('matTitle').value = m.title||'';
+  document.getElementById('matUrl').value = m.url||'';
+  document.getElementById('matTipo').value = m.tipo||'Otro';
+  document.getElementById('matSquad').value = m.squad||'Competitors';
+  document.getElementById('matEquipo').value = m.equipo||'';
+  document.getElementById('matEstado').value = m.estado||'En producción';
+  populateMatInitiatives();
+  document.getElementById('matInitiative').value = m.initiative_id||'';
+  document.getElementById('matNotas').value = m.notas||'';
+  document.getElementById('matModalOverlay').classList.add('active');
+}
+
+function closeMatModal(){document.getElementById('matModalOverlay').classList.remove('active');}
+
+function populateMatInitiatives(){
+  const sel = document.getElementById('matInitiative');
+  sel.innerHTML = '<option value="">— Sin vincular —</option>';
+  data.forEach(d=>{
+    sel.innerHTML += `<option value="${d.id}">${esc((d.squad||'')+': '+(d.tarea||'').substring(0,60))}</option>`;
+  });
+}
+
+async function saveMatItem(){
+  const obj = {
+    title: document.getElementById('matTitle').value.trim(),
+    url: document.getElementById('matUrl').value.trim(),
+    tipo: document.getElementById('matTipo').value,
+    squad: document.getElementById('matSquad').value,
+    equipo: document.getElementById('matEquipo').value.trim(),
+    estado: document.getElementById('matEstado').value,
+    initiative_id: document.getElementById('matInitiative').value?parseInt(document.getElementById('matInitiative').value):null,
+    notas: document.getElementById('matNotas').value.trim(),
+    updated_at: new Date().toISOString()
+  };
+  if(!obj.title){toast('Completá el nombre del material','var(--red)');return;}
+  if(isOnline && db){
+    try{
+      if(editingMatId!==null){
+        const{error}=await db.from('materials').update(obj).eq('id',editingMatId);
+        if(error) throw error;
+      }else{
+        const{error}=await db.from('materials').insert([obj]);
+        if(error) throw error;
+      }
+      const{data:rows}=await db.from('materials').select('*').order('id');
+      materials=rows||[];
+    }catch(e){
+      toast('Error: '+e.message,'var(--red)');return;
+    }
+  }else{
+    if(editingMatId!==null){
+      const idx=materials.findIndex(m=>m.id===editingMatId);
+      if(idx>=0) Object.assign(materials[idx],obj);
+    }else{
+      obj.id=materials.length?Math.max(...materials.map(m=>m.id))+1:1;
+      materials.push(obj);
+    }
+    saveMatLocal();
+  }
+  renderMaterials();closeMatModal();toast(editingMatId!==null?'Material actualizado':'Material creado');
+}
+
+async function deleteMatItem(){
+  if(editingMatId===null) return;
+  if(!confirm('¿Eliminar este material?')) return;
+  if(isOnline && db){
+    try{
+      const{error}=await db.from('materials').delete().eq('id',editingMatId);
+      if(error) throw error;
+      const{data:rows}=await db.from('materials').select('*').order('id');
+      materials=rows||[];
+    }catch(e){toast('Error: '+e.message,'var(--red)');return;}
+  }else{
+    materials=materials.filter(m=>m.id!==editingMatId);
+    saveMatLocal();
+  }
+  renderMaterials();closeMatModal();toast('Material eliminado','var(--red)');
+}
+
+['matSearchInput'].forEach(id=>{document.getElementById(id).addEventListener('input',renderMaterials);});
+['matFilterSquad','matFilterTipo','matFilterEstado'].forEach(id=>{document.getElementById(id).addEventListener('change',renderMaterials);});
+document.getElementById('matModalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeMatModal();});
+
+const _origShowMainApp = showMainApp;
+showMainApp = function(){
+  _origShowMainApp();
+  loadMaterials().then(()=>{ if(currentTab==='materiales') renderMaterials(); });
+};
 
 initApp();
 </script>
