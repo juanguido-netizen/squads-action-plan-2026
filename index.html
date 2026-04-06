@@ -212,6 +212,51 @@ tr.row-done td{opacity:.5}
 .cross-blocker{margin-top:4px;font-size:11px;padding:4px 10px;border-radius:6px;background:var(--red-bg);color:var(--red);display:inline-flex;align-items:center;gap:4px}
 .cross-need{margin-top:4px;font-size:11px;padding:4px 10px;border-radius:6px;background:var(--amber-bg);color:var(--amber);display:inline-flex;align-items:center;gap:4px}
 
+/* INTRO SECTION */
+.intro{margin-bottom:24px;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.intro-header{padding:20px 24px 16px;background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(168,85,247,.08));border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+.intro-header h2{font-size:16px;font-weight:700;display:flex;align-items:center;gap:10px}
+.intro-header h2 svg{width:20px;height:20px;color:var(--accent-light)}
+.intro-body{padding:20px 24px 24px}
+.intro-desc{font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:20px;max-width:900px}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.intro-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;transition:var(--transition)}
+.intro-card:hover{border-color:var(--border-light)}
+.intro-card-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.intro-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.intro-card-name{font-size:14px;font-weight:700}
+.intro-card-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.intro-pains{list-style:none;margin:0;padding:0}
+.intro-pains li{font-size:12px;color:var(--text-secondary);padding:4px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.4}
+.intro-pain-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;display:inline-block}
+.intro-pains li::before{display:none}
+.intro-obj{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.intro-obj-title{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
+.intro-obj-list{list-style:none;padding:0;margin:0}
+.intro-obj-list li{font-size:12px;color:var(--text);padding:3px 0;display:flex;align-items:center;gap:6px}
+.intro-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.intro-kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.intro-kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);font-weight:600}
+.intro-kpi-val{font-size:14px;font-weight:600;color:var(--text);margin-top:4px}
+
+/* PROGRESS BY TEAM */
+.team-progress{margin-top:20px;border-top:1px solid var(--border);padding-top:20px}
+.team-progress h3{font-size:14px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.tp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+.tp-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.tp-count{font-size:11px;color:var(--text-muted)}
+.tp-bar{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:6px}
+.tp-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.tp-stats{display:flex;gap:8px;margin-top:6px;font-size:10px;color:var(--text-muted)}
+
+/* CROSS-TEAM EDITABLE */
+.cross-actions{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.cross-item-actions{display:flex;gap:4px;margin-top:6px}
+.cross-item-actions button{padding:3px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);cursor:pointer;font-size:10px;transition:var(--transition)}
+.cross-item-actions button:hover{color:var(--text);border-color:var(--border-light)}
+.cross-item-actions button.del:hover{color:var(--red);border-color:var(--red)}
+
 /* NAV TABS */
 .nav-tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:4px;overflow-x:auto}
 .nav-tab{padding:10px 20px;border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border:none;background:none;transition:var(--transition);white-space:nowrap;display:flex;align-items:center;gap:8px}
@@ -314,6 +359,9 @@ tr.row-done td{opacity:.5}
   .mat-toolbar{flex-direction:column;align-items:stretch}
   .mat-grid{grid-template-columns:1fr}
   .mat-stats{grid-template-columns:repeat(2,1fr)}
+  .intro-grid{grid-template-columns:1fr}
+  .intro-kpis{grid-template-columns:1fr 1fr}
+  .tp-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -452,6 +500,82 @@ ALTER TABLE materials REPLICA IDENTITY FULL;</pre>
     </a>
   </div>
 
+  <!-- INTRO -->
+  <div class="intro" id="introSection">
+    <div class="intro-header" onclick="document.getElementById('introBody').style.display=document.getElementById('introBody').style.display==='none'?'':'none';this.querySelector('.toggle-icon').classList.toggle('open')">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        Contexto del Plan de Acción — Squads Acquisition Growth Argentina
+      </h2>
+      <span class="toggle-icon open" style="font-size:14px;color:var(--text-muted);transition:transform .2s">&#9660;</span>
+    </div>
+    <div class="intro-body" id="introBody">
+      <p class="intro-desc">
+        Este plan de acción es el resultado del diagnóstico profundo de dos segmentos clave de adquisición en Argentina. Se identificaron los dolores reales de cada perfil, se priorizaron iniciativas por impacto y esfuerzo, y se armó un roadmap Q1-Q2 2026 con equipos asignados. El objetivo: pasar de acciones genéricas a una estrategia basada en datos y dolores reales del merchant.
+      </p>
+      <div class="intro-grid">
+        <div class="intro-card">
+          <div class="intro-card-head">
+            <div class="intro-card-icon" style="background:var(--cyan-bg);color:var(--cyan)">&#128640;</div>
+            <div>
+              <div class="intro-card-name">Squad Competitors (Merchant Sellers)</div>
+              <div class="intro-card-sub">Merchants que ya venden en otra plataforma y podrían migrar a Tiendanube</div>
+            </div>
+          </div>
+          <ul class="intro-pains">
+            <li style="--dot:var(--red)"><span style="background:var(--red)" class="intro-pain-dot"></span>Migrar es un riesgo: puedo perder datos, tiempo y ventas</li>
+            <li><span style="background:var(--amber)" class="intro-pain-dot"></span>Llegué al techo: mi plataforma ya no me alcanza</li>
+            <li><span style="background:var(--blue)" class="intro-pain-dot"></span>Los costos me comen el margen y no son predecibles</li>
+            <li><span style="background:var(--purple)" class="intro-pain-dot"></span>Cuando tengo un problema, nadie me entiende</li>
+          </ul>
+          <div class="intro-obj">
+            <div class="intro-obj-title">Competidores mapeados</div>
+            <ul class="intro-obj-list">
+              <li>&#128313; <strong>Empretienda</strong> — Techo funcional, 65 diseños TN vs limitados ET</li>
+              <li>&#128313; <strong>Shopify</strong> — Creció +55% en búsquedas de marca. Pérdida más costosa en GMV</li>
+              <li>&#128313; <strong>WooCommerce</strong> — Costo oculto real (hosting + plugins + dev + tiempo)</li>
+              <li>&#128313; <strong>Tienda Negocio</strong> — Crecimiento en TikTok, audiencia joven</li>
+              <li>&#128313; <strong>Mercado Libre</strong> — Comisiones 13-36%, cierre MShops abre ventana</li>
+            </ul>
+          </div>
+        </div>
+        <div class="intro-card">
+          <div class="intro-card-head">
+            <div class="intro-card-icon" style="background:var(--pink-bg);color:var(--pink)">&#128241;</div>
+            <div>
+              <div class="intro-card-name">Squad Social Sellers</div>
+              <div class="intro-card-sub">Emprendedores que venden por Instagram, TikTok y WhatsApp sin tienda propia</div>
+            </div>
+          </div>
+          <ul class="intro-pains">
+            <li><span style="background:var(--red)" class="intro-pain-dot"></span>Una página? A mí no me sirve, yo vendo por Instagram</li>
+            <li><span style="background:var(--amber)" class="intro-pain-dot"></span>Yo cierro todo por WhatsApp, la tienda sola no me vende</li>
+            <li><span style="background:var(--blue)" class="intro-pain-dot"></span>Me da miedo formalizar</li>
+            <li><span style="background:var(--purple)" class="intro-pain-dot"></span>Me registré, entré y no entendí por dónde arrancar</li>
+            <li><span style="background:var(--green)" class="intro-pain-dot"></span>Armé la tienda y no entra nadie</li>
+          </ul>
+          <div class="intro-obj">
+            <div class="intro-obj-title">Datos clave del diagnóstico</div>
+            <ul class="intro-obj-list">
+              <li>&#128200; CVR trial → pago Social Sellers: <strong>8.1%</strong> (vs 13% general)</li>
+              <li>&#128200; 84% de SS trials son <strong>"Fantasma" o "Curioso"</strong> en modelo QL</li>
+              <li>&#128200; Solo 15% vuelve al admin post-día 1</li>
+              <li>&#128200; 55% dice que <strong>generar tráfico</strong> es su dolor #1</li>
+              <li>&#128200; El 5.6% "Determinado" convierte al <strong>64.2%</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="intro-kpis">
+        <div class="intro-kpi"><div class="intro-kpi-label">Foco estratégico</div><div class="intro-kpi-val">Dolor → Solución → Activación</div></div>
+        <div class="intro-kpi"><div class="intro-kpi-label">Clasificación</div><div class="intro-kpi-val">Quick Win · Extra-BAU · Propuesta Estratégica</div></div>
+        <div class="intro-kpi"><div class="intro-kpi-label">Horizonte</div><div class="intro-kpi-val">Q1-Q2 2026 (Marzo → Junio+)</div></div>
+        <div class="intro-kpi"><div class="intro-kpi-label">Priorización</div><div class="intro-kpi-val">Impacto × Esfuerzo × Urgencia</div></div>
+      </div>
+      <div class="team-progress" id="teamProgress"></div>
+    </div>
+  </div>
+
   <div class="stats" id="stats"></div>
 
   <!-- NAV TABS -->
@@ -532,6 +656,8 @@ ALTER TABLE materials REPLICA IDENTITY FULL;</pre>
         <select class="filter" id="calFilterSquad"><option value="">Todos los squads</option><option value="Competitors">Competitors</option><option value="Social Sellers">Social Sellers</option></select>
         <select class="filter" id="calFilterTipo"><option value="">Todos los tipos</option><option value="QW">Quick Win</option><option value="EB">Extra-BAU</option><option value="PE">Propuesta Estratégica</option></select>
         <select class="filter" id="calFilterEstado"><option value="">Todos los estados</option><option value="Backlog">Backlog</option><option value="Planning">Planning</option><option value="On going">On going</option><option value="Done">Done</option></select>
+        <select class="filter" id="calFilterEquipo"><option value="">Todos los equipos</option></select>
+        <select class="filter" id="calFilterDolor"><option value="">Todos los dolores</option></select>
       </div>
       <div class="cal-legend">
         <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--green)"></div>Quick Win</div>
@@ -574,6 +700,12 @@ ALTER TABLE materials REPLICA IDENTITY FULL;</pre>
       <span class="toggle-icon open" id="crossToggle">&#9660;</span>
     </div>
     <p class="cross-subtitle">Iniciativas que requieren coordinación, aprobación o trabajo de equipos fuera de Acquisition Growth. Identificadas a partir del diagnóstico de ambos squads.</p>
+    <div class="cross-actions">
+      <button class="btn btn-primary btn-sm" onclick="openCrossModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nueva dependencia
+      </button>
+    </div>
     <div id="crossGrid" class="cross-grid"></div>
   </div>
 </div>
@@ -797,6 +929,71 @@ ALTER TABLE materials REPLICA IDENTITY FULL;</pre>
       </button>
       <button class="btn" onclick="closeMatModal()">Cancelar</button>
       <button class="btn btn-primary" onclick="saveMatItem()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- CROSS-TEAM MODAL -->
+<div class="modal-overlay" id="crossModalOverlay">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h2 id="crossModalTitle">Nueva dependencia cross-equipo</h2>
+      <button class="modal-close" onclick="closeCrossModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Título de la iniciativa</label>
+          <input type="text" id="crossTitle" placeholder="Ej: Onboarding adaptado al perfil del SS">
+        </div>
+        <div class="form-group">
+          <label>Equipo externo</label>
+          <select id="crossTeam">
+            <option value="Product Growth">Product Growth</option>
+            <option value="Lifecycle & Nurturing">Lifecycle & Nurturing</option>
+            <option value="Brand & Comms">Brand & Comms</option>
+            <option value="Ecosistema & Partners">Ecosistema & Partners</option>
+            <option value="Data & Analytics">Data & Analytics</option>
+            <option value="Soporte & CX">Soporte & CX</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Squad</label>
+          <select id="crossSquad">
+            <option value="Social Sellers">Social Sellers</option>
+            <option value="Competitors">Competitors</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipo</label>
+          <select id="crossTipo">
+            <option value="QW">Quick Win (QW)</option>
+            <option value="EB">Extra-BAU (EB)</option>
+            <option value="PE">Propuesta Estratégica (PE)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>KPI</label>
+          <input type="text" id="crossKpi" placeholder="Ej: Completion rate onboarding SS">
+        </div>
+        <div class="form-group full">
+          <label>Detalle / Contexto</label>
+          <textarea id="crossDetail" placeholder="Descripción de la iniciativa y por qué depende de este equipo"></textarea>
+        </div>
+        <div class="form-group full">
+          <label>Necesidad específica del equipo externo</label>
+          <textarea id="crossNeed" placeholder="Qué se necesita de ellos exactamente" style="min-height:50px"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="crossBtnDelete" onclick="deleteCrossItem()" style="margin-right:auto;color:var(--red);display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+        Eliminar
+      </button>
+      <button class="btn" onclick="closeCrossModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveCrossItem()">Guardar</button>
     </div>
   </div>
 </div>
@@ -1054,12 +1251,16 @@ function renderStats(){
   const pl=data.filter(d=>d.estado==='Planning').length,bl=data.filter(d=>d.estado==='Backlog').length;
   const comp=data.filter(d=>d.squad==='Competitors').length,ss=data.filter(d=>d.squad==='Social Sellers').length;
   const qw=data.filter(d=>d.tipo==='QW').length,pct=t?Math.round((done/t)*100):0;
+  const noAssign=data.filter(d=>!d.asignado&&d.estado!=='Done'&&d.estado!=='Backlog').length;
+  const noDate=data.filter(d=>!d.fecha&&d.estado!=='Done').length;
+  const urgStuck=data.filter(d=>d.prioridad==='Urgente'&&d.estado==='Backlog').length;
   document.getElementById('stats').innerHTML=`
     <div class="stat-card"><div class="stat-label">Total iniciativas</div><div class="stat-value accent">${t}</div><div class="stat-detail">${comp} Competitors · ${ss} Social Sellers</div></div>
     <div class="stat-card"><div class="stat-label">En ejecución</div><div class="stat-value blue">${og}</div><div class="stat-detail">${pl} en planning</div></div>
     <div class="stat-card"><div class="stat-label">Completadas</div><div class="stat-value green">${done}</div><div class="stat-detail">${pct}% del total</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:var(--green)"></div></div></div>
     <div class="stat-card"><div class="stat-label">Quick Wins</div><div class="stat-value amber">${qw}</div><div class="stat-detail">${data.filter(d=>d.tipo==='QW'&&d.estado==='Done').length} completados</div></div>
-    <div class="stat-card"><div class="stat-label">Backlog</div><div class="stat-value purple">${bl}</div><div class="stat-detail">${data.filter(d=>d.prioridad==='Urgente').length} urgentes</div></div>`;
+    <div class="stat-card"><div class="stat-label">Backlog</div><div class="stat-value purple">${bl}</div><div class="stat-detail">${data.filter(d=>d.prioridad==='Urgente').length} urgentes</div></div>
+    <div class="stat-card"><div class="stat-label">&#9888; Atención</div><div class="stat-value" style="font-size:14px;color:var(--red)">${urgStuck?urgStuck+' urgente'+(urgStuck>1?'s':'')+' sin avanzar':''}</div><div class="stat-detail">${noAssign?'<span style="color:var(--amber)">'+noAssign+' activas sin asignar</span>':'&#10004; Todo asignado'}${noDate?' · <span style="color:var(--text-muted)">'+noDate+' sin fecha</span>':''}</div></div>`;
 }
 
 function renderTable(){
@@ -1153,7 +1354,7 @@ document.querySelectorAll('th[data-sort]').forEach(th=>{th.addEventListener('cli
 ['searchInput','filterSquad','filterTipo','filterEstado','filterPrioridad','filterEquipo','filterCompetidor','filterDolor'].forEach(id=>{document.getElementById(id).addEventListener(id==='searchInput'?'input':'change',render);});
 document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
 document.getElementById('settingsOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSettings();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSettings();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSettings();closeCrossModal();closeMatModal();}});
 
 const CROSS_TEAMS = [
   {
@@ -1239,26 +1440,164 @@ function toggleCross(){
   else{grid.style.display='none';icon.classList.remove('open');}
 }
 
+let crossData = [];
+let editingCrossIdx = null;
+
+function getCrossLocal(){try{return JSON.parse(localStorage.getItem('squads_cross_data'))||null;}catch(e){return null;}}
+function saveCrossLocal(){localStorage.setItem('squads_cross_data',JSON.stringify(crossData));}
+
+function initCrossData(){
+  const local = getCrossLocal();
+  if(local && local.length){crossData=local;return;}
+  crossData=[];
+  CROSS_TEAMS.forEach(t=>{
+    t.items.forEach(i=>{
+      crossData.push({id:crossData.length+1,team:t.team,title:i.title,squad:i.squad,tipo:i.tipo,detail:i.detail,need:i.need,kpi:i.kpi||''});
+    });
+  });
+  saveCrossLocal();
+}
+
+const CROSS_META={
+  'Product Growth':{icon:'&#9881;',color:'var(--purple)',bg:'var(--purple-bg)'},
+  'Lifecycle & Nurturing':{icon:'&#9993;',color:'var(--blue)',bg:'var(--blue-bg)'},
+  'Brand & Comms':{icon:'&#127908;',color:'var(--pink)',bg:'var(--pink-bg)'},
+  'Ecosistema & Partners':{icon:'&#128279;',color:'var(--cyan)',bg:'var(--cyan-bg)'},
+  'Data & Analytics':{icon:'&#128202;',color:'var(--green)',bg:'var(--green-bg)'},
+  'Soporte & CX':{icon:'&#128172;',color:'var(--amber)',bg:'var(--amber-bg)'},
+  'Otro':{icon:'&#128736;',color:'var(--text-secondary)',bg:'var(--surface2)'}
+};
+
 function renderCross(){
-  document.getElementById('crossGrid').innerHTML=CROSS_TEAMS.map(t=>`
-    <div class="cross-card">
+  const grouped={};
+  crossData.forEach(item=>{
+    if(!grouped[item.team]) grouped[item.team]=[];
+    grouped[item.team].push(item);
+  });
+  const order=['Product Growth','Lifecycle & Nurturing','Brand & Comms','Ecosistema & Partners','Data & Analytics','Soporte & CX','Otro'];
+  const sortedTeams=Object.keys(grouped).sort((a,b)=>(order.indexOf(a)===-1?99:order.indexOf(a))-(order.indexOf(b)===-1?99:order.indexOf(b)));
+  document.getElementById('crossGrid').innerHTML=sortedTeams.map(team=>{
+    const meta=CROSS_META[team]||CROSS_META['Otro'];
+    const items=grouped[team];
+    return `<div class="cross-card">
       <div class="cross-card-header">
-        <div class="cross-team-icon" style="background:${t.bg};color:${t.color}">${t.icon}</div>
-        <span class="cross-team-name">${t.team}</span>
-        <span class="cross-team-count">${t.items.length}</span>
+        <div class="cross-team-icon" style="background:${meta.bg};color:${meta.color}">${meta.icon}</div>
+        <span class="cross-team-name">${esc(team)}</span>
+        <span class="cross-team-count">${items.length}</span>
       </div>
-      ${t.items.map(i=>`<div class="cross-item">
+      ${items.map(i=>`<div class="cross-item">
         <div class="cross-item-title">${esc(i.title)}</div>
         <div class="cross-item-meta">${sqBadge(i.squad)} ${tipBadge(i.tipo)}</div>
         <div class="cross-item-detail">${esc(i.detail)}</div>
         <div class="cross-need">&#9888; ${esc(i.need)}</div>
+        ${i.kpi?`<div style="font-size:10px;color:var(--text-muted);margin-top:3px">&#127919; ${esc(i.kpi)}</div>`:''}
+        <div class="cross-item-actions">
+          <button onclick="openCrossEdit(${i.id})">Editar</button>
+          <button class="del" onclick="quickDeleteCross(${i.id})">Eliminar</button>
+        </div>
       </div>`).join('')}
-    </div>
-  `).join('');
+    </div>`;
+  }).join('')||(crossData.length===0?'<div class="cal-empty">No hay dependencias cross-equipo. Hacé clic en "Nueva dependencia" para agregar.</div>':'');
+}
+
+function openCrossModal(){
+  editingCrossIdx=null;
+  document.getElementById('crossModalTitle').textContent='Nueva dependencia cross-equipo';
+  document.getElementById('crossBtnDelete').style.display='none';
+  ['crossTitle','crossDetail','crossNeed','crossKpi'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('crossTeam').value='Product Growth';
+  document.getElementById('crossSquad').value='Social Sellers';
+  document.getElementById('crossTipo').value='PE';
+  document.getElementById('crossModalOverlay').classList.add('active');
+}
+
+function openCrossEdit(id){
+  const item=crossData.find(x=>x.id===id);if(!item)return;
+  editingCrossIdx=id;
+  document.getElementById('crossModalTitle').textContent='Editar dependencia cross-equipo';
+  document.getElementById('crossBtnDelete').style.display='inline-flex';
+  document.getElementById('crossTitle').value=item.title||'';
+  document.getElementById('crossTeam').value=item.team||'Product Growth';
+  document.getElementById('crossSquad').value=item.squad||'Social Sellers';
+  document.getElementById('crossTipo').value=item.tipo||'PE';
+  document.getElementById('crossDetail').value=item.detail||'';
+  document.getElementById('crossNeed').value=item.need||'';
+  document.getElementById('crossKpi').value=item.kpi||'';
+  document.getElementById('crossModalOverlay').classList.add('active');
+}
+
+function closeCrossModal(){document.getElementById('crossModalOverlay').classList.remove('active');}
+
+function saveCrossItem(){
+  const obj={
+    team:document.getElementById('crossTeam').value,
+    title:document.getElementById('crossTitle').value.trim(),
+    squad:document.getElementById('crossSquad').value,
+    tipo:document.getElementById('crossTipo').value,
+    detail:document.getElementById('crossDetail').value.trim(),
+    need:document.getElementById('crossNeed').value.trim(),
+    kpi:document.getElementById('crossKpi').value.trim()
+  };
+  if(!obj.title){toast('Completá el título','var(--red)');return;}
+  if(editingCrossIdx!==null){
+    const idx=crossData.findIndex(x=>x.id===editingCrossIdx);
+    if(idx>=0) Object.assign(crossData[idx],obj);
+  }else{
+    obj.id=crossData.length?Math.max(...crossData.map(x=>x.id))+1:1;
+    crossData.push(obj);
+  }
+  saveCrossLocal();renderCross();closeCrossModal();
+  toast(editingCrossIdx!==null?'Dependencia actualizada':'Dependencia creada');
+}
+
+function deleteCrossItem(){
+  if(editingCrossIdx===null)return;
+  if(!confirm('¿Eliminar esta dependencia?'))return;
+  crossData=crossData.filter(x=>x.id!==editingCrossIdx);
+  saveCrossLocal();renderCross();closeCrossModal();toast('Dependencia eliminada','var(--red)');
+}
+
+function quickDeleteCross(id){
+  if(!confirm('¿Eliminar esta dependencia cross-equipo?'))return;
+  crossData=crossData.filter(x=>x.id!==id);
+  saveCrossLocal();renderCross();toast('Dependencia eliminada','var(--red)');
+}
+
+document.getElementById('crossModalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeCrossModal();});
+
+function renderTeamProgress(){
+  const teams={};
+  data.forEach(d=>{
+    (d.equipo||'').split(',').map(s=>s.trim()).filter(Boolean).forEach(t=>{
+      if(!teams[t]) teams[t]={total:0,done:0,ongoing:0,planning:0};
+      teams[t].total++;
+      if(d.estado==='Done') teams[t].done++;
+      else if(d.estado==='On going') teams[t].ongoing++;
+      else if(d.estado==='Planning') teams[t].planning++;
+    });
+  });
+  const sorted=Object.entries(teams).sort((a,b)=>b[1].total-a[1].total);
+  if(!sorted.length) return;
+  const colors=['var(--accent-light)','var(--cyan)','var(--green)','var(--amber)','var(--pink)','var(--purple)','var(--blue)','var(--red)'];
+  document.getElementById('teamProgress').innerHTML=`
+    <h3>&#128101; Carga por equipo</h3>
+    <div class="tp-grid">${sorted.map(([name,s],i)=>{
+      const pct=s.total?Math.round((s.done/s.total)*100):0;
+      const c=colors[i%colors.length];
+      return `<div class="tp-card">
+        <div class="tp-name">${esc(name)} <span class="tp-count">${s.total} iniciativas</span></div>
+        <div class="tp-bar"><div class="tp-fill" style="width:${pct}%;background:${c}"></div></div>
+        <div class="tp-stats">
+          <span style="color:var(--green)">&#10004; ${s.done} done</span>
+          <span style="color:var(--blue)">&#9654; ${s.ongoing} ongoing</span>
+          <span style="color:var(--amber)">&#9998; ${s.planning} planning</span>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
 }
 
 const _origRender = render;
-render = function(){ _origRender(); renderCross(); };
+render = function(){ _origRender(); renderCross(); renderTeamProgress(); };
 
 /* ========== TAB SWITCHING ========== */
 let currentTab = 'iniciativas';
@@ -1313,14 +1652,33 @@ function monthToCol(m){
   return 5;
 }
 
+function populateCalFilters(){
+  const equipos=new Set(), dolores=new Set();
+  data.forEach(d=>{
+    (d.equipo||'').split(',').map(s=>s.trim()).filter(Boolean).forEach(s=>equipos.add(s));
+    if(d.dolor) dolores.add(d.dolor);
+  });
+  const eqSel=document.getElementById('calFilterEquipo');
+  const v1=eqSel.value;eqSel.innerHTML='<option value="">Todos los equipos</option>';
+  [...equipos].sort().forEach(e=>{eqSel.innerHTML+=`<option value="${esc(e)}">${esc(e)}</option>`;});eqSel.value=v1;
+  const dlSel=document.getElementById('calFilterDolor');
+  const v2=dlSel.value;dlSel.innerHTML='<option value="">Todos los dolores</option>';
+  [...dolores].sort().forEach(d=>{dlSel.innerHTML+=`<option value="${esc(d)}">${esc(d.length>50?d.substring(0,50)+'…':d)}</option>`;});dlSel.value=v2;
+}
+
 function renderCalendar(){
+  populateCalFilters();
   const fs = document.getElementById('calFilterSquad').value;
   const ft = document.getElementById('calFilterTipo').value;
   const fe = document.getElementById('calFilterEstado').value;
+  const fq = document.getElementById('calFilterEquipo').value;
+  const fd = document.getElementById('calFilterDolor').value;
   let items = data.filter(d=>{
     if(fs && d.squad!==fs) return false;
     if(ft && d.tipo!==ft) return false;
     if(fe && d.estado!==fe) return false;
+    if(fq && !(d.equipo||'').includes(fq)) return false;
+    if(fd && d.dolor!==fd) return false;
     return true;
   });
   const now = new Date();
@@ -1381,7 +1739,7 @@ function renderCalendar(){
   document.getElementById('calendarView').innerHTML = html;
 }
 
-['calFilterSquad','calFilterTipo','calFilterEstado'].forEach(id=>{
+['calFilterSquad','calFilterTipo','calFilterEstado','calFilterEquipo','calFilterDolor'].forEach(id=>{
   document.getElementById(id).addEventListener('change',renderCalendar);
 });
 
@@ -1595,6 +1953,7 @@ document.getElementById('matModalOverlay').addEventListener('click',e=>{if(e.tar
 const _origShowMainApp = showMainApp;
 showMainApp = function(){
   _origShowMainApp();
+  initCrossData();
   loadMaterials().then(()=>{ if(currentTab==='materiales') renderMaterials(); });
 };
 
