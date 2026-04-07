@@ -250,6 +250,20 @@ tr.row-done td{opacity:.5}
 .tp-fill{height:100%;border-radius:3px;transition:width .4s ease}
 .tp-stats{display:flex;gap:8px;margin-top:6px;font-size:10px;color:var(--text-muted)}
 
+/* GROUP BY TOGGLE */
+.group-toggle{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;flex-shrink:0}
+.group-toggle button{padding:6px 12px;border:none;background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:11px;transition:var(--transition);white-space:nowrap}
+.group-toggle button.active{background:var(--accent-bg);color:var(--accent-light);font-weight:600}
+.group-toggle button:hover:not(.active){background:var(--surface2);color:var(--text-secondary)}
+.group-toggle button+button{border-left:1px solid var(--border)}
+
+/* DOLOR GROUP HEADERS */
+.dolor-group-row td{background:var(--surface2)!important;padding:10px 14px!important;border-bottom:1px solid var(--border)!important}
+.dolor-group-label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text)}
+.dolor-group-label .dolor-icon{font-size:15px}
+.dolor-group-count{font-size:11px;color:var(--text-muted);background:var(--surface3);padding:2px 8px;border-radius:12px;margin-left:auto}
+.dolor-group-squads{display:flex;gap:4px;margin-left:8px}
+
 /* CROSS-TEAM EDITABLE */
 .cross-actions{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
 .cross-item-actions{display:flex;gap:4px;margin-top:6px}
@@ -610,6 +624,10 @@ ALTER TABLE materials REPLICA IDENTITY FULL;</pre>
       <select class="filter" id="filterCompetidor"><option value="">Competidor</option></select>
       <select class="filter" id="filterDolor"><option value="">Dolor</option></select>
     </div>
+    <div class="group-toggle">
+      <button class="active" id="groupByDolor" onclick="setGroupBy('dolor')">Por Dolor</button>
+      <button id="groupBySquad" onclick="setGroupBy('squad')">Por Squad</button>
+    </div>
     <div class="view-toggle">
       <button id="viewTable" class="active" onclick="setView('table')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
@@ -652,6 +670,10 @@ ALTER TABLE materials REPLICA IDENTITY FULL;</pre>
   <!-- TAB: CALENDARIO -->
   <div id="tabCalendario" class="tab-content">
     <div class="cal-controls">
+      <div class="group-toggle">
+        <button class="active" id="calGroupByDolor" onclick="setCalGroupBy('dolor')">Por Dolor</button>
+        <button id="calGroupBySquad" onclick="setCalGroupBy('squad')">Por Squad</button>
+      </div>
       <div class="cal-filter-group">
         <select class="filter" id="calFilterSquad"><option value="">Todos los squads</option><option value="Competitors">Competitors</option><option value="Social Sellers">Social Sellers</option></select>
         <select class="filter" id="calFilterTipo"><option value="">Todos los tipos</option><option value="QW">Quick Win</option><option value="EB">Extra-BAU</option><option value="PE">Propuesta Estratégica</option></select>
@@ -1086,6 +1108,8 @@ let currentView = 'table';
 let editingId = null;
 let isOnline = false;
 let realtimeChannel = null;
+let groupBy = 'dolor';
+let calGroupBy = 'dolor';
 
 function getConfig(){
   try{return JSON.parse(localStorage.getItem('squads_sb_config'))||null;}catch(e){return null;}
@@ -1263,19 +1287,58 @@ function renderStats(){
     <div class="stat-card"><div class="stat-label">&#9888; Atención</div><div class="stat-value" style="font-size:14px;color:var(--red)">${urgStuck?urgStuck+' urgente'+(urgStuck>1?'s':'')+' sin avanzar':''}</div><div class="stat-detail">${noAssign?'<span style="color:var(--amber)">'+noAssign+' activas sin asignar</span>':'&#10004; Todo asignado'}${noDate?' · <span style="color:var(--text-muted)">'+noDate+' sin fecha</span>':''}</div></div>`;
 }
 
+function setGroupBy(g){groupBy=g;document.getElementById('groupByDolor').classList.toggle('active',g==='dolor');document.getElementById('groupBySquad').classList.toggle('active',g==='squad');render();}
+function setCalGroupBy(g){calGroupBy=g;document.getElementById('calGroupByDolor').classList.toggle('active',g==='dolor');document.getElementById('calGroupBySquad').classList.toggle('active',g==='squad');renderCalendar();}
+
+const DOLOR_ICONS={'Los costos me comen el margen y no son predecibles':'\u{1F4B8}','Una página? A mí no me sirve, yo vendo por Instagram':'\u{1F4F1}','Yo cierro todo por WhatsApp, la tienda sola no me vende':'\u{1F4AC}','Me da miedo formalizar':'\u{1F628}','Me registré, entré y no entendí por dónde arrancar':'\u{1F914}','Armé la tienda y no entra nadie':'\u{1F6D2}','Es difícil / No tengo tiempo':'\u23F3','Llegué al techo: mi plataforma ya no me alcanza':'\u{1F4C8}','Aprendo a los ponchazos, nadie me enseñó':'\u{1F393}','Migrar es un riesgo: puedo perder datos, tiempo y ventas':'\u26A0\uFE0F'};
+const DOLOR_COLORS={'Los costos me comen el margen y no son predecibles':'var(--amber)','Una página? A mí no me sirve, yo vendo por Instagram':'var(--red)','Yo cierro todo por WhatsApp, la tienda sola no me vende':'var(--green)','Me da miedo formalizar':'var(--blue)','Me registré, entré y no entendí por dónde arrancar':'var(--purple)','Armé la tienda y no entra nadie':'var(--pink)','Es difícil / No tengo tiempo':'var(--text-muted)','Llegué al techo: mi plataforma ya no me alcanza':'var(--accent-light)','Aprendo a los ponchazos, nadie me enseñó':'var(--amber)','Migrar es un riesgo: puedo perder datos, tiempo y ventas':'var(--red)'};
+
 function renderTable(){
   const items=getFiltered();
   if(currentSort.field){items.sort((a,b)=>{let va=(a[currentSort.field]||'').toLowerCase(),vb=(b[currentSort.field]||'').toLowerCase();const po={urgente:0,alta:1,media:2,baja:3};if(currentSort.field==='prioridad'){va=po[va]??4;vb=po[vb]??4;return currentSort.asc?va-vb:vb-va;}const io={alto:0,medio:1,bajo:2};if(currentSort.field==='impacto'){va=io[va]??3;vb=io[vb]??3;return currentSort.asc?va-vb:vb-va;}if(va<vb)return currentSort.asc?-1:1;if(va>vb)return currentSort.asc?1:-1;return 0;});}
   document.getElementById('resultCount').textContent=`${items.length} de ${data.length}`;
   const tb=document.getElementById('tableBody');
   if(!items.length){tb.innerHTML='<tr><td colspan="11"><div class="empty-state"><p>No se encontraron iniciativas con estos filtros.</p></div></td></tr>';return;}
-  tb.innerHTML=items.map(d=>`<tr class="${d.estado==='Done'?'row-done':''}"><td>${sqBadge(d.squad)}</td><td><div class="task-name" onclick="openEdit(${d.id})">${esc(d.tarea)}</div>${d.competidor?`<div class="competitor-tag">${esc(d.competidor)}</div>`:''}${d.detalle?`<div class="task-detail">${esc(d.detalle)}</div>`:''}</td><td><div class="pain-tag">${esc(d.dolor||'—')}</div></td><td>${tipBadge(d.tipo)}</td><td>${priBadge(d.prioridad)}</td><td>${estBadge(d.estado)}</td><td><span class="badge-impact impact-${(d.impacto||'').toLowerCase()}">${esc(d.impacto||'—')}</span></td><td><span style="font-size:12px;color:var(--text-secondary)">${esc(d.equipo||'—')}</span></td><td>${d.asignado?`<span class="assignee"><span class="assignee-avatar">${d.asignado[0].toUpperCase()}</span>${esc(d.asignado)}</span>`:'<span style="color:var(--text-muted);font-size:12px">—</span>'}</td><td><span class="date-text">${esc(d.fecha||'—')}</span></td><td><span class="kpi-text">${esc(d.kpi||'—')}</span></td></tr>`).join('');
+  const row=d=>`<tr class="${d.estado==='Done'?'row-done':''}"><td>${sqBadge(d.squad)}</td><td><div class="task-name" onclick="openEdit(${d.id})">${esc(d.tarea)}</div>${d.competidor?`<div class="competitor-tag">${esc(d.competidor)}</div>`:''}${d.detalle?`<div class="task-detail">${esc(d.detalle)}</div>`:''}</td><td><div class="pain-tag">${esc(d.dolor||'—')}</div></td><td>${tipBadge(d.tipo)}</td><td>${priBadge(d.prioridad)}</td><td>${estBadge(d.estado)}</td><td><span class="badge-impact impact-${(d.impacto||'').toLowerCase()}">${esc(d.impacto||'—')}</span></td><td><span style="font-size:12px;color:var(--text-secondary)">${esc(d.equipo||'—')}</span></td><td>${d.asignado?`<span class="assignee"><span class="assignee-avatar">${d.asignado[0].toUpperCase()}</span>${esc(d.asignado)}</span>`:'<span style="color:var(--text-muted);font-size:12px">—</span>'}</td><td><span class="date-text">${esc(d.fecha||'—')}</span></td><td><span class="kpi-text">${esc(d.kpi||'—')}</span></td></tr>`;
+  if(groupBy==='dolor'){
+    const groups={};items.forEach(d=>{const k=d.dolor||'Sin dolor asignado';if(!groups[k])groups[k]=[];groups[k].push(d);});
+    let html='';
+    Object.keys(groups).sort().forEach(dolor=>{
+      const g=groups[dolor];
+      const icon=DOLOR_ICONS[dolor]||'\u{1F3AF}';
+      const color=DOLOR_COLORS[dolor]||'var(--text-muted)';
+      const done=g.filter(d=>d.estado==='Done').length;
+      const og=g.filter(d=>d.estado==='On going').length;
+      const squads=[...new Set(g.map(d=>d.squad).filter(Boolean))];
+      html+=`<tr class="dolor-group-row"><td colspan="11"><div class="dolor-group-label"><span class="dolor-icon">${icon}</span><span style="border-left:3px solid ${color};padding-left:8px">${esc(dolor)}</span><span class="dolor-group-squads">${squads.map(s=>sqBadge(s)).join('')}</span><span class="dolor-group-count">${g.length} iniciativas · ${done} done · ${og} en curso</span></div></td></tr>`;
+      g.forEach(d=>{html+=row(d);});
+    });
+    tb.innerHTML=html;
+  } else {
+    tb.innerHTML=items.map(d=>row(d)).join('');
+  }
 }
 
 function renderKanban(){
   const items=getFiltered();const cols=['Backlog','Planning','On going','Done'];
   const cc={Backlog:'var(--text-muted)',Planning:'var(--amber)','On going':'var(--blue)',Done:'var(--green)'};
-  document.getElementById('kanbanView').innerHTML=cols.map(col=>{const ci=items.filter(d=>d.estado===col);return`<div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-title"><span style="width:8px;height:8px;border-radius:50%;background:${cc[col]};display:inline-block"></span>${col}</div><span class="kanban-col-count">${ci.length}</span></div>${ci.length?ci.map(d=>`<div class="kanban-card" onclick="openEdit(${d.id})"><div class="kanban-card-meta">${sqBadge(d.squad)} ${tipBadge(d.tipo)} ${priBadge(d.prioridad)}</div><div class="kanban-card-title">${esc(d.tarea)}</div><div class="kanban-card-footer"><span>${d.asignado?`<span class="assignee"><span class="assignee-avatar">${d.asignado[0].toUpperCase()}</span>${esc(d.asignado)}</span>`:'Sin asignar'}</span><span>${esc(d.fecha||'')}</span></div></div>`).join(''):'<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px">Sin iniciativas</div>'}</div>`;}).join('');
+  const card=d=>`<div class="kanban-card" onclick="openEdit(${d.id})"><div class="kanban-card-meta">${sqBadge(d.squad)} ${tipBadge(d.tipo)} ${priBadge(d.prioridad)}</div><div class="kanban-card-title">${esc(d.tarea)}</div>${d.dolor&&groupBy==='dolor'?'':'<div style="font-size:10px;color:var(--text-muted);margin:2px 0">'+esc(d.dolor||'')+'</div>'}<div class="kanban-card-footer"><span>${d.asignado?`<span class="assignee"><span class="assignee-avatar">${d.asignado[0].toUpperCase()}</span>${esc(d.asignado)}</span>`:'Sin asignar'}</span><span>${esc(d.fecha||'')}</span></div></div>`;
+  document.getElementById('kanbanView').innerHTML=cols.map(col=>{
+    const ci=items.filter(d=>d.estado===col);
+    let content='';
+    if(!ci.length){content='<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px">Sin iniciativas</div>';}
+    else if(groupBy==='dolor'){
+      const dg={};ci.forEach(d=>{const k=d.dolor||'Sin dolor';if(!dg[k])dg[k]=[];dg[k].push(d);});
+      Object.keys(dg).sort().forEach(dolor=>{
+        const icon=DOLOR_ICONS[dolor]||'';
+        content+=`<div style="font-size:11px;font-weight:600;color:var(--text-secondary);padding:8px 4px 4px;border-bottom:1px solid var(--border);margin-bottom:4px">${icon} ${esc(dolor.length>45?dolor.substring(0,45)+'…':dolor)} <span style="color:var(--text-muted);font-weight:400">(${dg[dolor].length})</span></div>`;
+        content+=dg[dolor].map(d=>card(d)).join('');
+      });
+    } else {
+      content=ci.map(d=>card(d)).join('');
+    }
+    return`<div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-title"><span style="width:8px;height:8px;border-radius:50%;background:${cc[col]};display:inline-block"></span>${col}</div><span class="kanban-col-count">${ci.length}</span></div>${content}</div>`;
+  }).join('');
 }
 
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -1599,10 +1662,42 @@ function renderTeamProgress(){
 const _origRender = render;
 render = function(){ _origRender(); renderCross(); renderTeamProgress(); };
 
-/* ========== TAB SWITCHING ========== */
+/* ========== TAB SWITCHING + FILTER SYNC ========== */
 let currentTab = 'iniciativas';
+const FILTER_MAP = [
+  ['filterSquad','calFilterSquad'],
+  ['filterTipo','calFilterTipo'],
+  ['filterEstado','calFilterEstado'],
+  ['filterEquipo','calFilterEquipo'],
+  ['filterDolor','calFilterDolor']
+];
+
+function syncFiltersToCalendar(){
+  FILTER_MAP.forEach(([ini,cal])=>{
+    const src=document.getElementById(ini);
+    const dst=document.getElementById(cal);
+    if(src&&dst){
+      const opts=[...dst.options].map(o=>o.value);
+      if(opts.includes(src.value)) dst.value=src.value;
+    }
+  });
+}
+function syncFiltersToIniciativas(){
+  FILTER_MAP.forEach(([ini,cal])=>{
+    const src=document.getElementById(cal);
+    const dst=document.getElementById(ini);
+    if(src&&dst){
+      const opts=[...dst.options].map(o=>o.value);
+      if(opts.includes(src.value)) dst.value=src.value;
+    }
+  });
+}
+
 function switchTab(tab){
+  const prev=currentTab;
   currentTab = tab;
+  if(prev==='iniciativas'&&tab==='calendario') syncFiltersToCalendar();
+  if(prev==='calendario'&&tab==='iniciativas') syncFiltersToIniciativas();
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tabBtn'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
   document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
@@ -1610,6 +1705,7 @@ function switchTab(tab){
   if(tabEl) tabEl.classList.add('active');
   if(tab==='calendario') renderCalendar();
   if(tab==='materiales') renderMaterials();
+  if(tab==='iniciativas') render();
 }
 
 /* ========== CALENDAR ========== */
@@ -1686,9 +1782,9 @@ function renderCalendar(){
   const currentCol = monthToCol(currentMonth);
   const groups = {};
   items.forEach(d=>{
-    const sq = d.squad || 'Sin squad';
-    if(!groups[sq]) groups[sq]=[];
-    groups[sq].push(d);
+    const key = calGroupBy==='dolor'?(d.dolor||'Sin dolor asignado'):(d.squad||'Sin squad');
+    if(!groups[key]) groups[key]=[];
+    groups[key].push(d);
   });
   let html = '<div class="cal-grid">';
   html += '<div class="cal-header">';
@@ -1697,18 +1793,32 @@ function renderCalendar(){
     html += `<div class="cal-hcell${i===currentCol?' current':''}">${m.label}</div>`;
   });
   html += '</div>';
-  const squadOrder = ['Competitors','Social Sellers'];
-  const sortedGroups = Object.keys(groups).sort((a,b)=>{
-    const ia = squadOrder.indexOf(a), ib = squadOrder.indexOf(b);
-    return (ia===-1?99:ia)-(ib===-1?99:ib);
-  });
+  let sortedGroups;
+  if(calGroupBy==='dolor'){
+    sortedGroups = Object.keys(groups).sort();
+  } else {
+    const squadOrder = ['Competitors','Social Sellers'];
+    sortedGroups = Object.keys(groups).sort((a,b)=>{
+      const ia = squadOrder.indexOf(a), ib = squadOrder.indexOf(b);
+      return (ia===-1?99:ia)-(ib===-1?99:ib);
+    });
+  }
   if(!sortedGroups.length){
     html += '<div class="cal-empty">No hay iniciativas con estos filtros.</div>';
   }
-  sortedGroups.forEach(sq=>{
-    const icon = sq==='Competitors'?'&#128640;':'&#128241;';
-    html += `<div class="cal-group-label">${icon} ${esc(sq)} <span style="font-weight:400;color:var(--text-muted)">(${groups[sq].length})</span></div>`;
-    const sorted = groups[sq].sort((a,b)=>{
+  sortedGroups.forEach(gKey=>{
+    const gItems = groups[gKey];
+    let icon,label;
+    if(calGroupBy==='dolor'){
+      icon = DOLOR_ICONS[gKey]||'&#127919;';
+      label = gKey;
+    } else {
+      icon = gKey==='Competitors'?'&#128640;':'&#128241;';
+      label = gKey;
+    }
+    const squadsInGroup = calGroupBy==='dolor'?[...new Set(gItems.map(d=>d.squad).filter(Boolean))].map(s=>sqBadge(s)).join(' '):'';
+    html += `<div class="cal-group-label">${icon} ${esc(label)} <span style="font-weight:400;color:var(--text-muted)">(${gItems.length})</span> ${squadsInGroup}</div>`;
+    const sorted = gItems.sort((a,b)=>{
       const am = parseFechaToMonths(a.fecha), bm = parseFechaToMonths(b.fecha);
       const aMin = am.length?Math.min(...am):99, bMin = bm.length?Math.min(...bm):99;
       return aMin-bMin;
