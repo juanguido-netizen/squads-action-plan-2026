@@ -8,22 +8,24 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0b0e14;--surface:#12161f;--surface2:#1a1f2e;--surface3:#222839;
-  --border:#2a3042;--border-light:#353d54;
-  --text:#e8eaf0;--text-secondary:#8b92a8;--text-muted:#5c6378;
-  --accent:#6366f1;--accent-light:#818cf8;--accent-bg:rgba(99,102,241,.12);
-  --green:#22c55e;--green-bg:rgba(34,197,94,.12);
-  --amber:#f59e0b;--amber-bg:rgba(245,158,11,.12);
+  --bg:#0d1018;--surface:#141a24;--surface2:#1b2230;--surface3:#232b3d;
+  --border:#2e3548;--border-light:#3d455c;
+  --text:#eef0f6;--text-secondary:#9aa3bc;--text-muted:#6b728e;
+  --accent:#6366f1;--accent-light:#8b8fff;--accent-bg:rgba(99,102,241,.14);
+  --green:#22c55e;--green-bg:rgba(34,197,94,.14);
+  --amber:#f59e0b;--amber-bg:rgba(245,158,11,.14);
   --red:#ef4444;--red-bg:rgba(239,68,68,.12);
-  --blue:#3b82f6;--blue-bg:rgba(59,130,246,.12);
-  --purple:#a855f7;--purple-bg:rgba(168,85,247,.12);
-  --cyan:#06b6d4;--cyan-bg:rgba(6,182,212,.12);
-  --pink:#ec4899;--pink-bg:rgba(236,72,153,.12);
-  --radius:10px;--radius-lg:14px;
-  --shadow:0 4px 24px rgba(0,0,0,.3);
+  --blue:#3b82f6;--blue-bg:rgba(59,130,246,.14);
+  --purple:#a855f7;--purple-bg:rgba(168,85,247,.14);
+  --cyan:#06b6d4;--cyan-bg:rgba(6,182,212,.14);
+  --pink:#ec4899;--pink-bg:rgba(236,72,153,.14);
+  --radius:12px;--radius-lg:16px;
+  --shadow:0 8px 32px rgba(0,0,0,.28);
+  --shadow-sm:0 2px 12px rgba(0,0,0,.2);
   --transition:all .2s ease;
+  --page-gradient:radial-gradient(1200px 600px at 10% -10%,rgba(99,102,241,.12),transparent 55%),radial-gradient(900px 500px at 100% 0%,rgba(236,72,153,.08),transparent 50%);
 }
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);background-image:var(--page-gradient);background-attachment:fixed;color:var(--text);line-height:1.5;min-height:100vh}
 a{color:var(--accent-light);text-decoration:none}
 a:hover{text-decoration:underline}
 .app{max-width:1440px;margin:0 auto;padding:20px 24px 60px}
@@ -55,8 +57,8 @@ a:hover{text-decoration:underline}
 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:24px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;transition:var(--transition)}
-.stat-card:hover{border-color:var(--border-light);transform:translateY(-1px)}
+.stat-card{background:linear-gradient(165deg,var(--surface2) 0%,var(--surface) 100%);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;transition:var(--transition);box-shadow:var(--shadow-sm)}
+.stat-card:hover{border-color:rgba(99,102,241,.35);transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.25)}
 .stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:6px}
 .stat-value{font-size:28px;font-weight:700;letter-spacing:-.5px}
 .stat-detail{font-size:12px;color:var(--text-secondary);margin-top:4px}
@@ -85,7 +87,7 @@ select.filter option{background:var(--surface2);color:var(--text)}
 .view-toggle svg{width:14px;height:14px}
 
 /* TABLE */
-.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface)}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);box-shadow:var(--shadow-sm)}
 table{width:100%;border-collapse:collapse;font-size:13px}
 thead{position:sticky;top:0;z-index:2}
 th{background:var(--surface2);padding:10px 14px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
@@ -272,13 +274,33 @@ tr.row-done td{opacity:.5}
 .cross-item-actions button.del:hover{color:var(--red);border-color:var(--red)}
 
 /* NAV TABS */
-.nav-tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:4px;overflow-x:auto}
-.nav-tab{padding:10px 20px;border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border:none;background:none;transition:var(--transition);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.nav-tabs{display:flex;gap:6px;margin-bottom:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:6px;overflow-x:auto;box-shadow:var(--shadow-sm)}
+.nav-tab{padding:10px 18px;border-radius:10px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border:none;background:none;transition:var(--transition);white-space:nowrap;display:flex;align-items:center;gap:8px}
 .nav-tab:hover{color:var(--text-secondary);background:var(--surface2)}
-.nav-tab.active{background:var(--accent-bg);color:var(--accent-light);font-weight:600}
+.nav-tab.active{background:var(--accent-bg);color:var(--accent-light);font-weight:600;box-shadow:inset 0 0 0 1px rgba(99,102,241,.25)}
 .nav-tab svg{width:16px;height:16px}
 .tab-content{display:none}
 .tab-content.active{display:block}
+
+/* TAB: MENSAJES / PLAYBOOK */
+.msg-intro{max-width:820px;margin-bottom:22px;padding:16px 18px;border-radius:var(--radius-lg);background:var(--surface2);border:1px solid var(--border);font-size:14px;color:var(--text-secondary);line-height:1.55}
+.msg-playbook-wrap{display:flex;flex-direction:column;gap:28px}
+.msg-seg{display:flex;flex-direction:column;gap:14px}
+.msg-seg-h{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:-.02em}
+.msg-seg-h .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.msg-seg-h.ms .dot{background:linear-gradient(135deg,#5ecf8a,#2d8a54)}
+.msg-seg-h.ss .dot{background:linear-gradient(135deg,#ff8c66,#ec4899)}
+.msg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.msg-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;transition:var(--transition);box-shadow:var(--shadow-sm)}
+.msg-card:hover{border-color:rgba(99,102,241,.35);transform:translateY(-2px)}
+.msg-pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:10px}
+.msg-pill.ms{background:rgba(94,207,138,.12);color:#8ee4a8;border:1px solid rgba(94,207,138,.28)}
+.msg-pill.ss{background:rgba(255,140,102,.12);color:#ffc8b8;border:1px solid rgba(255,140,102,.3)}
+.msg-card h3{font-size:14px;font-weight:600;margin-bottom:8px;line-height:1.35;color:var(--text)}
+.msg-racional{font-size:13px;color:var(--text-secondary);margin-bottom:10px;line-height:1.45}
+.msg-racional strong{color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.msg-rtb{font-size:13px;font-style:italic;color:var(--text);line-height:1.45;padding:12px 14px;border-radius:10px;border-left:3px solid var(--accent-light);background:rgba(0,0,0,.2)}
+.msg-foot{font-size:12px;color:var(--text-muted);margin-top:8px}
 
 /* CALENDAR */
 .cal-controls{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
@@ -716,6 +738,10 @@ ALTER TABLE feedback REPLICA IDENTITY FULL;</pre>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v-2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
       Entrevistas
     </button>
+    <button class="nav-tab" onclick="switchTab('mensajes')" id="tabBtnMensajes">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Mensajes TN
+    </button>
   </div>
 
   <!-- TAB: INICIATIVAS -->
@@ -840,6 +866,96 @@ ALTER TABLE feedback REPLICA IDENTITY FULL;</pre>
     </div>
     <div id="intGrid" class="interview-grid"></div>
     <div id="intInsights" class="insights-panel"></div>
+  </div>
+
+  <!-- TAB: MENSAJES TN (deck 20 min) -->
+  <div id="tabMensajes" class="tab-content">
+    <p class="msg-intro">Resumen del storytelling <strong>dolor → racional → mensaje Tiendanube</strong> alineado a la presentación Squads (Merchant Sellers + Social Sellers). Sirve como guía rápida al priorizar iniciativas y copies.</p>
+    <div class="msg-playbook-wrap">
+      <section class="msg-seg" aria-labelledby="msg-ms-h">
+        <h2 class="msg-seg-h ms" id="msg-ms-h"><span class="dot" aria-hidden="true"></span> Merchant Sellers (Competitors)</h2>
+        <div class="msg-grid">
+          <article class="msg-card">
+            <span class="msg-pill ms">Tier 1 · Migración</span>
+            <h3>Migrar es un riesgo: puedo perder datos, tiempo y ventas</h3>
+            <p class="msg-racional"><strong>Racional</strong> — El costo percibido de migrar (miedo al downtime y pérdida de datos) es el principal detractor.</p>
+            <p class="msg-rtb">&ldquo;Migrar no es empezar de cero. Automágico importa tu catálogo completo vía API. LitExtension migra productos, clientes e historial desde cualquier plataforma. Podés operar en paralelo mientras migrás: cero downtime. CeCe Piume migró de Empretienda en un día y no perdió ni una venta.&rdquo;</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ms">Tier 1 · Techo</span>
+            <h3>Llegué al techo: mi plataforma ya no me alcanza</h3>
+            <p class="msg-racional"><strong>Racional</strong> — Falta de herramientas avanzadas de marketing, upsell y automatización en plataformas de entrada.</p>
+            <p class="msg-rtb">&ldquo;Tu negocio creció, tu plataforma no. Tiendanube tiene +200 apps, 65+ diseños, automatizaciones de carrito abandonado y Marketing Nube ($169M USD en ventas asistidas). Strawberry Style migró de Empretienda y escaló su operación completa. Cuando tu negocio pide más, Tiendanube responde.&rdquo;</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ms">Tier 2 · Costos</span>
+            <h3>Los costos me comen el margen y no son predecibles</h3>
+            <p class="msg-racional"><strong>Racional</strong> — Los costos no percibidos y las comisiones altas impactan la rentabilidad del merchant.</p>
+            <p class="msg-rtb">&ldquo;WooCommerce es &lsquo;gratis&rsquo; hasta que sumás hosting + plugins + desarrollo + parches. En Tiendanube pagás en pesos, sabés exactamente cuánto te cuesta, y con Pago Nube ahorrás 21.6% en procesamiento. Sin sorpresas.&rdquo;</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ms">Tier 2 · Soporte</span>
+            <h3>Cuando tengo un problema, nadie me entiende</h3>
+            <p class="msg-racional"><strong>Racional</strong> — Necesidad de un socio que entienda la complejidad logística, fiscal y de pagos en Argentina.</p>
+            <p class="msg-rtb">Tiendanube tiene soporte humano 24/7 en tu idioma, que entiende tu operación. Pago Nube, Envío Nube y Marketing Nube no están adaptados para Argentina: son nativos. Cuando algo falla, lo resolvemos juntos.</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ms">Tier 3 · Tráfico</span>
+            <h3>Tengo la tienda pero no logro vender: no genero tráfico ni convierto</h3>
+            <p class="msg-racional"><strong>Racional</strong> — Manejan la operación, pero les falta conocimiento en estrategias de marketing para generar tráfico propio.</p>
+            <p class="msg-rtb">&ldquo;TN no es solo tu tienda — es tu escuela de negocios. Calculá tus costos, aprendé a hacer marketing, y accedé a expertos que ya pasaron por donde estás.&rdquo;</p>
+          </article>
+        </div>
+      </section>
+      <section class="msg-seg" aria-labelledby="msg-ss-h">
+        <h2 class="msg-seg-h ss" id="msg-ss-h"><span class="dot" aria-hidden="true"></span> Social Sellers</h2>
+        <div class="msg-grid">
+          <article class="msg-card">
+            <span class="msg-pill ss">Tier 1 · Instagram</span>
+            <h3>Una página? A mí no me sirve, yo vendo por Instagram</h3>
+            <p class="msg-racional"><strong>Racional</strong> — La tienda se percibe como costo; CVR muy bajo en &ldquo;ya vendo en redes&rdquo;. Muchos ven Tiendanube solo para negocios más grandes.</p>
+            <p class="msg-rtb">&ldquo;Tiendanube no es una página web — es la infraestructura detrás de tu negocio en redes. Es tu catálogo, tu cobro y tu envío, todo integrado a tus redes. Experiencia Sabia empezó igual que vos. Vendé más por redes sociales con menos esfuerzo.&rdquo;</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ss">Tier 2 · Tiempo</span>
+            <h3>Es difícil / No tengo tiempo</h3>
+            <p class="msg-racional"><strong>Racional</strong> — No puede parar WA/IG; setup percibido largo; poco retorno al admin. No se percibe el valor real de tener una tienda en términos de ahorro de tiempo con automatizaciones y procesos ya estandarizados.</p>
+            <p class="msg-rtb">&ldquo;No necesitás saber de tecnología. Miles de emprendedores como vos ya lo hicieron — y si necesitás una mano, te ayudamos a armarlo.&rdquo;</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ss">Tier 2 · WhatsApp</span>
+            <h3>Yo cierro todo por WhatsApp, la tienda sola no me vende</h3>
+            <p class="msg-racional"><strong>Racional</strong> — Venta consultiva; el checkout solo no replica el cierre.</p>
+            <p class="msg-rtb">&ldquo;Tu tienda no reemplaza a WhatsApp — lo potencia. Catálogo profesional + link de pago + envío resuelto. Vos seguí cerrando por WA, nosotros nos encargamos del resto.&rdquo;</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ss">Tier 3 · Formalizar</span>
+            <h3>Me da miedo formalizar</h3>
+            <p class="msg-racional"><strong>Racional</strong> — ARCA/AFIP como barrera emocional; abandono antes de pagos.</p>
+            <p class="msg-rtb">&ldquo;Empezá gratis, sin compromiso. Cuando estés lista para formalizar, te acompañamos con guías y herramientas — a tu ritmo.&rdquo;</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ss">Tier 3 · Registro</span>
+            <h3>Me registré, entré y no entendí por dónde arrancar</h3>
+            <p class="msg-racional"><strong>Racional</strong> — Panel pensado para quien ya conoce e-commerce; caída fuerte post D1.</p>
+            <p class="msg-rtb">&ldquo;No estás solo. Si te trabaste, te ayudamos a terminar de armar tu tienda. Y si ya la armaste — mirá cómo quedó.&rdquo;</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ss">Tier 3 · Tráfico</span>
+            <h3>Armé la tienda y no entra nadie</h3>
+            <p class="msg-racional"><strong>Racional</strong> — El tráfico no llega solo; hay que conectar audiencia de redes con la tienda.</p>
+            <p class="msg-rtb">&ldquo;Ya tenés la audiencia — te falta conectarla. Con un link en tu bio y Marketing Nube, tus seguidores se convierten en clientes.&rdquo;</p>
+          </article>
+          <article class="msg-card">
+            <span class="msg-pill ss">Transversal · Aprendizaje</span>
+            <h3>Aprendo a los ponchazos, nadie me enseñó</h3>
+            <p class="msg-racional"><strong>Racional</strong> — Falta de conocimiento de negocio y de las herramientas del ecosistema; TN tiene recursos y educación que no llegan al perfil SS.</p>
+            <p class="msg-rtb">&ldquo;TN no es solo tu tienda — es tu escuela de negocios. Calculá tus costos, aprendé a hacer marketing, y accedé a expertos que ya pasaron por donde estás.&rdquo;</p>
+            <p class="msg-foot">Mensaje RTB alineado al plan de dolores (#7 en el sheet de diagnóstico).</p>
+          </article>
+        </div>
+      </section>
+    </div>
   </div>
 
   <!-- CROSS-TEAM DEPENDENCIES -->
@@ -1259,34 +1375,58 @@ const SEED_DATA = [
   {squad:"Competitors",competidor:"WooCommerce",tarea:"Migración Automágico + LitExtension desde WC",dolor:"Tengo la tienda pero no logro vender: no genero tráfico ni convierto",detalle:"Asegurar flujo de migración desde WC. Documentar y comunicar en LP + kit.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth, Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Migraciones completadas",estado:"Planning",fecha:"Marzo-Abril",asignado:"Ele"},
   {squad:"Competitors",competidor:"Mercado Libre",tarea:"Entrenamiento omnicanalidad + Mentores MELI",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Capacitar sellers ML sobre omnicanalidad. 55% no redirige tráfico a tienda propia.",tipo:"EB",prioridad:"Baja",equipo:"Affiliates, Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"Asistentes + NPs",estado:"Backlog",fecha:"Q3+",asignado:""},
   {squad:"Competitors",competidor:"Mercado Libre",tarea:"Fidelizar ERPs que trabajan con ML",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Acercarse a ERPs del ecosistema ML para posicionar TN como canal D2C complementario.",tipo:"EB",prioridad:"Baja",equipo:"Affiliates",impacto:"Medio",esfuerzo:"Medio",kpi:"Partners activos",estado:"Backlog",fecha:"Q3+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Ajustar LP /emprendedores/redes-sociales desde pains",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:'Reescribir hero, beneficios y FAQ con lenguaje de dolor. Priorizar Chat Nube.',tipo:"EB",prioridad:"Alta",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Medio",kpi:"Visitas + CVR LP",estado:"On going",fecha:"Marzo-Abril",asignado:"Kei"},
-  {squad:"Social Sellers",competidor:"",tarea:"Reescribir descripciones Chat Nube, Pago Nube, Envío Nube",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:'Pasar de "funcionalidades" a "problemas que resuelve" para el SS.',tipo:"EB",prioridad:"Media",equipo:"Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Visitas páginas producto",estado:"On going",fecha:"Marzo-Abril",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Video caso Experiencia Sabia (de WA a tienda + WA)",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"Producir video con ES: antes vendía solo por WA, ahora usa tienda + WA y factura más.",tipo:"EB",prioridad:"Alta",equipo:"Paid Media, Otros",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Backlog",fecha:"Q3+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Contenido caso CeCé o Strawberry Style",dolor:"Cuando tengo un problema, nadie me entiende",detalle:"Producir contenido sobre formalización + primeras ventas con tienda. Perspectiva real de merchant SS.",tipo:"EB",prioridad:"Alta",equipo:"Paid Media, Otros",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Backlog",fecha:"Q3+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Video corto dolor/solución para redes",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:'Piezas de 30-60s con hook para IG/TikTok. Con afiliados o merchants reales.',tipo:"EB",prioridad:"Alta",equipo:"Affiliates, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Engagement",estado:"Backlog",fecha:"Abril-Mayo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:'Serie blog "Lo que nadie te dice de emprender"',dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"3-4 artículos: formalización/monotributo, costos reales, envíos, primeras ventas.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Visitas + Descargas",estado:"On going",fecha:"Marzo-Abril",asignado:"Mati"},
-  {squad:"Social Sellers",competidor:"",tarea:"Ebook/checklist: guía de monotributo para emprendedores",dolor:"Cuando tengo un problema, nadie me entiende",detalle:"Descargable con paso a paso inscripción ARCA, categorías, facturación electrónica. Lead magnet.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Descargas + Leads",estado:"On going",fecha:"Abril-Mayo",asignado:"Agus"},
-  {squad:"Social Sellers",competidor:"",tarea:"Workshop presencial con Nati Kargel: armado tienda + primeras ventas",dolor:"Cuando tengo un problema, nadie me entiende",detalle:"1 jornada en oficina TN. De vender por IG/WA a tener tienda. ~15-20 asistentes.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Asistentes + Trials post",estado:"On going",fecha:"Marzo-Abril",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Webinar con experto fiscal: monotributo y ARCA",dolor:"Cuando tengo un problema, nadie me entiende",detalle:'"Todo lo que un emprendedor necesita saber para facturar."',tipo:"EB",prioridad:"Alta",equipo:"Affiliates, Paid Media, Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Asistentes + Leads",estado:"Backlog",fecha:"Q3+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:'Entrenamiento virtual "Primeras ventas online" (recurrente)',dolor:"Los costos me comen el margen y no son predecibles",detalle:"Formato mensual. Paso a paso: configurar tienda, subir productos, compartir link, primera venta.",tipo:"EB",prioridad:"Media",equipo:"Affiliates, Otros, Nurturing",impacto:"Medio",esfuerzo:"Medio",kpi:"Asistentes + Trials",estado:"Backlog",fecha:"Abril-Mayo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Diseñar secuencia nurturing email/WA por dolor para SS",dolor:"Los costos me comen el margen y no son predecibles",detalle:'Reemplazar secuencia actual por mensajes basados en dolores.',tipo:"EB",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Open rate + CVR trial→pago",estado:"Backlog",fecha:"Abril-Mayo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Flujo reactivación tiendas sin setup post-día 3",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"Email/WA automático a trials que no configuraron tienda después de 3 días.",tipo:"EB",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Tiendas reactivadas",estado:"Backlog",fecha:"Abril-Mayo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Secuencia WA/email a trials que no vuelven al admin",dolor:"Los costos me comen el margen y no son predecibles",detalle:"Contactar trials inactivos con mensajes basados en dolor.",tipo:"EB",prioridad:"Media",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Trials reactivados + CVR",estado:"Backlog",fecha:"Marzo-Abril",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Protocolo llamadas 15 min con especialistas",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Definir criterios, script de llamada, seguimiento. Para tiendas con potencial.",tipo:"EB",prioridad:"Media",equipo:"Nurturing, Affiliates, Otros",impacto:"Medio",esfuerzo:"Alto",kpi:"Llamadas + CVR",estado:"Backlog",fecha:"Q3+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Habilitar panel afiliados para contacto a tiendas inactivas",dolor:"Llegué al techo: mi plataforma ya no me alcanza",detalle:"Permitir que afiliados contacten por WA/DM a tiendas inactivas.",tipo:"EB",prioridad:"Media",equipo:"Affiliates",impacto:"Medio",esfuerzo:"Medio",kpi:"Tiendas contactadas + CVR",estado:"Backlog",fecha:"Q3+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:'Webinar "Cómo vender más por WA sin volverte loco"',dolor:"Los costos me comen el margen y no son predecibles",detalle:"Con afiliado experto en ventas conversacionales. Demo de Chat Nube como cierre.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Medio",kpi:"Asistentes + Leads + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Landing unbranded con afiliado para pains SS",dolor:"Los costos me comen el margen y no son predecibles",detalle:"Landing sin marca TN visible, con afiliado hablando de dolores. Pauta de Perf.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Medio",kpi:"Visitas + Leads + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Caipi Style: colaboración masterclass/podcast",dolor:"Los costos me comen el margen y no son predecibles",detalle:"Colaborar en masterclass o recorte de podcast para pauta.",tipo:"EB",prioridad:"Media",equipo:"Affiliates, Otros, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Leads",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Serie blog \"Lo que nadie te dice de emprender\" + ads",dolor:"Aprendo a los ponchazos, nadie me enseñó",detalle:"3-4 artículos: formalización/monotributo, costos reales, envíos, primeras ventas. Lenguaje directo, sin tecnicismos.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth, Paid Media",impacto:"Medio",esfuerzo:"Medio",kpi:"Visitas + Descargas",estado:"On going",fecha:"Q2",asignado:"Mati"},
+  {squad:"Social Sellers",competidor:"",tarea:"Protocolo llamadas 15 min con especialistas",dolor:"Me registré, entré y no entendí por dónde arrancar",detalle:"Definir criterios (>X seguidores IG, actividad WA), script de llamada, seguimiento. Para tiendas con potencial de conversión.",tipo:"EB",prioridad:"Media",equipo:"Nurturing, Affiliates, Otros",impacto:"Medio",esfuerzo:"Alto",kpi:"Llamadas + CVR",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Plan/pricing que reduzca barrera de entrada SS",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Cupones/promos, no pagar hasta primera venta, \"loja pronta\" (servicio creación tienda). Requiere Product/Pricing.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Trials → NPs SS",estado:"Backlog",fecha:"—",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Lead magnet: scripts de venta por WA + plantillas",dolor:"Aprendo a los ponchazos, nadie me enseñó",detalle:"Descargable con scripts probados de venta por WA + plantillas de respuestas rápidas. Pide WA como dato de contacto → nurturing SS.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth, Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"Descargas + Leads WA",estado:"Backlog",fecha:"Q2",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:"Video explicativo sobre uso de herramientas tipo simulador de costos",dolor:"Aprendo a los ponchazos, nadie me enseñó",detalle:"Refe: https://www.instagram.com/reel/DN518XQ3Fef/",tipo:"QW",prioridad:"Media",equipo:"Otros, Paid Media",impacto:"Medio",esfuerzo:"Medio",kpi:"—",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Flujo reactivación tiendas sin setup post-día 3",dolor:"Me registré, entré y no entendí por dónde arrancar",detalle:"Mapear los touchpoints actuales de nurturing (emails, WA), auditar cuáles son por feature (\"configurá tu envío\") vs. por dolor, y rediseñar la secuencia completa. ",tipo:"EB",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Tiendas reactivadas",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Auditar y reescribir títulos blogposts top SS",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Revisar top 10 posts del blog con tráfico SS. Ajustar títulos y metas a lenguaje conversacional/dolor.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Bajo",kpi:"CTR orgánico + Visitas",estado:"Planning",fecha:"Q2",asignado:"Mati"},
+  {squad:"Social Sellers",competidor:"",tarea:"Ajustar LP /emprendedores/redes-sociales desde pains",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Reescribir hero, beneficios y FAQ con lenguaje de dolor. Agregar sección \"¿Ya vendés por WA? → así te ayuda TN\". Priorizar Chat Nube.",tipo:"EB",prioridad:"Alta",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Medio",kpi:"Visitas + CVR LP",estado:"On going",fecha:"Q2",asignado:"Kei"},
+  {squad:"Social Sellers",competidor:"",tarea:"Reescribir descripciones Chat Nube, Pago Nube, Envío Nube",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"En páginas de producto: pasar de \"funcionalidades\" a \"problemas que resuelve\" para el SS. Ej: Chat Nube → \"dejá de contestar uno por uno\".",tipo:"EB",prioridad:"Media",equipo:"Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Visitas páginas producto",estado:"On going",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Video caso Experiencia Sabia (de WA a tienda + WA)",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Producir video con ES: antes vendía solo por WA, ahora usa tienda + WA y factura más. Hook dolor/solución.",tipo:"EB",prioridad:"Alta",equipo:"Paid Media, Otros",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Video corto dolor/solución para redes",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Piezas de 30-60s con hook \"vendía contestando 400 msgs y ahora...\" para IG/TikTok. Con afiliados o merchants reales.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Engagement",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Caipi Style: colaboración masterclass/podcast",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Caipi ya filma en oficinas TN, merchants la perciben como TN. Colaborar en masterclass o recorte de podcast para pauta.",tipo:"EB",prioridad:"Media",equipo:"Affiliates, Otros, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Leads",estado:"Backlog",fecha:"—",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Pautar keywords \"vender por WA con IA\" en Meta y Google",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Ventana de oportunidad corta. Keywords: \"vender por WhatsApp con IA\", \"automatizar ventas WA\". LP a blogpost + trial.",tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"Impresiones + CTR + Trials",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Ampliar blogpost con ángulo \"embudo de ventas\"",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Cómo pasar de chats sueltos a un embudo de ventas por WA. Chat Nube como pieza que conecta catálogo + pagos + envíos + IA.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Engagement",estado:"Backlog",fecha:"Q2",asignado:"Mire"},
+  {squad:"Social Sellers",competidor:"",tarea:"Video comparativa versión corta TikTok/Reels de la comparativa",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Recorte 60s del video largo con hook y CTA a trial. Para TikTok + IG Reels.",tipo:"QW",prioridad:"Media",equipo:"Affiliates, Otros, Paid Media",impacto:"Medio",esfuerzo:"Bajo",kpi:"Views + Trials",estado:"Planning",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Posts nuevos",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Analizar SI de kws como: cuanto cobra mercado libre por vender (sv ar: 320), tienda nube mercado libre (sv ar: 30), sincronizar tienda nube con mercado libre (sv ar: 20), automatizar whatsapp (sv ar: 30)",tipo:"QW",prioridad:"Media",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"—",estado:"Backlog",fecha:"Q3+",asignado:"Mire"},
+  {squad:"Social Sellers",competidor:"",tarea:"Historias de éxito de merchants migrados / y de los que pasaron de solo IG/redes a combinar con una tienda (Strawberry Style, CeCe Piume)",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Historias de éxito formato blog",tipo:"EB",prioridad:"Media",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"—",estado:"Backlog",fecha:"Q3+",asignado:"Mati"},
+  {squad:"Social Sellers",competidor:"",tarea:"Webinar \"Cómo vender más por WA sin volverte loco\"",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Con afiliado experto en ventas conversacionales. Demo de Chat Nube como cierre. Puede ser el primer challenge de Bet A.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Medio",kpi:"Asistentes + Leads + Trials",estado:"Planning",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Challenge SS cross-areas",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Estructura del challenge, temas por mes (6 meses), mecánica inscripción + seguimiento.",tipo:"PE",prioridad:"Alta",equipo:"Affiliates, Paid Media, Nurturing",impacto:"Alto",esfuerzo:"Alto",kpi:"—",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"A/B test landing dolor vs. feature",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Crear variante de /emprendedores/redes-sociales con enfoque dolor (\"contestar 400 msgs\") vs actual (features). Medir CVR a trial.",tipo:"QW",prioridad:"Alta",equipo:"Paid Media, Organic Growth",impacto:"Alto",esfuerzo:"Medio",kpi:"CVR LP a trial",estado:"Planning",fecha:"Q2",asignado:"Kei"},
+  {squad:"Social Sellers",competidor:"",tarea:"Ajustar Calculadora de tasas desde el dolor SS",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"En /herramientas/calculadora-de-tasas: agregar contexto \"¿cuánto te queda realmente?\" para SS que no sabe sus márgenes. Refe: calculadora MP.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Uso herramienta + Trials",estado:"Planning",fecha:"Q2",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:"Ajustar Calculadora de precio de venta para SS",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"En /herramientas/calculadora-precio-de-venta: agregar escenario \"vendo por WA/IG\" → cuánto debería cobrar incluyendo envío + comisión + impuestos.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Uso herramienta + Trials",estado:"Planning",fecha:"Q2",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:"Revisar \"Planilla para calcular costos de un producto\"",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"En /recursos: asegurar que el template incluya escenario venta por redes + envío + comisiones + monotributo. Ajustar si falta.",tipo:"QW",prioridad:"Media",equipo:"Organic Growth",impacto:"Bajo",esfuerzo:"Bajo",kpi:"Descargas recurso",estado:"Done",fecha:"Q2",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:"Agregar sección SS a ebook \"Hacks de IA para e-commerce\"",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"En /recursos: incluir cómo usar Chat Nube y herramientas IA para automatizar ventas por WA. Actualizar recurso existente.",tipo:"QW",prioridad:"Media",equipo:"Organic Growth",impacto:"Bajo",esfuerzo:"Bajo",kpi:"Descargas recurso",estado:"Backlog",fecha:"Q2",asignado:"Flor"},
+  {squad:"Social Sellers",competidor:"",tarea:"Reescribir emails de onboarding SS ",dolor:"Es difícil / No tengo tiempo",detalle:"Auditar y reescribir los 5 emails principales que reciben trials SS. Tono empático, no instructivo. Foco en valor, no en setup.",tipo:"QW",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Bajo",kpi:"Open rate + click rate",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Entrenamiento virtual \"Primeras ventas online\" (recurrente)",dolor:"Armé la tienda y no entra nadie",detalle:"Formato mensual. Paso a paso: configurar tienda, subir productos, compartir link, primera venta. Bajo costo operativo.",tipo:"EB",prioridad:"Media",equipo:"Affiliates, Otros, Nurturing",impacto:"Medio",esfuerzo:"Medio",kpi:"Asistentes + Trials",estado:"Backlog",fecha:"—",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Habilitar panel afiliados para contacto a tiendas inactivas",dolor:"Armé la tienda y no entra nadie",detalle:"Permitir que afiliados contacten por WA/DM a tiendas inactivas desde su panel ofreciendo acompañamiento.",tipo:"EB",prioridad:"Media",equipo:"Affiliates",impacto:"Medio",esfuerzo:"Medio",kpi:"Tiendas contactadas + CVR",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Modalidad catálogo + puente a WA",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Tienda sin checkout obligatorio con puente a WA para ventas consultivas. Form de preguntas pre-compra. Requiere Product Growth.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Uso catálogo + ventas WA",estado:"Backlog",fecha:"—",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Tutorial video: link de tienda en stories + bio IG",dolor:"Armé la tienda y no entra nadie",detalle:"Video corto mostrando cómo usar el link de la tienda en IG stories y bio para dirigir tráfico. Fácil de replicar.",tipo:"QW",prioridad:"Alta",equipo:"Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Ad demostrativo: flujo catálogo → WA → cierre",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Creativo para Meta mostrando flujo completo: cliente ve catálogo → consulta WA → paga con link → envío. Se puede usar Chat Nube en la demo.",tipo:"QW",prioridad:"Media",equipo:"Paid Media, Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"CTR + Trials",estado:"Backlog",fecha:"—",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Workshop presencial con Nati Kargel: armado tienda + primeras ventas (edición SS)",dolor:"Es difícil / No tengo tiempo",detalle:"1 jornada en oficina TN. Tema: de vender por IG/WA a tener tienda. Grabación para contenido posterior. ~15-20 asistentes.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Asistentes + Trials post",estado:"Done",fecha:"Q2",asignado:"Sol"},
+  {squad:"Social Sellers",competidor:"",tarea:"Diseñar secuencia completa de nurturing SS por dolor",dolor:"Es difícil / No tengo tiempo",detalle:"Contactar trials inactivos con mensajes basados en dolor: \"¿seguís contestando mensajes uno por uno?\" Link directo al admin.",tipo:"EB",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Trials reactivados + CVR",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Reescribir copies ads Meta/Google desde dolores SS",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Cambiar \"Creá tu tienda\" por hooks de dolor: \"¿Vendés por redes y no das más de contestar mensajes?\" Testear 3-5 variantes.",tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"CTR ads + Trials SS",estado:"On going",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Optimizar blogpost \"Catálogo online + WA: vendé más sin contestar uno por uno\"",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Artículo SEO explicando flujo catálogo → WA → cierre con Chat Nube. Posicionar modelo híbrido como legítimo. CTA a trial.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Trials",estado:"Done",fecha:"Q2",asignado:"Mati"},
+  {squad:"Social Sellers",competidor:"",tarea:"Video comparativa \"vender por redes vs. con tienda\" (YouTube)",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Video largo. Hook: \"¿Es mejor vender solo por redes o tener tienda?\" Conclusión: complementario. Keywords alto volumen.",tipo:"QW",prioridad:"Media",equipo:"Affiliates, Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Leads + Trials",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Ebook/checklist: guía de monotributo para emprendedores",dolor:"Me da miedo formalizar",detalle:"Descargable con paso a paso inscripción ARCA, categorías, facturación electrónica. CTA a trial. Lead magnet.",tipo:"EB",prioridad:"Media",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Descargas + Leads",estado:"On going",fecha:"Q2",asignado:"Agus"},
+  {squad:"Social Sellers",competidor:"",tarea:"Webinar con experto fiscal: monotributo y ARCA",dolor:"Me da miedo formalizar",detalle:"Webinar online con contador. \"Todo lo que un emprendedor necesita saber para facturar.\" Afiliado o experto externo. Pauta Perf.",tipo:"EB",prioridad:"Alta",equipo:"Affiliates, Paid Media, Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Asistentes + Leads",estado:"Backlog",fecha:"—",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Landing unbranded con afiliado para pains SS",dolor:"Me da miedo formalizar",detalle:"Landing sin marca TN visible, con afiliado hablando de dolores (AFIP/ARCA, formalización, envíos). Pauta de Perf. \"Si querés crecer, formalizar es inevitable\"",tipo:"EB",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Medio",kpi:"Visitas + Leads + Trials",estado:"Planning",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Blogpost \"Cómo automatizar ventas por WA con IA\"",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Capturar búsquedas del momento por lanzamiento WA Business AI. CTA a Chat Nube + trial. No nombrar producto de Meta.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Descargas + Trials",estado:"Planning",fecha:"Q2",asignado:"Mati"},
+  {squad:"Social Sellers",competidor:"",tarea:"Piloto red de asistentes para armado de tiendas SS",dolor:"Es difícil / No tengo tiempo",detalle:"Reclutar 5-10 freelancers/afiliados, capacitarlos con protocolo de asistencia (de cero a tienda publicada), medir tiendas completadas y CVR",tipo:"EB",prioridad:"Media",equipo:"Affiliates, Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"—",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Testimonial video/reel de merchant que formalizó y le fue bien",dolor:"Me da miedo formalizar",detalle:"Contenido corto con merchant real que tenía miedo a ARCA y hoy opera formalizada sin problemas. Hook emocional, no informativo. \"Yo también tenía miedo.",tipo:"QW",prioridad:"Media",equipo:"Paid Media, Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"—",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Guía práctica \"Marketing en $0 para tu tienda\" (IG orgánico + WA broadcast + link en bio)",dolor:"Armé la tienda y no entra nadie",detalle:"Contenido práctico: 5 acciones gratuitas que el SS puede hacer hoy con lo que ya tiene (seguidores, contactos WA, stories). No requiere inversión. ",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth, Otros",impacto:"Alto",esfuerzo:"Medio",kpi:"—",estado:"Backlog",fecha:"Q2",asignado:"-"},
+  {squad:"Social Sellers",competidor:"",tarea:" Flujo de registro/trial vía WhatsApp (WA-first onboarding)",dolor:"Es difícil / No tengo tiempo",detalle:"En vez de mandar al SS a una web, permitir que inicie el trial desde una conversación de WA",tipo:"EB",prioridad:"Media",equipo:"Nurturing, Paid Media",impacto:"Medio",esfuerzo:"Medio",kpi:"—",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Casos de uso reales de Chat Nube con resultados",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Mostrar Chat Nube + Tienda online para validar modelo de venta híbrido.",tipo:"QW",prioridad:"Media",equipo:"Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"—",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Serie de reels//carrusel  en IG sobre tráfico (Mkt Nube, Google Ads, Social)",dolor:"Armé la tienda y no entra nadie",detalle:"Contenido  tipo \"Enseñale a tu cliente por qué comprar en tu tienda\", para ayudar a los SS a educar a sus clientes ",tipo:"QW",prioridad:"Media",equipo:"Otros, Paid Media",impacto:"Medio",esfuerzo:"Medio",kpi:"—",estado:"Backlog",fecha:"Q3+",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Lead magnet \"5 tareas que podés automatizar\"",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"",tipo:"QW",prioridad:"Media",equipo:"Organic Growth, Paid Media",impacto:"Medio",esfuerzo:"Medio",kpi:"—",estado:"Backlog",fecha:"Q3+",asignado:"-"},
+  {squad:"Social Sellers",competidor:"",tarea:"Flujo Social seller end-to-end",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Flujo compuesto por 2/3 articulos con sus ladings y descargables, donde a través de nutrución y campaña ads convierta",tipo:"QW",prioridad:"Alta",equipo:"Nurturing, Paid Media",impacto:"Alto",esfuerzo:"Alto",kpi:"Payment",estado:"Planning",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Flujos webinar",dolor:"Me da miedo formalizar",detalle:"Flujos, broadcast e InAPP a Trials y/o base de datos, sobre webinar, (integrandolo al flujo central) ",tipo:"QW",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"Inscriptos al webinar - Payment",estado:"Backlog",fecha:"Q2",asignado:""},
+  {squad:"Social Sellers",competidor:"",tarea:"Trivias por whatsapp para descubrir su dolor y poder enviarles broadcast o flujos especificos",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Trivias de preguntas para ir conociendo y categorizando los dolores, de esa forma entender como nuestra base de social Seller está compuesta",tipo:"QW",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Alto",kpi:"Contactos por dolor",estado:"Backlog",fecha:"Q2",asignado:""},
   {squad:"Competitors",competidor:"Empretienda",tarea:'Bootcamp "Cómo migrar de ET/Shopify a TN"',dolor:"Los costos me comen el margen y no son predecibles",detalle:"Evento educativo con soporte de migración asistida. Formato grupal.",tipo:"PE",prioridad:"Baja",equipo:"Affiliates, Otros, Paid Media, Nurturing",impacto:"Alto",esfuerzo:"Alto",kpi:"Asistentes + NPs",estado:"Backlog",fecha:"Q3+",asignado:""},
   {squad:"Competitors",competidor:"Shopify",tarea:'Campaña "Pride Nacional" + casos alto GMV',dolor:"Los costos me comen el margen y no son predecibles",detalle:"Campaña institucional con merchants grandes que migraron.",tipo:"PE",prioridad:"Baja",equipo:"Paid Media, Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Brand awareness + Trials",estado:"Backlog",fecha:"Q2",asignado:""},
   {squad:"Competitors",competidor:"WooCommerce",tarea:'Narrativa "dejá de mantener, dedicate a vender"',dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Contenido posicionando TN como opción all-in-one vs costo oculto de WC.",tipo:"PE",prioridad:"Baja",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Bajo",kpi:"—",estado:"On going",fecha:"Abril-Mayo",asignado:"Mire"},
-  {squad:"Social Sellers",competidor:"",tarea:"Onboarding adaptado al perfil del SS",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:'Flujo diferenciado "¿ya vendés por redes?", optimización mobile. Requiere Product Growth.',tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Completion rate onboarding",estado:"Backlog",fecha:"Q2+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Modalidad catálogo + puente a WA",dolor:"Armé la tienda y no entra nadie",detalle:"Tienda sin checkout obligatorio con puente a WA para ventas consultivas. Requiere Product Growth.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Uso catálogo + ventas WA",estado:"Backlog",fecha:"Q2+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Inteligencia en el admin: plataforma guíe al merchant",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Detección de apps faltantes + notificaciones, chat IA en admin. Requiere Product Growth.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Engagement admin",estado:"Backlog",fecha:"Q2+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Plan/pricing que reduzca barrera de entrada SS",dolor:"Aprendo a los ponchazos, nadie me enseñó",detalle:'Cupones/promos, no pagar hasta primera venta, "loja pronta". Requiere Product/Pricing.',tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Trials → NPs SS",estado:"Backlog",fecha:"Q2+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Tiendanube Market (directorio de tiendas)",dolor:"Aprendo a los ponchazos, nadie me enseñó",detalle:"Directorio público de tiendas por categoría para generar tráfico a merchants.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Tráfico generado",estado:"Backlog",fecha:"Q2+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Herramientas generación contenido para redes desde productos",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Desde el admin, generar creativos para IG/TikTok a partir de fotos de producto.",tipo:"PE",prioridad:"Baja",equipo:"Otros",impacto:"Alto",esfuerzo:"Alto",kpi:"Uso herramienta",estado:"Backlog",fecha:"Q2+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Challenge SS cross-areas",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Estructura del challenge, temas por mes (6 meses), mecánica inscripción + seguimiento.",tipo:"PE",prioridad:"Alta",equipo:"Affiliates, Paid Media, Nurturing",impacto:"Alto",esfuerzo:"Medio",kpi:"",estado:"Backlog",fecha:"Q2",asignado:""},
   {squad:"Competitors",competidor:"Todos",tarea:"Campañas keywords competidores en Demand Gen",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:'Pautar keywords login/iniciar sesión de competidores en Demand Gen hacia LP migración.',tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"Impresiones + CTR + Trials",estado:"Backlog",fecha:"Q2",asignado:""},
   {squad:"Competitors",competidor:"Todos",tarea:"Bonos especiales para Afiliados migradores",dolor:"Me da miedo formalizar",detalle:"Incentivos diferenciados para afiliados que traigan tiendas que migran desde competidores.",tipo:"QW",prioridad:"Alta",equipo:"Affiliates",impacto:"Alto",esfuerzo:"Bajo",kpi:"NPs vía afiliados migradores",estado:"Backlog",fecha:"Q2",asignado:""},
   {squad:"Competitors",competidor:"Todos",tarea:"Actualizar LP de Migradores",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"LP actual solo compara ET y MShops. Agregar Shopify, WC, narrativa dolor/solución.",tipo:"QW",prioridad:"Media",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + CVR LP",estado:"Backlog",fecha:"Abril",asignado:"Kei"},
@@ -1302,24 +1442,6 @@ const SEED_DATA = [
   {squad:"Competitors",competidor:"Mercado Libre",tarea:"Tutoriales integrar ML con TN 2026",dolor:"Es difícil / No tengo tiempo",detalle:"Contenido sobre Astroselling/Ecomm-App para sellers ML.",tipo:"QW",prioridad:"Baja",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Bajo",kpi:"Views + Trials",estado:"Backlog",fecha:"Q3+",asignado:"Ele"},
   {squad:"Competitors",competidor:"Mercado Libre",tarea:"Flujo especializado trials marketplace + ERP",dolor:"Armé la tienda y no entra nadie",detalle:"Onboarding diferenciado para trials que vienen de ML.",tipo:"QW",prioridad:"Baja",equipo:"Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"Trials marketplace",estado:"Backlog",fecha:"Q3+",asignado:""},
   {squad:"Competitors",competidor:"Mercado Libre",tarea:"Migración Automágico desde MShops",dolor:"Armé la tienda y no entra nadie",detalle:"Flujo migración automatizada desde ex-Mercado Shops.",tipo:"QW",prioridad:"Baja",equipo:"Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Migraciones completadas",estado:"Backlog",fecha:"Q3+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Reescribir copies ads Meta/Google desde dolores SS",dolor:"Es difícil / No tengo tiempo",detalle:'Cambiar "Creá tu tienda" por hooks de dolor. Testear 3-5 variantes.',tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"CTR ads + Trials SS",estado:"Backlog",fecha:"Marzo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"A/B test landing dolor vs. feature",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Crear variante con enfoque dolor vs actual (features). Medir CVR a trial.",tipo:"QW",prioridad:"Alta",equipo:"Paid Media, Organic Growth",impacto:"Alto",esfuerzo:"Medio",kpi:"CVR LP a trial",estado:"Planning",fecha:"Abril-Mayo",asignado:"Kei"},
-  {squad:"Social Sellers",competidor:"",tarea:"Auditar y reescribir títulos blogposts top SS",dolor:"Me registré, entré y no entendí por dónde arrancar",detalle:"Revisar top 10 posts del blog con tráfico SS. Ajustar títulos y metas.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Bajo",kpi:"CTR orgánico + Visitas",estado:"Planning",fecha:"Abril-Mayo",asignado:"Mati"},
-  {squad:"Social Sellers",competidor:"",tarea:'Optimizar blogpost "Catálogo online + WA"',dolor:"Es difícil / No tengo tiempo",detalle:"Artículo SEO explicando flujo catálogo → WA → cierre con Chat Nube. CTA a trial.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Trials",estado:"On going",fecha:"Marzo-Abril",asignado:"Mati"},
-  {squad:"Social Sellers",competidor:"",tarea:"Tutorial video: link de tienda en stories + bio IG",dolor:"Armé la tienda y no entra nadie",detalle:"Video corto mostrando cómo usar el link de la tienda en IG stories y bio.",tipo:"QW",prioridad:"Alta",equipo:"Otros",impacto:"Medio",esfuerzo:"Medio",kpi:"Views + Trials",estado:"Backlog",fecha:"Marzo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Ad demostrativo: flujo catálogo → WA → cierre",dolor:"Armé la tienda y no entra nadie",detalle:"Creativo para Meta mostrando flujo completo. Chat Nube como cierre.",tipo:"QW",prioridad:"Alta",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Medio",kpi:"CTR + Trials",estado:"Backlog",fecha:"Marzo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Ajustar Calculadora de tasas desde el dolor SS",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:'Agregar contexto "¿cuánto te queda realmente?" para SS.',tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Uso herramienta + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:"Agus"},
-  {squad:"Social Sellers",competidor:"",tarea:"Ajustar Calculadora de precio de venta para SS",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:'Agregar escenario "vendo por WA/IG" → cuánto cobrar.',tipo:"QW",prioridad:"Alta",equipo:"Organic Growth",impacto:"Medio",esfuerzo:"Medio",kpi:"Uso herramienta + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:"Agus"},
-  {squad:"Social Sellers",competidor:"",tarea:'Revisar "Planilla para calcular costos de un producto"',dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Asegurar que el template incluya escenario venta por redes + envío + comisiones.",tipo:"QW",prioridad:"Media",equipo:"Organic Growth",impacto:"Bajo",esfuerzo:"Bajo",kpi:"Descargas recurso",estado:"Done",fecha:"Marzo",asignado:"Agus"},
-  {squad:"Social Sellers",competidor:"",tarea:'Agregar sección SS a ebook "Hacks de IA para e-commerce"',dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Incluir cómo usar Chat Nube y herramientas IA para automatizar ventas por WA.",tipo:"QW",prioridad:"Media",equipo:"Organic Growth",impacto:"Bajo",esfuerzo:"Bajo",kpi:"Descargas recurso",estado:"Backlog",fecha:"",asignado:"Flor"},
-  {squad:"Social Sellers",competidor:"",tarea:"Reescribir emails de onboarding SS (top 5)",dolor:"Yo cierro todo por WhatsApp, la tienda sola no me vende",detalle:"Auditar y reescribir los 5 emails principales que reciben trials SS.",tipo:"QW",prioridad:"Alta",equipo:"Nurturing",impacto:"Alto",esfuerzo:"Bajo",kpi:"Open rate + click rate",estado:"Backlog",fecha:"Marzo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:'Blogpost "Cómo automatizar ventas por WA con IA"',dolor:"Me da miedo formalizar",detalle:"Capturar búsquedas por lanzamiento WA Business AI. CTA a Chat Nube + trial.",tipo:"QW",prioridad:"Urgente",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Descargas + Trials",estado:"Planning",fecha:"Abril",asignado:"Mati"},
-  {squad:"Social Sellers",competidor:"",tarea:'Pautar keywords "vender por WA con IA" en Meta y Google',dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Ventana de oportunidad corta. LP a blogpost + trial.",tipo:"QW",prioridad:"Urgente",equipo:"Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"Impresiones + CTR + Trials",estado:"Backlog",fecha:"Inmediato",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:'Ampliar blogpost con ángulo "embudo de ventas"',dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Cómo pasar de chats sueltos a un embudo de ventas por WA.",tipo:"QW",prioridad:"Urgente",equipo:"Organic Growth",impacto:"Alto",esfuerzo:"Bajo",kpi:"Visitas + Engagement",estado:"Backlog",fecha:"Abril",asignado:"Mire"},
-  {squad:"Social Sellers",competidor:"",tarea:"Lead magnet: scripts de venta por WA + plantillas",dolor:"Aprendo a los ponchazos, nadie me enseñó",detalle:"Descargable con scripts probados de venta por WA + plantillas de respuestas rápidas.",tipo:"QW",prioridad:"Alta",equipo:"Organic Growth, Paid Media",impacto:"Alto",esfuerzo:"Bajo",kpi:"Descargas + Leads WA",estado:"Backlog",fecha:"Abril-Mayo",asignado:"Agus"},
-  {squad:"Social Sellers",competidor:"",tarea:'Video comparativa "vender por redes vs. con tienda" (YouTube)',dolor:"Es difícil / No tengo tiempo",detalle:'Video largo. Hook: "¿Es mejor vender solo por redes o tener tienda?"',tipo:"QW",prioridad:"Media",equipo:"Affiliates, Otros",impacto:"Alto",esfuerzo:"Medio",kpi:"Views + Leads + Trials",estado:"Backlog",fecha:"Q3+",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Versión corta TikTok/Reels de la comparativa",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Recorte 60s del video largo con hook y CTA a trial.",tipo:"QW",prioridad:"Media",equipo:"Affiliates, Otros",impacto:"Medio",esfuerzo:"Bajo",kpi:"Views + Trials",estado:"Planning",fecha:"Abril-Mayo",asignado:""},
-  {squad:"Social Sellers",competidor:"",tarea:"Posts nuevos SEO (keywords ML, WA, automatizar)",dolor:"Una página? A mí no me sirve, yo vendo por Instagram",detalle:"Analizar SI de kws como: cuanto cobra mercado libre, automatizar whatsapp.",tipo:"QW",prioridad:"",equipo:"Organic Growth",impacto:"",esfuerzo:"",kpi:"",estado:"Backlog",fecha:"Q3+",asignado:"Mire"},
   {squad:"",competidor:"",tarea:"Historias de éxito merchants migrados (Strawberry Style, CeCe Piume)",dolor:"Migrar es un riesgo: puedo perder datos, tiempo y ventas",detalle:"",tipo:"EB",prioridad:"",equipo:"Organic Growth",impacto:"",esfuerzo:"",kpi:"",estado:"Backlog",fecha:"Q3+",asignado:"Mati"}
 ];
 
