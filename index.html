@@ -2940,6 +2940,7 @@ function renderMsChart(months,share,searches){
         tooltip:{
           backgroundColor:'#1b2230',borderColor:'#2e3548',borderWidth:1,
           titleColor:'#eef0f6',bodyColor:'#9aa3bc',
+          itemSort:(a,b)=>b.parsed.y-a.parsed.y,
           callbacks:{label:c=>` ${c.dataset.label}: ${metric==='share'?c.parsed.y.toFixed(2)+'%':fmtK(c.parsed.y)}`}
         }
       },
