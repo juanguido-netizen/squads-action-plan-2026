@@ -1057,6 +1057,14 @@ ALTER TABLE feedback REPLICA IDENTITY FULL;</pre>
         </table>
         <p class="ms-note">* Fuente: cuestionario de onboarding (s__onboarding__questionnaire__event). Merchants que durante el signup indicaron usar esta plataforma previamente. Nov '25 dato parcial (solo Mercado Libre disponible ese mes).</p>
       </div>
+      <!-- CVR section -->
+      <div style="margin-top:24px">
+        <div style="margin-bottom:12px">
+          <h3 style="font-size:14px;font-weight:600;color:var(--text);margin:0 0 4px">CVR Trial → NP por plataforma de origen</h3>
+          <p style="font-size:12px;color:var(--text-muted);margin:0">Cohorts May '25–Abr '26 · % de trials que convirtieron a plan pago · Meses recientes tienen CVR más bajo por cohort aún madurando</p>
+        </div>
+        <div class="ms-chart-container"><canvas id="ccCvrChart"></canvas></div>
+      </div>
     </div>
   </div>
 
@@ -3045,8 +3053,19 @@ const CC_COLORS = {
   'Mercado Libre':'#f59e0b','Empretienda':'#ef4444','Shopify':'#22c55e',
   'WooCommerce':'#a855f7','Mercado Shops':'#3b82f6','Wix':'#06b6d4',
 };
+// CVR Trial→NP por cohort de signup (% de trials que convirtieron a pago)
+// Meses recientes tienen CVR más bajo porque el cohort no maduró aún
+const CC_CVR = {
+  'Mercado Libre': [25.6,26.4,25.7,24.6,24.4,23.1,18.7,18.8,16.6,12.3,12.3,7.6],
+  'Empretienda':   [20.2,21.4,22.4,20.8,19.1,19.0,null,11.4,11.6,9.0,12.7,6.0],
+  'Shopify':       [27.5,25.0,32.7,20.0,27.1,23.6,null,5.1,10.9,11.9,13.8,7.5],
+  'WooCommerce':   [42.8,34.4,35.2,29.1,37.1,38.0,null,22.2,18.8,21.9,25.9,10.7],
+  'Mercado Shops': [null,null,null,null,null,17.1,null,23.1,17.6,6.7,13.6,7.7],
+  'Wix':           [20.0,13.0,26.7,24.1,25.9,11.5,null,22.2,13.0,23.8,10.7,0.0],
+};
 let ccActiveBrands = Object.keys(CC_COLORS);
 let ccChartInstance = null;
+let ccCvrChartInstance = null;
 
 function renderCcKpis(){
   const last = CC_MONTHS.length - 1, prev = last - 1;
@@ -3153,8 +3172,54 @@ function toggleCcBrand(brand,on){
   renderCcChart();
 }
 
+function renderCcCvrChart(){
+  const ctx = document.getElementById('ccCvrChart');
+  if(!ctx) return;
+  if(ccCvrChartInstance){ccCvrChartInstance.destroy();ccCvrChartInstance=null;}
+  ccCvrChartInstance = new Chart(ctx,{
+    type:'line',
+    data:{
+      labels: CC_MONTHS.map(fmtMonth),
+      datasets: ccActiveBrands.filter(b=>CC_CVR[b]).map(brand=>({
+        label: brand,
+        data: CC_CVR[brand],
+        borderColor: CC_COLORS[brand],
+        backgroundColor: CC_COLORS[brand]+'22',
+        borderWidth:2,
+        pointRadius:3,
+        pointHoverRadius:5,
+        tension:0.3,
+        spanGaps:false,
+      }))
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#1b2230',borderColor:'#2e3548',borderWidth:1,
+          titleColor:'#eef0f6',bodyColor:'#9aa3bc',
+          itemSort:(a,b)=>b.parsed.y-a.parsed.y,
+          callbacks:{
+            label:c=>c.parsed.y==null?null:` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`,
+          }
+        }
+      },
+      scales:{
+        x:{grid:{color:'rgba(46,53,72,.4)'},ticks:{color:'#6b728e',font:{size:11}}},
+        y:{
+          grid:{color:'rgba(46,53,72,.4)'},
+          ticks:{color:'#6b728e',font:{size:11},callback:v=>v+'%'},
+          min:0,
+        }
+      }
+    }
+  });
+}
+
 function renderCompetitorCaptacion(){
-  renderCcKpis();renderCcChart();renderCcTable();renderCcBrandToggles();
+  renderCcKpis();renderCcChart();renderCcTable();renderCcBrandToggles();renderCcCvrChart();
 }
 
 async function saveMsData(){
