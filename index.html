@@ -1031,8 +1031,8 @@ ALTER TABLE feedback REPLICA IDENTITY FULL;</pre>
     <div style="margin-top:28px;border-top:1px solid var(--border);padding-top:24px">
       <div class="ms-header" style="margin-bottom:16px">
         <div>
-          <h2>Captación desde Competidores — Argentina</h2>
-          <p>Tiendas TN detectadas por crawler que también tienen presencia activa en plataformas competidoras · Ene 2025 – Abr 2026</p>
+          <h2>Origen de Plataforma en Signup — Argentina</h2>
+          <p>Trials/NPs que durante el signup indicaron venir de otra plataforma · May 2025 – Abr 2026 · Fuente: cuestionario de onboarding</p>
         </div>
       </div>
       <div class="ms-kpis" id="ccKpis"></div>
@@ -1055,7 +1055,7 @@ ALTER TABLE feedback REPLICA IDENTITY FULL;</pre>
           </tr></thead>
           <tbody id="ccTableBody"></tbody>
         </table>
-        <p class="ms-note">* Fuente: competitor crawler interno. Detecta tiendas TN activas simultáneamente en plataformas de la competencia. Incluye partial month Abr '26.</p>
+        <p class="ms-note">* Fuente: cuestionario de onboarding (s__onboarding__questionnaire__event). Merchants que durante el signup indicaron usar esta plataforma previamente. Nov '25 dato parcial (solo Mercado Libre disponible ese mes).</p>
       </div>
     </div>
   </div>
@@ -3030,49 +3030,54 @@ function openMsModal(){document.getElementById('msModal').classList.add('active'
 function closeMsModal(){document.getElementById('msModal').classList.remove('active');}
 
 /* ========== CAPTACIÓN DESDE COMPETIDORES ========== */
-const CC_MONTHS = ['2025-01','2025-02','2025-03','2025-04','2025-05','2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04'];
+// Fuente: data_product.s__onboarding__questionnaire__event · group_code='platform' · país AR · May 2025–Abr 2026
+// Nov 2025 tiene datos parciales (solo Mercado Libre registrado ese mes)
+const CC_MONTHS = ['2025-05','2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04'];
 const CC_DATA = {
-  'Shopify':        [9,2,14,12,12,15,20,16,19,19,8,18,24,16,16,18],
-  'Empretienda':    [8,1,3,10,8,5,10,9,8,6,5,2,6,6,7,8],
-  'WooCommerce':    [6,7,11,12,8,9,15,13,11,8,11,8,8,7,6,6],
-  'Tienda Negocio': [2,2,8,9,3,5,4,4,6,4,6,8,7,6,8,7],
-  'Wix':            [0,2,2,1,2,3,3,4,4,2,0,1,3,1,0,2],
+  'Mercado Libre': [1283,1227,1204,1239,1207,1040,587,995,1943,1760,2173,1937],
+  'Empretienda':   [381,359,410,399,325,305,null,132,588,511,605,565],
+  'Shopify':       [102,88,110,150,96,89,null,79,341,277,325,358],
+  'WooCommerce':   [138,125,142,127,124,100,null,54,165,114,139,177],
+  'Mercado Shops': [null,null,null,null,null,35,null,26,68,30,44,39],
+  'Wix':           [30,23,30,29,27,26,null,9,23,21,28,27],
 };
 const CC_COLORS = {
-  'Shopify':'#22c55e','Empretienda':'#ef4444','WooCommerce':'#a855f7',
-  'Tienda Negocio':'#f59e0b','Wix':'#06b6d4',
+  'Mercado Libre':'#f59e0b','Empretienda':'#ef4444','Shopify':'#22c55e',
+  'WooCommerce':'#a855f7','Mercado Shops':'#3b82f6','Wix':'#06b6d4',
 };
 let ccActiveBrands = Object.keys(CC_COLORS);
 let ccChartInstance = null;
 
 function renderCcKpis(){
   const last = CC_MONTHS.length - 1, prev = last - 1;
-  const totLast = ccActiveBrands.reduce((s,b)=>s+(CC_DATA[b]?.[last]||0),0);
-  const totPrev = ccActiveBrands.reduce((s,b)=>s+(CC_DATA[b]?.[prev]||0),0);
-  const totAll  = ccActiveBrands.reduce((s,b)=>s+(CC_DATA[b]||[]).reduce((a,v)=>a+v,0),0);
+  const totLast = ccActiveBrands.reduce((s,b)=>s+(CC_DATA[b]?.[last]??0),0);
+  const totPrev = ccActiveBrands.reduce((s,b)=>s+(CC_DATA[b]?.[prev]??0),0);
+  const totAll  = ccActiveBrands.reduce((s,b)=>s+(CC_DATA[b]||[]).reduce((a,v)=>a+(v??0),0),0);
   const delta = totLast - totPrev;
-  const top = Object.keys(CC_COLORS).sort((a,b)=>(CC_DATA[b]?.[last]||0)-(CC_DATA[a]?.[last]||0))[0];
+  const top = Object.keys(CC_COLORS).sort((a,b)=>(CC_DATA[b]?.[last]??0)-(CC_DATA[a]?.[last]??0))[0];
+  const shopifyLast = CC_DATA['Shopify']?.[last]??0, shopifyFirst = CC_DATA['Shopify']?.[0]??0;
+  const shopifyDelta = shopifyLast - shopifyFirst;
   document.getElementById('ccKpis').innerHTML = `
     <div class="ms-kpi">
-      <div class="ms-kpi-label">Tiendas detectadas · ${fmtMonth(CC_MONTHS[last])}</div>
-      <div class="ms-kpi-value" style="color:var(--accent-light)">${totLast}</div>
-      <div class="ms-kpi-delta ${delta>=0?'pos':'neg'}">${delta>=0?'+':''}${delta} vs ${fmtMonth(CC_MONTHS[prev])}</div>
+      <div class="ms-kpi-label">Signups desde competidores · ${fmtMonth(CC_MONTHS[last])}</div>
+      <div class="ms-kpi-value" style="color:var(--accent-light)">${totLast.toLocaleString()}</div>
+      <div class="ms-kpi-delta ${delta>=0?'pos':'neg'}">${delta>=0?'+':''}${delta.toLocaleString()} vs ${fmtMonth(CC_MONTHS[prev])}</div>
     </div>
     <div class="ms-kpi">
-      <div class="ms-kpi-label">Mayor captación · ${fmtMonth(CC_MONTHS[last])}</div>
-      <div class="ms-kpi-value" style="color:${CC_COLORS[top]}">${CC_DATA[top]?.[last]||0}</div>
+      <div class="ms-kpi-label">Mayor origen · ${fmtMonth(CC_MONTHS[last])}</div>
+      <div class="ms-kpi-value" style="color:${CC_COLORS[top]}">${(CC_DATA[top]?.[last]??0).toLocaleString()}</div>
       <div class="ms-kpi-delta" style="color:var(--text-muted)">${top}</div>
     </div>
     <div class="ms-kpi">
-      <div class="ms-kpi-label">Total acumulado 2025-26</div>
-      <div class="ms-kpi-value" style="color:var(--text)">${totAll}</div>
+      <div class="ms-kpi-label">Total acumulado May '25–Abr '26</div>
+      <div class="ms-kpi-value" style="color:var(--text)">${totAll.toLocaleString()}</div>
       <div class="ms-kpi-delta" style="color:var(--text-muted)">todas las plataformas</div>
     </div>
     <div class="ms-kpi">
       <div class="ms-kpi-label">Shopify · tendencia</div>
-      <div class="ms-kpi-value" style="color:var(--green)">${CC_DATA['Shopify']?.[last]||0}</div>
-      <div class="ms-kpi-delta ${((CC_DATA['Shopify']?.[last]||0)-(CC_DATA['Shopify']?.[0]||0))>=0?'neg':'pos'}">
-        ${(CC_DATA['Shopify']?.[last]||0)-(CC_DATA['Shopify']?.[0]||0)>=0?'+':''}${(CC_DATA['Shopify']?.[last]||0)-(CC_DATA['Shopify']?.[0]||0)} vs ${fmtMonth(CC_MONTHS[0])}
+      <div class="ms-kpi-value" style="color:#22c55e">${shopifyLast.toLocaleString()}</div>
+      <div class="ms-kpi-delta ${shopifyDelta>=0?'neg':'pos'}">
+        ${shopifyDelta>=0?'+':''}${shopifyDelta.toLocaleString()} vs ${fmtMonth(CC_MONTHS[0])}
       </div>
     </div>`;
 }
@@ -3121,8 +3126,8 @@ function renderCcChart(){
 function renderCcTable(){
   const last = CC_MONTHS.length-1, prev = last-1;
   document.getElementById('ccTableBody').innerHTML = Object.keys(CC_COLORS).sort((a,b)=>(CC_DATA[b]?.[last]||0)-(CC_DATA[a]?.[last]||0)).map(brand=>{
-    const cur=CC_DATA[brand]?.[last]||0, pv=CC_DATA[brand]?.[prev]||0;
-    const delta=cur-pv, total=(CC_DATA[brand]||[]).reduce((s,v)=>s+v,0);
+    const cur=CC_DATA[brand]?.[last]??0, pv=CC_DATA[brand]?.[prev]??0;
+    const delta=cur-pv, total=(CC_DATA[brand]||[]).reduce((s,v)=>s+(v??0),0);
     const cls=delta>0?'ms-up':delta<0?'ms-down':'';
     return `<tr>
       <td><div class="ms-brand-cell"><span class="ms-dot" style="background:${CC_COLORS[brand]}"></span>${brand}</div></td>
