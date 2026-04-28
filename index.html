@@ -23,7 +23,7 @@
   --shadow:0 8px 32px rgba(0,0,0,.28);
   --shadow-sm:0 2px 12px rgba(0,0,0,.2);
   --transition:all .2s ease;
-  --page-gradient:radial-gradient(1200px 600px at 10% -10%,rgba(99,102,241,.12),transparent 55%),radial-gradient(900px 500px at 100% 0%,rgba(236,72,153,.08),transparent 50%);
+  --page-gradient:radial-gradient(1400px 700px at 5% -15%,rgba(99,102,241,.2),transparent 55%),radial-gradient(1000px 600px at 95% 5%,rgba(236,72,153,.14),transparent 50%),radial-gradient(700px 400px at 50% 110%,rgba(6,182,212,.07),transparent 60%);
 }
 body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);background-image:var(--page-gradient);background-attachment:fixed;color:var(--text);line-height:1.5;min-height:100vh}
 a{color:var(--accent-light);text-decoration:none}
@@ -31,12 +31,12 @@ a:hover{text-decoration:underline}
 .app{max-width:1440px;margin:0 auto;padding:20px 24px 60px}
 
 /* CONNECTION BANNER */
-.conn-banner{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;font-size:12px;margin-bottom:16px;cursor:pointer;transition:var(--transition)}
-.conn-banner.online{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,197,94,.2)}
-.conn-banner.offline{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
-.conn-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.conn-banner.online .conn-dot{background:var(--green);box-shadow:0 0 6px var(--green)}
-.conn-banner.offline .conn-dot{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+.conn-banner{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 8px;border-radius:999px;font-size:11px;cursor:pointer;transition:var(--transition);white-space:nowrap}
+.conn-banner.online{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.conn-banner.offline{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.conn-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.conn-banner.online .conn-dot{background:var(--green);box-shadow:0 0 5px var(--green)}
+.conn-banner.offline .conn-dot{background:var(--amber);box-shadow:0 0 5px var(--amber)}
 
 /* HEADER */
 .header{display:flex;align-items:center;justify-content:space-between;padding:20px 0 12px;border-bottom:1px solid var(--border);margin-bottom:24px;flex-wrap:wrap;gap:12px}
@@ -57,12 +57,19 @@ a:hover{text-decoration:underline}
 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:24px}
-.stat-card{background:linear-gradient(165deg,var(--surface2) 0%,var(--surface) 100%);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;transition:var(--transition);box-shadow:var(--shadow-sm)}
-.stat-card:hover{border-color:rgba(99,102,241,.35);transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.25)}
+.stat-card{position:relative;background:linear-gradient(165deg,var(--surface2) 0%,var(--surface) 100%);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;transition:var(--transition);box-shadow:var(--shadow-sm);overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--border);transition:background .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.25);border-color:var(--border-light)}
+.stat-card:has(.stat-value.accent)::before{background:var(--accent-light)}
+.stat-card:has(.stat-value.blue)::before{background:var(--blue)}
+.stat-card:has(.stat-value.green)::before{background:var(--green)}
+.stat-card:has(.stat-value.amber)::before{background:var(--amber)}
+.stat-card:has(.stat-value.purple)::before{background:var(--purple)}
+.stat-card:has(.stat-value.red)::before{background:var(--red)}
 .stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:6px}
-.stat-value{font-size:28px;font-weight:700;letter-spacing:-.5px}
+.stat-value{font-size:36px;font-weight:800;letter-spacing:-.8px}
 .stat-detail{font-size:12px;color:var(--text-secondary);margin-top:4px}
-.stat-value.green{color:var(--green)}.stat-value.amber{color:var(--amber)}.stat-value.blue{color:var(--blue)}.stat-value.purple{color:var(--purple)}.stat-value.accent{color:var(--accent-light)}
+.stat-value.green{color:var(--green)}.stat-value.amber{color:var(--amber)}.stat-value.blue{color:var(--blue)}.stat-value.purple{color:var(--purple)}.stat-value.accent{color:var(--accent-light)}.stat-value.red{color:var(--red)}
 .progress-bar{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:8px}
 .progress-fill{height:100%;border-radius:3px;transition:width .4s ease}
 
@@ -277,7 +284,7 @@ tr.row-done td{opacity:.5}
 .nav-tabs{display:flex;gap:6px;margin-bottom:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:6px;overflow-x:auto;box-shadow:var(--shadow-sm)}
 .nav-tab{padding:10px 18px;border-radius:10px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border:none;background:none;transition:var(--transition);white-space:nowrap;display:flex;align-items:center;gap:8px}
 .nav-tab:hover{color:var(--text-secondary);background:var(--surface2)}
-.nav-tab.active{background:var(--accent-bg);color:var(--accent-light);font-weight:600;box-shadow:inset 0 0 0 1px rgba(99,102,241,.25)}
+.nav-tab.active{background:var(--accent);color:#fff;font-weight:600;box-shadow:0 2px 10px rgba(99,102,241,.4)}
 .nav-tab svg{width:16px;height:16px}
 .tab-content{display:none}
 .tab-content.active{display:block}
@@ -601,13 +608,6 @@ ALTER TABLE feedback REPLICA IDENTITY FULL;</pre>
 
 <!-- MAIN APP -->
 <div id="mainApp" class="app" style="display:none">
-  <!-- CONNECTION BANNER -->
-  <div class="conn-banner" id="connBanner" onclick="openSettings()">
-    <span class="conn-dot"></span>
-    <span id="connText"></span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-left:auto"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-  </div>
-
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">
@@ -617,6 +617,10 @@ ALTER TABLE feedback REPLICA IDENTITY FULL;</pre>
       </h1>
     </div>
     <div class="header-actions">
+      <div class="conn-banner" id="connBanner" onclick="openSettings()">
+        <span class="conn-dot"></span>
+        <span id="connText"></span>
+      </div>
       <button class="btn" onclick="exportCSV()" title="Exportar CSV">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Exportar
@@ -1628,7 +1632,7 @@ function renderStats(){
     <div class="stat-card"><div class="stat-label">Completadas</div><div class="stat-value green">${done}</div><div class="stat-detail">${pct}% del total</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:var(--green)"></div></div></div>
     <div class="stat-card"><div class="stat-label">Quick Wins</div><div class="stat-value amber">${qw}</div><div class="stat-detail">${data.filter(d=>d.tipo==='QW'&&d.estado==='Done').length} completados</div></div>
     <div class="stat-card"><div class="stat-label">Backlog</div><div class="stat-value purple">${bl}</div><div class="stat-detail">${data.filter(d=>d.prioridad==='Urgente').length} urgentes</div></div>
-    <div class="stat-card"><div class="stat-label">&#9888; Atención</div><div class="stat-value" style="font-size:14px;color:var(--red)">${urgStuck?urgStuck+' urgente'+(urgStuck>1?'s':'')+' sin avanzar':''}</div><div class="stat-detail">${noAssign?'<span style="color:var(--amber)">'+noAssign+' activas sin asignar</span>':'&#10004; Todo asignado'}${noDate?' · <span style="color:var(--text-muted)">'+noDate+' sin fecha</span>':''}</div></div>`;
+    <div class="stat-card"><div class="stat-label">&#9888; Atención</div><div class="stat-value red" style="font-size:16px">${urgStuck?urgStuck+' urgente'+(urgStuck>1?'s':'')+' sin avanzar':''}</div><div class="stat-detail">${noAssign?'<span style="color:var(--amber)">'+noAssign+' activas sin asignar</span>':'&#10004; Todo asignado'}${noDate?' · <span style="color:var(--text-muted)">'+noDate+' sin fecha</span>':''}</div></div>`;
 }
 
 function setGroupBy(g){groupBy=g;document.getElementById('groupByDolor').classList.toggle('active',g==='dolor');document.getElementById('groupBySquad').classList.toggle('active',g==='squad');render();}
